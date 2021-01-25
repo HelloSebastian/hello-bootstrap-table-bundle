@@ -1,0 +1,28 @@
+{% if table.tableOptions.enableCheckbox %}
+    <div id="toolbar"
+         style="width: 100%">
+        <form id="bulk_form" method="post" action="{{ table.tableOptions.bulkUrl }}">
+            <select id="bulk_action" name="bulk_action" class="{{ table.tableOptions.bulkActionSelectClassNames }}"
+                    style="width: auto; display: inline-block">
+                {% for value, name in table.tableOptions.bulkActions %}
+                    <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="selected_ids"/>
+            <button type="submit"
+                    class="{{ table.tableOptions.bulkButtonClassNames }}"
+                    style="display: inline-block;">{{ table.tableOptions.bulkButtonName }}</button>
+        </form>
+    </div>
+{% endif %}
+
+<table
+        class="table table-striped hello-bootstrap-table"
+
+        data-columns="{{ table.columns|json_encode }}"
+        data-side-pagination="server"
+        data-url="{{ table.callbackUrl }}"
+        {% for key, value in table.tableDataset %}
+            data-{{ key }}="{{ value is iterable ? value|json_encode : value|raw }}"
+        {% endfor %}
+></table>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="hello_sebastian_hello_bootstrap_table.hello_bootstrap_table_factory"
+                 class="HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory" public="true">
+            <argument type="service" id="router" on-invalid="null"/>
+            <argument type="service" id="doctrine.orm.entity_manager" on-invalid="null"/>
+        </service>
+
+        <service id="HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory"
+                 alias="hello_sebastian_hello_bootstrap_table.hello_bootstrap_table_factory"/>
+
+        <service class="HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder"
+                 id="hello_sebastian_hello_bootstrap_table.columns.column_builder" public="false">
+            <argument type="service" id="router.default"/>
+        </service>
+
+        <service id="hello_sebastian_hello_bootstrap_table.twig.bootstrap_table_twig_extension"
+                class="HelloSebastian\HelloBootstrapTableBundle\Twig\BootstrapTableTwigExtension" public="false">
+            <tag name="twig.extension"/>
+        </service>
+    </services>
+</container>

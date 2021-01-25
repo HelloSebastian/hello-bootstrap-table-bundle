@@ -1,0 +1,28 @@
+{
+    "name": "hello-sebastian/hello-bootstrap-table-bundle",
+    "description": "Symfony Bundle for bootstrap-table",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "HelloSebastian"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HelloSebastian\\HelloBootstrapTableBundle\\": "src/"
+        }
+    },
+    "require-dev": {
+        "symfony/webpack-encore-bundle": "^1.8"
+    },
+    "require": {
+        "php": ">=7.2.5",
+        "symfony/property-access": "^5.1",
+        "sensio/framework-extra-bundle": "^5.1",
+        "symfony/options-resolver": "^5.1",
+        "ext-json": "*",
+        "symfony/orm-pack": "^2.0",
+        "twig/twig": "^3.2"
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "bootstrap-table": {
+      "css": [
+        "/bootstrap-table.css"
+      ],
+      "js": [
+        "/bootstrap-table.js"
+      ]
+    }
+  }
+}

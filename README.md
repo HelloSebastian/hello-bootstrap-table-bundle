@@ -246,7 +246,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ hello_bootstrap_table_render_html(table) }}
+    {{ hello_bootstrap_table_render(table) }}
 {% endblock %}
 ```
 
