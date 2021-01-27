@@ -502,8 +502,7 @@ YAML config options are set to all tables. If you want override global options f
 
 hello_bootstrap_table:
     table_dataset_options:
-        locale: 'de-DE'
-    	# ... (see options from Table Dataset Options)
+        locale: 'de-DE' # see Table Dataset Options
 ```
 
 
@@ -572,8 +571,7 @@ YAML config options are set to all tables. If you want override global options f
 
 hello_bootstrap_table:
     table_options:
-        enableCheckbox: false
-    	# ... (see options Table Options)
+        enableCheckbox: false # see Table Options
 ```
 
 
