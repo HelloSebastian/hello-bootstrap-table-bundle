@@ -50,6 +50,9 @@ class ActionColumn extends AbstractColumn
         return $item;
     }
 
+    /**
+     * Creates for each array item a ActionButton object and replace it in buttons array.
+     */
     private function buildButtons()
     {
         foreach ($this->outputOptions['buttons'] as $key => $button) {

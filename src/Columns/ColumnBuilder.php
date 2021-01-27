@@ -19,13 +19,22 @@ class ColumnBuilder
     private $router;
 
     /**
+     * YAML config option for action buttons.
+     *
+     * @var array
+     */
+    private $defaultButtonOptions;
+
+    /**
      * ColumnBuilder constructor. Created in HelloBootstrapTable.
      *
      * @param RouterInterface $router
+     * @param array $defaultButtonOptions
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, $defaultButtonOptions)
     {
         $this->router = $router;
+        $this->defaultButtonOptions = $defaultButtonOptions;
     }
 
     /**
@@ -83,7 +92,7 @@ class ColumnBuilder
     }
 
     /**
-     * Marks column by dql to remove.
+     * Removes column by dql.
      *
      * @param string $dql
      */
@@ -116,6 +125,11 @@ class ColumnBuilder
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    public function getDefaultButtonOptions()
+    {
+        return $this->defaultButtonOptions;
     }
 
 }

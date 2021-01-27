@@ -14,11 +14,19 @@ class ActionButton
     private $options;
 
     /**
+     * Called column.
+     *
      * @var AbstractColumn
      */
     private $column;
 
-    public function __construct($column, $options)
+    /**
+     * ActionButton constructor. Created in ActionColumn.
+     *
+     * @param AbstractColumn $column
+     * @param array $options
+     */
+    public function __construct(AbstractColumn $column, $options)
     {
         $this->column = $column;
 
@@ -50,15 +58,14 @@ class ActionButton
 
     public function getClassNames()
     {
-        //$defaultClassNames = $this->column->getColumnBuilder()->getDefaultColumnOptions()['action_column']['default_class_names'];
+        $defaultActionButtonOptions = $this->column->getColumnBuilder()->getDefaultButtonOptions();
+        $defaultClassNames = "";
+        if (isset($defaultActionButtonOptions['classNames'])) {
+            $defaultClassNames = $defaultActionButtonOptions['classNames'];
+        }
 
-//        if (!empty($this->options['classNames'])) {
-//            $classNames = $this->options['classNames'] . ' ' . $this->options['additionalClassNames'];
-//        } else {
-//            $classNames = $defaultClassNames . ' ' . $this->options['additionalClassNames'];
-//        }
-
-        return $this->options['classNames'] . ' ' . $this->options['additionalClassNames'];
+        $classNames = (empty($this->options['classNames']) ? $defaultClassNames : $this->options['classNames']);
+        return $classNames . ' ' . $this->options['additionalClassNames'];
     }
 
     public function getDisplayName()

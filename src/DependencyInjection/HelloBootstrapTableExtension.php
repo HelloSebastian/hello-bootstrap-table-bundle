@@ -22,8 +22,12 @@ class HelloBootstrapTableExtension extends Extension
 
         $config = $this->processConfiguration($configuration, $configs);
 
-        //$definition = $container->getDefinition('hello_sebastian_react_table.react_table_factory');
-        //$definition->setArgument(2, $config);
+        if (empty($config['table_options']['bulkActions'])) {
+            unset($config['table_options']['bulkActions']);
+        }
+
+        $definition = $container->getDefinition('hello_sebastian_hello_bootstrap_table.hello_bootstrap_table_factory');
+        $definition->setArgument(2, $config);
     }
 
 

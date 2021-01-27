@@ -2,8 +2,10 @@
     <div id="toolbar"
          style="width: 100%">
         <form id="bulk_form" method="post" action="{{ table.tableOptions.bulkUrl }}">
-            <select id="bulk_action" name="bulk_action" class="{{ table.tableOptions.bulkActionSelectClassNames }}"
-                    style="width: auto; display: inline-block">
+            <select id="bulk_action"
+                    name="bulk_action"
+                    class="{{ table.tableOptions.bulkActionSelectClassNames }}"
+                    style="width: auto; display: inline-block; vertical-align: middle; margin-right: 5px;">
                 {% for value, name in table.tableOptions.bulkActions %}
                     <option value="{{ value }}">{{ name }}</option>
                 {% endfor %}
@@ -11,14 +13,16 @@
             <input type="hidden" name="selected_ids"/>
             <button type="submit"
                     class="{{ table.tableOptions.bulkButtonClassNames }}"
-                    style="display: inline-block;">{{ table.tableOptions.bulkButtonName }}</button>
+                    style="display: inline-block; vertical-align: middle;">
+                {{ table.tableOptions.bulkButtonName }}
+            </button>
         </form>
     </div>
 {% endif %}
 
 <table
-        class="table table-striped hello-bootstrap-table"
-
+        data-classes="table table-striped table-sm"
+        class="hello-bootstrap-table"
         data-columns="{{ table.columns|json_encode }}"
         data-side-pagination="server"
         data-url="{{ table.callbackUrl }}"

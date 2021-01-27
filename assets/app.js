@@ -6,7 +6,8 @@ require('./css/styles.css');
 require('bootstrap-table/dist/bootstrap-table.min');
 require('bootstrap-table/dist/extensions/export/bootstrap-table-export.min');
 require('bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min');
-require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
+//require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
+require('./bootstrap-table-sticky-header');
 require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
 require("bootstrap-table/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min");
 require("bootstrap-table/dist/bootstrap-table-locale-all.min");
@@ -39,21 +40,21 @@ $(function () {
     };
 
     const $table = $(".hello-bootstrap-table");
-    const $bulkForm = $("#bulk_form");
 
-    $table.bootstrapTable('destroy').bootstrapTable({
-        stickyHeaderOffsetLeft: ($(".hello-bootstrap-table").offset().left - 7) + 'px',
-        stickyHeaderOffsetRight: ($(".hello-bootstrap-table").offset().left - 7) + 'px',
-        queryParams: function (params) {
-            params.isCallback = true;
-            return params;
-        }
-    });
+    if ($table.length) {
+        const $bulkForm = $("#bulk_form");
 
-    $bulkForm.submit(function (e) {
-        const selectedRows = $table.bootstrapTable("getSelections");
-        const hidden = $("#bulk_form input[type=hidden]");
-        hidden.val(JSON.stringify(selectedRows));
-    });
+        $table.bootstrapTable('destroy').bootstrapTable({
+            queryParams: function (params) {
+                params.isCallback = true;
+                return params;
+            }
+        });
 
+        $bulkForm.submit(function (e) {
+            const selectedRows = $table.bootstrapTable("getSelections");
+            const hidden = $("#bulk_form input[type=hidden]");
+            hidden.val(JSON.stringify(selectedRows));
+        });
+    }
 });

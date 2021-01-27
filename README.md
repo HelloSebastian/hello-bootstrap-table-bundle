@@ -1,4 +1,4 @@
-# HelloBootstrapTable
+# HelloBootstrapTableBundle
 
 **This Bundle provides *simple* [bootstrap-table](https://github.com/wenzhixin/bootstrap-table) configuration for your Doctrine Entities.** 
 
@@ -6,31 +6,35 @@ Highly inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle
 
 **The project is currently still under development. It can not be excluded that configuration changes.**
 
-
-
-## When should I not use HelloBootstrapTable
-
-HelloBootstrapTable is designed for simple tables that are strongly bound to the entities. If you are creating highly customized tables with many formatters and a lot of client-side programming, HelloBootstrapTable is not suitable for that. However, you can of course use HelloBootstrapTable alongside your complex tables.
-
-
-
 ## Overview
 
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Your First Table](#your-first-table)
 4. [Columns](#columns)
-5. [Table Props Configuration](#table-props)
-6. [Persistence Options Configuration](#persistence-options)
-
+   1. [TextColumn](#textcolumn)
+   2. [BooleanColumn](#booleancolumn)
+   3. [DateTimeColumn](#datetimecolumn)
+   4. [HiddenColumn](#hiddencolumn)
+   5. [ActionColumn](#actioncolumn)
+5. [Configuration](#configuration)
+   1. [Table Dataset Options](#table-dataset-options)
+   2. [Table Options](#table-options)
 
 ## Features
 
-* Table Configuration in PHP
-* Filtering*
-* Sorting*
+* Create bootstrap-tables in PHP
+* Twig render function
+* global filtering*
+* column sorting*
 * Pagination*
-* Column Types: [TextColumn](#textcolumn), [BooleanColumn](#booleancolumn), [DateTimeColumn](#datetimecolumn), [ActionColumn](#actioncolumn), [HiddenColumn](#hiddencolumn)
+* different column types
+* bootstrap-table extensions
+  * sticky-header
+  * export
+  * page-jump-to
+  * toolbar
+  * more in progress...
 
 *server-side
 
@@ -68,12 +72,6 @@ return [
 # if possible, make absolute symlinks (best practice) in public/ if not, make a hard copy
 
 $ php bin/console assets:install --symlink
-```
-
-``` bash
-# make a hard copy of assets in public/
-
-$ php bin/console assets:install
 ```
 
 #### Add Assets into your base.html.twig
@@ -124,7 +122,6 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\HiddenColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ActionColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\BooleanColumn;
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTable;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserTable extends HelloBootstrapTable
 {
@@ -165,49 +162,25 @@ class UserTable extends HelloBootstrapTable
             ->add("actions", ActionColumn::class, array(
                 'title' => 'Actions',
                 'width' => 150,
-                'buttons' => array(
+                'buttons' => array( //see ActionButton for more examples.
                     array(
                         'displayName' => 'open',
                         'routeName' => 'show_user',
-                        'classNames' => 'btn btn-sm btn-success mr-1'
+                        'classNames' => 'btn btn-xs' 
+                        'additionalClassNames' => 'btn-success mr-1'
                     ),
                     array(
                         'displayName' => 'edit',
                         'routeName' => 'edit_user',
-                        'classNames' => 'btn btn-sm btn-warning'
+                        'classNames' => 'btn btn-xs btn-warning'
                     )
                 )
             ));
     }
 
-  
     protected function getEntityClass()
     {
         return User::class;
-    }
-
-  	//optional override of functions ...
-  
-    public function configureTableDataset(OptionsResolver $resolver)
-    {
-        parent::configureTableDataset($resolver);
-
-        $resolver->setDefaults(array(
-            'locale' => 'de-DE'
-        ));
-    }
-
-    public function configureTableOptions(OptionsResolver $resolver)
-    {
-        parent::configureTableOptions($resolver);
-
-        $resolver->setDefaults(array(
-            'bulkUrl' => $this->router->generate('bulk'),
-            'bulkActions' => array(
-                'edit' => 'Edit',
-                'delete' => 'Delete'
-            )
-        ));
     }
 }
 ```
@@ -252,17 +225,19 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 
 The Twig function will render a `table` with all attributes configured.
 
+
+
 ## Columns
 
 ### TextColumn
 
-Represents column with text.
+Represents column with text. With formatter you can create complex columns.
 
 #### Options
 
 | Option     | Type           | Default            | Description                                                  |
 | ---------- | -------------- | ------------------ | ------------------------------------------------------------ |
-| title      | string / null  | null               | Set colum title. If no value is set, the specified attribute name is taken. |
+| title      | string / null  | null               | Set column title. If no value is set, the specified attribute name is taken. |
 | field      | string / null  | null               | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
 | width      | integer / null | null               | column width in px                                           |
 | formatter  | string         | "defaultFormatter" | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
@@ -287,8 +262,12 @@ Represents column with text.
         //you can return what ever you want ...  
         return $user->getId() . " " . $user->getUsername();
     },
-  	'sortQuery' => function (QueryBuilder $qb, $direction) {
+  	'sort' => function (QueryBuilder $qb, $direction) { //execute if user sort this column
         $qb->addOrderBy('username', $direction);
+    },
+    'search' => function (QueryBuilder $qb, $search) { //execute if user use global search
+        $qb->orWhere('user.username LIKE :username')
+          	->setParameter('username', $search . '%'); 
     }
 ))
 ```
@@ -383,12 +362,12 @@ All Options of TextColumn
 
 | Option  | Type  | Default | Description                              |
 | ------- | ----- | ------- | ---------------------------------------- |
-| buttons | array | []      | array of buttons configuration as array. |
+| buttons | array | [ ]     | array of buttons configuration as array. |
 
 #### Example
 
 ```php
-->add(null, ActionColumn::class, array(
+->add("actions", ActionColumn::class, array( // key "actions" can be chosen freely.
     'title' => 'Actions',
     'width' => 120, //optional
     'buttons' => array(
@@ -400,7 +379,8 @@ All Options of TextColumn
         array(
             'displayName' => 'edit',
             'routeName' => 'edit_user',
-            'additionalClassNames' => 'btn-success'
+          	// 'classNames' => 'btn btn-xs' (see below for more information)
+            'additionalClassNames' => 'btn-warning'
        )
   	)
 ))
@@ -410,18 +390,30 @@ All Options of TextColumn
 
 | Option               | Type   | Default     | Description                                                  |
 | -------------------- | ------ | ----------- | ------------------------------------------------------------ |
-| displayName          | string | ""          | label of button in table                                     |
+| displayName          | string | ""          | label of button                                              |
 | routeName            | string | ""          | route name                                                   |
 | routeParams          | array  | array("id") | Array of property value names for the route parameters. By default is `id` set. |
 | classNames           | string | ""          | CSS class names which added directly to the `a` element. Overrides default class names from YAML config. |
 | additionalClassNames | string | ""          | You can set default class names in YAML config. Then you can add additional class names to the button without override the default config. |
+
+#### YAML Example
+
+```yaml
+# config/packages/hello_table.yaml
+
+hello_bootstrap_table:
+    action_button_options:
+        classNames: 'btn btn-xs'
+```
+
+YAML config options are set to all buttons. If you want override global options from YAML config use `classNames` option.
 
 
 
 ## Configuration
 
 
-### Dataset Table Options
+### Table Dataset Options
 
 Table Dataset are provided directly to the `bootstrap-table` as data-attributes and are a collection of setting options for the table.
 
@@ -463,7 +455,7 @@ array(
 
 #### Examples
 
-Inside from Table class:
+**Inside from Table class:**
 
 ``` php
 // src/HelloTable/UserTable.php
@@ -471,20 +463,19 @@ Inside from Table class:
 class UserTable extends HelloBootstrapTable
 {
     ...
-
-    protected function configureTableDataset(OptionsResolver $resolver)
+      
+    protected function buildColumns(ColumnBuilder $builder, $options)
     {
-        parent::configureTableProps($resolver);
-    
-        $resolver->setDefaults(array(
+        $this->setTableDataset(array(
             'locale' => 'de-DE'
         ));
+      
+      	// ... $builder->add()
     }
 }
 ```
 
-
-Outside from Table class:
+**Outside from Table class:**
 
 ``` php
 // src/Controller/UserController.php
@@ -502,16 +493,26 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 }
 ```
 
+**YAML config:**
 
-In the `configureTableDataset` method, you can specify custom data that can be provided directly to the `bootstrap-table`.
+YAML config options are set to all tables. If you want override global options from YAML config use `setTableDataset` method in or outside from `HelloBootstrapTable`.
+
+```yaml
+# config/packages/hello_table.yaml
+
+hello_bootstrap_table:
+    table_dataset_options:
+        locale: 'de-DE'
+    		# ... (see options from Table Dataset Options)
+```
+
+
 
 ### Table Options
 
 All options that should not be provided directly as data-attributes of the table are managed here.
 
 #### Options
-
-With the Persistence Options you can set which settings (filtering, sorting, current page, ...) should be stored in the cookies. By default, all of them are activated.
 
 | Option                     | Type   | Default           |
 | -------------------------- | ------ | ----------------- |
@@ -525,7 +526,7 @@ With the Persistence Options you can set which settings (filtering, sorting, cur
 
 #### Examples
 
-Inside from Table class:
+**Inside from Table class:**
 
 ``` php
 // src/HelloTable/UserTable.php
@@ -534,25 +535,18 @@ class UserTable extends HelloBootstrapTable
 {
     ...
 
-    protected function configureTableOptions(OptionsResolver $resolver)
+    protected function buildColumns(ColumnBuilder $builder, $options)
     {
-        parent::configureTableOptions($resolver);
-
-        $resolver->setDefaults(array(
-            'bulkUrl' => $this->router->generate('bulk'), //router are provided by HelloBootstrapTable
-          	// actions are display as select field
-          	// each option: value => display name
-            'bulkActions' => array(
-                'edit' => 'Edit',
-                'delete' => 'Delete'
-            )
+        $this->setTableOptions(array(
+            'enableCheckbox' => false
         ));
+      
+      	// ... $builder->add()
     }
 }
 ```
 
-
-Outside from Table class:
+**Outside from Table class:**
 
 ``` php
 // src/Controller/UserController.php
@@ -567,6 +561,19 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 
     ...
 }
+```
+
+**YAML config:**
+
+YAML config options are set to all tables. If you want override global options from YAML config use `setTableDataset` method in or outside from `HelloBootstrapTable`.
+
+```yaml
+# config/packages/hello_table.yaml
+
+hello_bootstrap_table:
+    table_options:
+        enableCheckbox: false
+    		# ... (see options Table Options)
 ```
 
 

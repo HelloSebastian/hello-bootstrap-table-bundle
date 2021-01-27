@@ -3,10 +3,11 @@
 
 namespace HelloSebastian\HelloBootstrapTableBundle;
 
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityManagerInterface;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Data\DataBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Query\DoctrineQueryBuilder;
-use Doctrine\ORM\EntityManagerInterface;
 use HelloSebastian\HelloBootstrapTableBundle\Response\TableResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,15 +57,30 @@ abstract class HelloBootstrapTable
      */
     private $tableOptions = array();
 
+    /**
+     * YAML config options.
+     *
+     * @var array
+     */
+    private $defaultOptions;
 
-    public function __construct(RouterInterface $router, EntityManagerInterface $em, $options)
+    /**
+     * HelloBootstrapTable constructor. Created in HelloBootstrapTableFactory.
+     *
+     * @param RouterInterface $router
+     * @param EntityManagerInterface $em
+     * @param array $options
+     * @param array $defaultOptions
+     */
+    public function __construct(RouterInterface $router, EntityManagerInterface $em, $options, $defaultOptions = array())
     {
         self::$unique++;
 
         $this->router = $router;
         $this->_em = clone $em;
+        $this->defaultOptions = $defaultOptions;
 
-        $this->columnBuilder = new ColumnBuilder($router);
+        $this->columnBuilder = new ColumnBuilder($router, $this->defaultOptions['action_button_options']);
         $this->doctrineQueryBuilder = new DoctrineQueryBuilder($em, $this->getEntityClass(), $this->columnBuilder);
 
         $dataBuilder = new DataBuilder($this->columnBuilder);
@@ -74,6 +90,8 @@ abstract class HelloBootstrapTable
     }
 
     /**
+     *
+     *
      * @param ColumnBuilder $builder
      * @param array $options
      */
@@ -123,6 +141,10 @@ abstract class HelloBootstrapTable
      */
     public function createView()
     {
+        //set default options from yaml config
+        $this->tableOptions = array_merge($this->defaultOptions['table_options'], $this->tableOptions);
+        $this->tableDataset = array_merge($this->defaultOptions['table_dataset_options'], $this->tableDataset);
+
         //set up table dataset resolver
         $tableDatasetResolver = new OptionsResolver();
         $this->configureTableDataset($tableDatasetResolver);
@@ -147,21 +169,41 @@ abstract class HelloBootstrapTable
         );
     }
 
+    /**
+     * Gets ColumnBuilder instance.
+     *
+     * @return ColumnBuilder
+     */
     public function getColumnBuilder()
     {
         return $this->columnBuilder;
     }
 
+    /**
+     * Gets Doctrine QueryBuilder instance.
+     *
+     * @return QueryBuilder
+     */
     public function getQueryBuilder()
     {
         return $this->doctrineQueryBuilder->getQueryBuilder();
     }
 
+    /**
+     * Sets and overrides YAML config.
+     *
+     * @param array $tableDataset
+     */
     public function setTableDataset($tableDataset)
     {
         $this->tableDataset = array_merge($this->tableDataset, $tableDataset);
     }
 
+    /**
+     * Sets and overrides YAML config.
+     *
+     * @param array $options
+     */
     public function setTableOptions($options)
     {
         $this->tableOptions = array_merge($this->tableOptions, $options);
@@ -176,6 +218,14 @@ abstract class HelloBootstrapTable
         return $className . '_' . self::$unique;
     }
 
+    /**
+     * Configure table dataset options.
+     *
+     * If option set in YAML config, that option will not be override.
+     * Please use setTableDataset to override options.
+     *
+     * @param OptionsResolver $resolver
+     */
     protected function configureTableDataset(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -235,6 +285,14 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("sticky-header-offset-y", ["int"]);
     }
 
+    /**
+     * Configure table options.
+     *
+     * If option set in YAML config, that option will not be override.
+     * Please use setTableOptions to override options.
+     *
+     * @param OptionsResolver $resolver
+     */
     protected function configureTableOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -246,6 +304,11 @@ abstract class HelloBootstrapTable
             'bulkButtonClassNames' => 'btn btn-primary'
         ));
 
-        $resolver->setAllowedTypes("enableCheckbox", "bool");
+        $resolver->setAllowedTypes("enableCheckbox", ["bool"]);
+        $resolver->setAllowedTypes("bulkUrl", ["string"]);
+        $resolver->setAllowedTypes("bulkActionSelectClassNames", ["string"]);
+        $resolver->setAllowedTypes("bulkActions", ["array"]);
+        $resolver->setAllowedTypes("bulkButtonName", ["string"]);
+        $resolver->setAllowedTypes("bulkButtonClassNames", ["string"]);
     }
 }

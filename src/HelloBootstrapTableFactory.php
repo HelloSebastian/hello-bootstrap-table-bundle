@@ -19,17 +19,26 @@ class HelloBootstrapTableFactory
      */
     private $em;
 
+    /**
+     * YAML config options.
+     *
+     * @var array
+     */
+    private $defaultConfig;
+
     public function __construct(RouterInterface $router, EntityManagerInterface $em, $defaultConfig = array())
     {
         $this->router = $router;
         $this->em = $em;
+        $this->defaultConfig = $defaultConfig;
     }
 
     /**
+     * Creates HelloBootstrapTable.
+     *
      * @param string $helloTable
      * @param array $options
      * @return HelloBootstrapTable
-     * @throws \Exception
      */
     public function create($helloTable, $options = array())
     {
@@ -46,7 +55,8 @@ class HelloBootstrapTableFactory
         return new $helloTable(
             $this->router,
             $this->em,
-            $options
+            $options,
+            $this->defaultConfig
         );
     }
 }

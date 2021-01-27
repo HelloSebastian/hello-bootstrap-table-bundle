@@ -30,6 +30,12 @@ class TableResponse
      */
     private $callbackUrl;
 
+    /**
+     * TableResponse constructor. Created in HelloBootstrapTable.
+     *
+     * @param DoctrineQueryBuilder $doctrineQueryBuilder
+     * @param DataBuilder $dataBuilder
+     */
     public function __construct(DoctrineQueryBuilder $doctrineQueryBuilder, DataBuilder $dataBuilder)
     {
         $this->doctrineQueryBuilder = $doctrineQueryBuilder;
@@ -40,6 +46,11 @@ class TableResponse
         $this->requestData = $resolver->resolve(array());
     }
 
+    /**
+     * Handles clients request and sets search, filter and pagination.
+     *
+     * @param Request $request
+     */
     public function handleRequest(Request $request)
     {
         $this->defaultRequestUri = $request->getRequestUri();
@@ -59,6 +70,11 @@ class TableResponse
         $this->requestData = $resolver->resolve($requestData);
     }
 
+    /**
+     * Configure request data array.
+     *
+     * @param OptionsResolver $resolver
+     */
     public function configureRequestData(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -71,6 +87,11 @@ class TableResponse
         ));
     }
 
+    /**
+     * Gets all fetches data from database with total count.
+     *
+     * @return array
+     */
     public function getData()
     {
         $entities = $this->doctrineQueryBuilder->fetchData($this->requestData);
@@ -82,6 +103,8 @@ class TableResponse
     }
 
     /**
+     * Checks if request is initial or callback.
+     *
      * @return bool
      */
     public function isCallback()
@@ -89,11 +112,22 @@ class TableResponse
         return $this->requestData['isCallback'];
     }
 
+    /**
+     * Sets callback url. Used if callback should handle by other controller.
+     *
+     * @param $callbackUrl
+     */
     public function setCallbackUrl($callbackUrl)
     {
         $this->callbackUrl = $callbackUrl;
     }
 
+    /**
+     * Gets callback URL.
+     * If no custom callback URl is set, request url is taken.
+     *
+     * @return string
+     */
     public function getCallbackUrl()
     {
         return is_null($this->callbackUrl) ? $this->defaultRequestUri : $this->callbackUrl;
