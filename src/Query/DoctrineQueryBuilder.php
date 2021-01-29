@@ -126,7 +126,9 @@ class DoctrineQueryBuilder
             }
         }
 
-        $this->qb->andWhere($orExpr);
+        if ($orExpr->count() > 0) {
+            $this->qb->andWhere($orExpr);
+        }
 
         if ($requestData["sort"]) {
             $column = $this->columnBuilder->getColumnByField($requestData["sort"]);

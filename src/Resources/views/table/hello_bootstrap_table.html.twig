@@ -21,7 +21,7 @@
 {% endif %}
 
 <table
-        data-classes="table table-striped table-sm"
+        data-classes="{{ table.tableOptions.tableClassNames }}"
         class="hello-bootstrap-table"
         data-columns="{{ table.columns|json_encode }}"
         data-side-pagination="server"

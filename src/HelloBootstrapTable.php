@@ -296,6 +296,7 @@ abstract class HelloBootstrapTable
     protected function configureTableOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'tableClassNames' => 'table table-striped table-sm',
             'enableCheckbox' => true,
             'bulkUrl' => '',
             'bulkActionSelectClassNames' => 'form-control',
