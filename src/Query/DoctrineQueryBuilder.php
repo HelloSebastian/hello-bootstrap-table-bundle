@@ -3,6 +3,7 @@
 
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
@@ -100,8 +101,12 @@ class DoctrineQueryBuilder
     {
         $this->setupJoinFields();
 
+        $orExpr = $this->qb->expr()->orX();
+
         if ($requestData['search']) {
-            foreach ($this->columnBuilder->getColumns() as $column) {
+            foreach ($this->columnBuilder->getColumns() as $key => $column) {
+                ++$key;
+
                 if ($column->getOutputOptions()['filterable']) {
 
                     if ($column->isAssociation()) {
@@ -110,16 +115,18 @@ class DoctrineQueryBuilder
                         $path = $this->qb->getRootAliases()[0] . '.' . $column->getDql();
                     }
 
-
                     if ($searchCallback = $column->getSearchCallback()) {
-                        $searchCallback($this->qb, $requestData['search']);
+                        $searchCallback($orExpr, $this->qb, $path, $requestData['search'], $key);
+
                     } else {
-                        $this->qb->orWhere($path . ' LIKE :' . str_replace(".", "_", $path))
-                            ->setParameter(str_replace(".", "_", $path), '%' . $requestData['search'] . '%');
+                        $orExpr->add($this->qb->expr()->like($path, '?' . $key));
+                        $this->qb->setParameter($key, '%' . $requestData['search'] . '%');
                     }
                 }
             }
         }
+
+        $this->qb->andWhere($orExpr);
 
         if ($requestData["sort"]) {
             $column = $this->columnBuilder->getColumnByField($requestData["sort"]);

@@ -20,6 +20,7 @@ Highly inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle
 5. [Configuration](#configuration)
    1. [Table Dataset Options](#table-dataset-options)
    2. [Table Options](#table-options)
+6. [Custom Doctrine Queries](#custom-doctrine-queries)
 
 ## Features
 
@@ -253,6 +254,10 @@ Represents column with text. With formatter you can create complex columns.
 #### Example
 
 ```php
+//use statements for search and sort option
+use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\QueryBuilder;
+
 ->add('username', TextColumn::class, array(
     'title' => 'Username',
   	'emptyData' => "No Username found.",
@@ -265,12 +270,28 @@ Represents column with text. With formatter you can create complex columns.
   	'sort' => function (QueryBuilder $qb, $direction) { //execute if user sort this column
         $qb->addOrderBy('username', $direction);
     },
-    'search' => function (QueryBuilder $qb, $search) { //execute if user use global search
-        $qb->orWhere('user.username LIKE :username')
-          	->setParameter('username', $search . '%'); 
+    'search' => function (Orx $orx, QueryBuilder $qb, $dql, $search, $key) {
+      	//first add condition to $orx
+        //don't forget the '?' before $key
+        $orx->add($qb->expr()->like($dql, '?' . $key));
+      
+      	//then bind search to query
+        $qb->setParameter($key, '%' . $search . '%');
     }
 ))
 ```
+
+**search** Option:
+
+The search option seems a bit complicated at first, but it allows full control over the query in the column.
+
+| Paramenter name    | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `Orx $orx`         | All columns are connected to the SQL query or. With `$orx` more parts can be added to the query. |
+| `QueryBuilder $qb` | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
+| `(string) $dql`    | `$dql` represents the "path" to the variable in the query (e.g. `user.username` or in case of a JOIN `costCentre.name`) |
+| `$search`          | The search in the type of a string.                          |
+| `$key`             | The index of the columns already gone through. The index is used for parameter binding to the query. |
 
 
 
@@ -572,6 +593,39 @@ YAML config options are set to all tables. If you want override global options f
 hello_bootstrap_table:
     table_options:
         enableCheckbox: false # see Table Options
+```
+
+
+
+## Custom Doctrine Queries
+
+Sometimes you don't want to display all the data in a database table. For this you can "prefilter" the Doctrine query.
+
+### Example
+
+```php
+/**
+  * @Route("/", name="default")
+  */
+public function index(Request $request, HelloBootstrapTableFactory $tableFactory)
+{
+  	//first create a instance of your table
+    $table = $tableFactory->create(TestTable::class);
+
+  	//then you can access the QueryBuilder from the table
+    $table->getQueryBuilder()
+        ->andWhere('department.name = :departmentName')
+        ->setParameter('departmentName', 'IT');
+
+    $table->handleRequest($request);
+    if ($table->isCallback()) {
+      	return $table->getResponse();
+    }
+
+    return $this->render("index.html.twig", array(
+      	"table" => $table->createView()
+    ));
+}
 ```
 
 
