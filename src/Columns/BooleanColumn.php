@@ -14,7 +14,8 @@ class BooleanColumn extends AbstractColumn
 
         $resolver->setDefaults(array(
             'trueLabel' => 'True',
-            'falseLabel' => 'False'
+            'falseLabel' => 'False',
+            'advancedSearchType' => "checkbox"
         ));
 
         $resolver->setAllowedTypes('trueLabel', 'string');

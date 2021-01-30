@@ -8,7 +8,8 @@ require('bootstrap-table/dist/extensions/export/bootstrap-table-export.min');
 require('bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min');
 //require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
 require('./bootstrap-table-sticky-header');
-require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
+//require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
+require('./bootstrap-table-toolbar');
 require("bootstrap-table/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min");
 require("bootstrap-table/dist/bootstrap-table-locale-all.min");
 

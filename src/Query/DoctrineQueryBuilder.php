@@ -121,14 +121,24 @@ class DoctrineQueryBuilder
             $column = $this->columnBuilder->getColumnByField($columnField);
 
             if ($column->isSearchable()) {
-
                 $path = $this->getPropertyPath($column);
 
                 if ($searchCallback = $column->getSearchCallback()) {
                     $searchCallback($andExpr, $this->qb, $path, $value, $this->parameterIndex);
                 } else {
-                    $andExpr->add($this->qb->expr()->like($path, '?' . $this->parameterIndex));
-                    $this->qb->setParameter($this->parameterIndex, '%' . $value . '%');
+                    //bootstrap-table toolbar sends "true", "false" or "null".
+                    if ($column->getOutputOptions()['advancedSearchType'] == "checkbox") {
+                        //if null, do nothing
+                        if ($value == "null") {
+                            continue;
+                        }
+
+                        $andExpr->add($this->qb->expr()->eq($path, '?' . $this->parameterIndex));
+                        $this->qb->setParameter($this->parameterIndex, ($value == "true"));
+                    } else {
+                        $andExpr->add($this->qb->expr()->like($path, '?' . $this->parameterIndex));
+                        $this->qb->setParameter($this->parameterIndex, '%' . $value . '%');
+                    }
                 }
             }
 

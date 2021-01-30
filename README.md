@@ -236,27 +236,28 @@ Represents column with text. With formatter you can create complex columns.
 
 #### Options
 
-| Option          | Type           | Default | Description                                                  |
-| --------------- | -------------- | ------- | ------------------------------------------------------------ |
-| title           | string / null  | null    | Set column title. If no value is set, the specified attribute name is taken. |
-| field           | string / null  | null    | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
-| width           | integer / null | null    | column width in px                                           |
-| widthUnit       | string         | "px"    | Unit of width.                                               |
-| class           | string / null  | null    | The column class name.                                       |
-| formatter       | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
-| footerFormatter | string / null  | null    | JavaScript function name for footer formatter.               |
-| searchable      | bool           | true    | enable / disable filtering for this column                   |
-| sortable        | bool           | true    | enable / disable sortable for this column                    |
-| switchable      | bool           | true    | enable / disable interactive hide and show of column.        |
-| visible         | bool           | true    | show / hide column                                           |
-| emptyData       | string         | ""      | default value if attribute from entity is null               |
-| sort            | Closure / null | null    | custom sort query callback (see example)                     |
-| filter          | Closure / null | null    | custom filter query callback (see example)                   |
-| data            | Closure / null | null    | custom data callback (see example)                           |
-| align           | string / null  | null    | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
-| halign          | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
-| valign          | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
-| falign          | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
+| Option             | Type           | Default | Description                                                  |
+| ------------------ | -------------- | ------- | ------------------------------------------------------------ |
+| title              | string / null  | null    | Set column title. If no value is set, the specified attribute name is taken. |
+| field              | string / null  | null    | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
+| width              | integer / null | null    | column width in px                                           |
+| widthUnit          | string         | "px"    | Unit of width.                                               |
+| class              | string / null  | null    | The column class name.                                       |
+| formatter          | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
+| footerFormatter    | string / null  | null    | JavaScript function name for footer formatter.               |
+| searchable         | bool           | true    | enable / disable filtering for this column                   |
+| sortable           | bool           | true    | enable / disable sortable for this column                    |
+| switchable         | bool           | true    | enable / disable interactive hide and show of column.        |
+| visible            | bool           | true    | show / hide column                                           |
+| emptyData          | string         | ""      | default value if attribute from entity is null               |
+| sort               | Closure / null | null    | custom sort query callback (see example)                     |
+| filter             | Closure / null | null    | custom filter query callback (see example)                   |
+| data               | Closure / null | null    | custom data callback (see example)                           |
+| align              | string / null  | null    | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
+| halign             | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
+| valign             | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
+| falign             | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
+| advancedSearchType | string         | "text"  | set `text` for input field or `checkbox` for radio input (Empty, True, False) in advanced search |
 
 #### Example
 
@@ -309,6 +310,8 @@ Represents column with boolean values.
 #### Options
 
 All options of TextColumn.
+
+`advancedSearchType` is set to `checkbox` by default.
 
 **And**:
 
