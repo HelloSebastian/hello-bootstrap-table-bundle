@@ -7,6 +7,7 @@ namespace HelloSebastian\HelloBootstrapTableBundle\Response;
 use HelloSebastian\HelloBootstrapTableBundle\Data\DataBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Query\DoctrineQueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TableResponse
@@ -78,13 +79,23 @@ class TableResponse
     public function configureRequestData(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'search' => "",
+            'filter' => array(), //advanced search
+            'search' => "", //global search
             'offset' => 0,
             'sort' => null,
             'order' => null,
             'limit' => 10,
-            'isCallback' => false
+            'isCallback' => false,
+            'searchable' => array()
         ));
+
+        $resolver->setNormalizer('filter', function (Options $options, $value) {
+            if (!is_array($value)) {
+                return json_decode($value, true);
+            }
+
+            return $value;
+        });
     }
 
     /**

@@ -89,6 +89,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('pagination-V-Align')->end()
                 ->scalarNode('undefined-text')->end()
                 ->scalarNode('locale')->end()
+                ->booleanNode('advanced-search')->end()
+                ->scalarNode('id-table')->end()
                 ->booleanNode('click-to-select')->end()
                 ->booleanNode('show-jump-to')->end()
                 ->booleanNode('show-export')->end()
