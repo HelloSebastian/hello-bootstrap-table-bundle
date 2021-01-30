@@ -53,6 +53,7 @@ class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->normalizeKeys(false)
             ->children()
+                ->scalarNode('tableClassNames')->end()
                 ->booleanNode('enableCheckbox')->end()
                 ->scalarNode('bulkUrl')->end()
                 ->scalarNode('bulkActionSelectClassNames')->end()

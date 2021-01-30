@@ -21,12 +21,8 @@ require("bootstrap-table/dist/extensions/export/bootstrap-table-export.min");
 
 $(function () {
 
-    window.defaultFormatter = function (value) {
-        return value;
-    };
-
     window.defaultActionFormatter = function (value) {
-        const $wrapper = $("<div />");
+        const $wrapper = $("<div>");
 
         for (let i = 0; i < value.length; i++) {
             const $button = $('<a />');
@@ -35,8 +31,15 @@ $(function () {
             $button.html(value[i].displayName);
             $wrapper.append($button);
         }
-
         return $wrapper.html();
+    };
+
+    window.defaultActionCellStyle = function () {
+        return {
+            css: {
+                display: 'inline-block'
+            }
+        };
     };
 
     const $table = $(".hello-bootstrap-table");

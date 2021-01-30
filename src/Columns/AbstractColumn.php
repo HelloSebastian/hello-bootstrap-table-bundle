@@ -126,8 +126,16 @@ abstract class AbstractColumn
         $this->setOptions($options);
     }
 
-    public function getOutputOptions()
+    public function getOutputOptions($filterNulls = true)
     {
+        if ($filterNulls) {
+            $outputOptions = $this->outputOptions;
+
+            return array_filter($outputOptions, function ($value) {
+                return !is_null($value);
+            });
+        }
+
         return $this->outputOptions;
     }
 
@@ -198,21 +206,43 @@ abstract class AbstractColumn
             'title' => null,
             'field' => null,
             'width' => null,
+            'widthUnit' => "px",
+            'cellStyle' => null,
+            'class' => null,
+            'align' => null,
+            'halign' => null,
+            'valign' => null,
+            'falign' => null,
+            'order' => "asc",
             'filterable' => true,
             'sortable' => true,
             'visible' => true,
             'switchable' => true,
-            'formatter' => "defaultFormatter"
+            'formatter' => null,
+            'footerFormatter' => null
         ));
 
         $resolver->setAllowedTypes('title', ['string', 'null']);
         $resolver->setAllowedTypes('field', ['string', 'null']);
         $resolver->setAllowedTypes('width', ['integer', 'null']);
+        $resolver->setAllowedTypes('widthUnit', ['string']);
+        $resolver->setAllowedTypes('order', ['string']);
+
+        $resolver->setAllowedTypes('cellStyle', ['string', 'null']);
+        $resolver->setAllowedTypes('class', ['string', 'null']);
+
+        $resolver->setAllowedTypes('align', ['string', 'null']);
+        $resolver->setAllowedTypes('halign', ['string', 'null']);
+        $resolver->setAllowedTypes('valign', ['string', 'null']);
+        $resolver->setAllowedTypes('falign', ['string', 'null']);
+
         $resolver->setAllowedTypes('filterable', ['boolean']);
         $resolver->setAllowedTypes('sortable', ['boolean']);
         $resolver->setAllowedTypes('visible', ['boolean']);
         $resolver->setAllowedTypes('switchable', ['boolean']);
+
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
+        $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);
     }
 
 }
