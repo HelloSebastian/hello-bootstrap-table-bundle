@@ -459,7 +459,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | pagination-V-Align         | string | "both"                                                      |
 | undefined-text             | string | ""                                                          |
 | locale                     | string | "en-US"                                                     |
-| advanced-search            | bool   | True                                                        |
+| advanced-search            | bool   | true                                                        |
 | id-table                   | string | class name of table with counter. (`$this->getTableName()`) |
 | click-to-select            | bool   | true                                                        |
 | show-jump-to               | bool   | true                                                        |
