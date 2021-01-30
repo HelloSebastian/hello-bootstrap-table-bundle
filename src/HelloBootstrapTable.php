@@ -90,8 +90,6 @@ abstract class HelloBootstrapTable
     }
 
     /**
-     *
-     *
      * @param ColumnBuilder $builder
      * @param array $options
      */
@@ -241,6 +239,8 @@ abstract class HelloBootstrapTable
             "pagination-V-Align" => "both",
             "undefined-text" => "",
             "locale" => "en-US",
+            "advanced-search" => true,
+            "id-table" => $this->getTableName(),
 
             //extensions
             "click-to-select" => true,
@@ -274,6 +274,8 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("pagination-V-Align", ["string"]);
         $resolver->setAllowedTypes("undefined-text", ["string"]);
         $resolver->setAllowedTypes("locale", ["string"]);
+        $resolver->setAllowedTypes("advanced-search", ["bool"]);
+        $resolver->setAllowedTypes("id-table", ["string"]);
         $resolver->setAllowedTypes("click-to-select", ["bool"]);
         $resolver->setAllowedTypes("show-jump-to", ["bool"]);
         $resolver->setAllowedTypes("show-export", ["bool"]);
