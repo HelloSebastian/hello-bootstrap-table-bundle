@@ -180,6 +180,11 @@ abstract class AbstractColumn
         return (false !== strpos($this->dql, "."));
     }
 
+    public function isSearchable()
+    {
+        return $this->outputOptions['searchable'];
+    }
+
     public function getColumnBuilder()
     {
         return $this->columnBuilder;
@@ -214,7 +219,7 @@ abstract class AbstractColumn
             'valign' => null,
             'falign' => null,
             'order' => "asc",
-            'filterable' => true,
+            'searchable' => true,
             'sortable' => true,
             'visible' => true,
             'switchable' => true,
@@ -236,7 +241,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('valign', ['string', 'null']);
         $resolver->setAllowedTypes('falign', ['string', 'null']);
 
-        $resolver->setAllowedTypes('filterable', ['boolean']);
+        $resolver->setAllowedTypes('searchable', ['boolean']);
         $resolver->setAllowedTypes('sortable', ['boolean']);
         $resolver->setAllowedTypes('visible', ['boolean']);
         $resolver->setAllowedTypes('switchable', ['boolean']);

@@ -31,10 +31,10 @@ Highly inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle
 * Pagination*
 * different column types
 * bootstrap-table extensions
-  * sticky-header
-  * export
-  * page-jump-to
-  * toolbar
+  * [sticky-header](https://bootstrap-table.com/docs/extensions/sticky-header/)
+  * [export](https://bootstrap-table.com/docs/extensions/export/)
+  * [page-jump-to](https://bootstrap-table.com/docs/extensions/page-jump-to/)
+  * [toolbar](https://bootstrap-table.com/docs/extensions/toolbar/) with [advanced-search](https://bootstrap-table.com/docs/extensions/toolbar/#advancedsearch)
   * more in progress...
 
 *server-side
@@ -245,7 +245,7 @@ Represents column with text. With formatter you can create complex columns.
 | class           | string / null  | null    | The column class name.                                       |
 | formatter       | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
 | footerFormatter | string / null  | null    | JavaScript function name for footer formatter.               |
-| filterable      | bool           | true    | enable / disable filtering for this column                   |
+| searchable      | bool           | true    | enable / disable filtering for this column                   |
 | sortable        | bool           | true    | enable / disable sortable for this column                    |
 | switchable      | bool           | true    | enable / disable interactive hide and show of column.        |
 | visible         | bool           | true    | show / hide column                                           |
@@ -262,14 +262,14 @@ Represents column with text. With formatter you can create complex columns.
 
 ```php
 //use statements for search and sort option
-use Doctrine\ORM\Query\Expr\Orx;
+use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
 
 ->add('username', TextColumn::class, array(
     'title' => 'Username',
   	'emptyData' => "No Username found.",
   
-    //optional overrides ...
+        //optional overrides ...
   	'data' => function (User $user) { //entity from getEntityClass
         //you can return what ever you want ...  
         return $user->getId() . " " . $user->getUsername();
@@ -277,10 +277,10 @@ use Doctrine\ORM\QueryBuilder;
   	'sort' => function (QueryBuilder $qb, $direction) { //execute if user sort this column
         $qb->addOrderBy('username', $direction);
     },
-    'search' => function (Orx $orx, QueryBuilder $qb, $dql, $search, $key) {
-      	//first add condition to $orx
+    'search' => function (Composite $composite, QueryBuilder $qb, $dql, $search, $key) {
+      	//first add condition to $composite
         //don't forget the '?' before $key
-        $orx->add($qb->expr()->like($dql, '?' . $key));
+        $composite->add($qb->expr()->like($dql, '?' . $key));
       
       	//then bind search to query
         $qb->setParameter($key, '%' . $search . '%');
@@ -292,13 +292,13 @@ use Doctrine\ORM\QueryBuilder;
 
 The search option seems a bit complicated at first, but it allows full control over the query in the column.
 
-| Paramenter name    | Description                                                  |
-| ------------------ | ------------------------------------------------------------ |
-| `Orx $orx`         | All columns are connected to the SQL query or. With `$orx` more parts can be added to the query. |
-| `QueryBuilder $qb` | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
-| `(string) $dql`    | `$dql` represents the "path" to the variable in the query (e.g. `user.username` or in case of a JOIN `costCentre.name`) |
-| `$search`          | The search in the type of a string.                          |
-| `$key`             | The index of the columns already gone through. The index is used for parameter binding to the query. |
+| Paramenter name        | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| `Composite $composite` | In the global search all columns are connected as or. In the advanced search all columns are combined with an and-connection. With `$composite` more parts can be added to the query. |
+| `QueryBuilder $qb`     | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
+| `$dql`                 | `$dql` represents the "path" to the variable in the query (e.g. `user.username` or in case of a JOIN `costCentre.name`) |
+| `$search`              | The search in the type of a string.                          |
+| `$key`                 | The index of the columns already gone through. The index is used for parameter binding to the query. |
 
 
 
@@ -362,15 +362,13 @@ Represents column that are not visible in the table. Can used for data which are
 
 All Options of TextColumn.
 
-`filterable`, `sortable`, `visible` and `switchable` are disabled by default.
+`searchable`, `sortable`, `visible` and `switchable` are disabled by default.
 
 #### Example
 
 ```php
 ->add("id", HiddenColumn::class)
 ```
-
-ID is used for bulk actions and must therefore be sent along, but should not be visible in the table.
 
 
 
@@ -382,7 +380,7 @@ Represents column for action buttons (show / edit / remove ...).
 
 All Options of TextColumn
 
-`sortable`,  `filterable` and `switchable` are disable by default.
+`sortable`,  `searchable` and `switchable` are disable by default.
 
 `formatter` is set to `defaultActionFormatter`. `cellStyle` is set to `defaultActionCellStyle`.
 
@@ -447,29 +445,31 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 
 #### Options
 
-| Option                     | Type   | Default                            |
-| -------------------------- | ------ | ---------------------------------- |
-| pagination                 | bool   | true                               |
-| search                     | bool   | true                               |
-| show-columns               | bool   | true                               |
-| show-footer                | bool   | true                               |
-| show-refresh               | bool   | true                               |
-| toolbar                    | string | "#toolbar"                         |
-| page-list                  | string | "[10, 25, 50, 100, 200, 500, All]" |
-| page-size                  | int    | 25                                 |
-| sort-reset                 | bool   | true                               |
-| pagination-V-Align         | string | "both"                             |
-| undefined-text             | string | ""                                 |
-| locale                     | string | "en-US"                            |
-| click-to-select            | bool   | true                               |
-| show-jump-to               | bool   | true                               |
-| show-export                | bool   | true                               |
-| export-types               | string | "['csv', 'txt'', 'excel']"         |
-| export-options             | array  | see under table*                   |
-| sticky-header              | bool   | true                               |
-| sticky-header-offset-left  | int    | 0                                  |
-| sticky-header-offset-right | int    | 0                                  |
-| sticky-header-offset-y     | int    | 0                                  |
+| Option                     | Type   | Default                                                     |
+| -------------------------- | ------ | ----------------------------------------------------------- |
+| pagination                 | bool   | true                                                        |
+| search                     | bool   | true                                                        |
+| show-columns               | bool   | true                                                        |
+| show-footer                | bool   | true                                                        |
+| show-refresh               | bool   | true                                                        |
+| toolbar                    | string | "#toolbar"                                                  |
+| page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"                          |
+| page-size                  | int    | 25                                                          |
+| sort-reset                 | bool   | true                                                        |
+| pagination-V-Align         | string | "both"                                                      |
+| undefined-text             | string | ""                                                          |
+| locale                     | string | "en-US"                                                     |
+| advanced-search            | bool   | true                                                        |
+| id-table                   | string | class name of table with counter. (`$this->getTableName()`) |
+| click-to-select            | bool   | true                                                        |
+| show-jump-to               | bool   | true                                                        |
+| show-export                | bool   | true                                                        |
+| export-types               | string | "['csv', 'txt'', 'excel']"                                  |
+| export-options             | array  | see under table*                                            |
+| sticky-header              | bool   | true                                                        |
+| sticky-header-offset-left  | int    | 0                                                           |
+| sticky-header-offset-right | int    | 0                                                           |
+| sticky-header-offset-y     | int    | 0                                                           |
 
 `export-options`:
 

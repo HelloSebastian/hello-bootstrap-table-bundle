@@ -17,7 +17,7 @@ class ActionColumn extends AbstractColumn
             "buttons" => array(),
             "sortable" => false,
             "switchable" => false,
-            "filterable" => false,
+            "searchable" => false,
             "formatter" => "defaultActionFormatter",
             "cellStyle" => "defaultActionCellStyle"
         ));

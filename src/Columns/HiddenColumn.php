@@ -13,7 +13,7 @@ class HiddenColumn extends TextColumn
         parent::configureOutputOptions($resolver);
 
         $resolver->setDefaults(array(
-            'filterable' => false,
+            'searchable' => false,
             'sortable' => false,
             'visible' => false,
             'switchable' => false

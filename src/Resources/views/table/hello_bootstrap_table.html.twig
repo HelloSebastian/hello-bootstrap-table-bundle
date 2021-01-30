@@ -21,10 +21,11 @@
 {% endif %}
 
 <table
-        data-classes="{{ table.tableOptions.tableClassNames }}"
         class="hello-bootstrap-table"
-        data-columns="{{ table.columns|json_encode }}"
         data-side-pagination="server"
+
+        data-classes="{{ table.tableOptions.tableClassNames }}"
+        data-columns="{{ table.columns|json_encode }}"
         data-url="{{ table.callbackUrl }}"
         {% for key, value in table.tableDataset %}
             data-{{ key }}="{{ value is iterable ? value|json_encode : value|raw }}"
