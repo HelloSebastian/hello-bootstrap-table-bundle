@@ -223,6 +223,7 @@ abstract class AbstractColumn
             'sortable' => true,
             'visible' => true,
             'switchable' => true,
+            'advancedSearchType' => "text",
             'formatter' => null,
             'footerFormatter' => null
         ));
@@ -245,6 +246,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('sortable', ['boolean']);
         $resolver->setAllowedTypes('visible', ['boolean']);
         $resolver->setAllowedTypes('switchable', ['boolean']);
+        $resolver->setAllowedTypes('advancedSearchType', ['string']);
 
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);
