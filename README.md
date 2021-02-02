@@ -275,16 +275,18 @@ use Doctrine\ORM\QueryBuilder;
 
 ->add('username', TextColumn::class, array(
     'title' => 'Username',
-  	'emptyData' => "No Username found.",
-  
-        //optional overrides ...
-  	'data' => function (User $user) { //entity from getEntityClass
+    'emptyData' => "No Username found.",
+    
+    //optional overrides ...
+    'data' => function (User $user) { //entity from getEntityClass
         //you can return what ever you want ...  
         return $user->getId() . " " . $user->getUsername();
     },
-  	'sort' => function (QueryBuilder $qb, $direction) { //execute if user sort this column
+
+    'sort' => function (QueryBuilder $qb, $direction) { //execute if user sort this column
         $qb->addOrderBy('username', $direction);
     },
+
     'search' => function (Composite $composite, QueryBuilder $qb, $dql, $search, $key) {
       	//first add condition to $composite
         //don't forget the '?' before $key
@@ -417,7 +419,7 @@ All Options of TextColumn
         array(
             'displayName' => 'edit',
             'routeName' => 'edit_user',
-          	// 'classNames' => 'btn btn-xs' (see below for more information)
+            // 'classNames' => 'btn btn-xs' (see below for more information)
             'additionalClassNames' => 'btn-warning'
        )
   	)
@@ -466,7 +468,7 @@ If you want to change `advSearchFieldFormatter`, you also need to create a JavaS
 ```javascript
 //value can be undefined
 window.defaultAdvSearchTextField = function (field, filterOptions, value) {
-		let val = value || "";
+    let val = value || "";
     return `<input type="text" value="${val}" class="form-control" name="${field}" placeholder="${filterOptions.placeholder}" id="${field}">`;
 };
 ```
@@ -479,7 +481,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
 ->add('firstName', TextColumn::class, array(
     'title' => 'First name',
     'filter' => array(TextFilter::class, array(
-    		'placeholder' => 'Enter first name ...'
+        'placeholder' => 'Enter first name ...'
     ))
 ))
 ```
@@ -525,15 +527,15 @@ BooleanChoiceFilter is a special `ChoiceFilter` with default choices and query e
 
 All Options from ChoiceFilter.
 
-If you use BooleanChoiceFilter inside a BooleanColumn, the `trueLabel` and `falseLabel` options from BooleanColumn are taken for `true` and `false` for the BooleanChoiceFilter `choices` option by default.
+If you use BooleanChoiceFilter inside a BooleanColumn, the `trueLabel` and `falseLabel` options from BooleanColumn are taken for `true` and `false` for the `choices` option by default.
 
 If not `choices` is set to:
 
 ```php
 "choices" => array(
     "null" => "All",
-    "true" => "True", // key must be "true", if you want allow true
-    "false" => "False" //key must be "false", if you want allow false
+    "true" => "True",   // key must be "true", if you want allow true
+    "false" => "False"  // key must be "false", if you want allow false
 )
 ```
 
@@ -544,9 +546,9 @@ If not `choices` is set to:
     'title' => 'is active',
   	'filter' => array(BooleanChoiceFilter::class, array( // only if you want to override the choices
         'choices' => array(
-            "null" => "Alle",
-            "true" => "Ja",
-            "false" => "Nein"
+            "null" => "Alle",   // instead of "all"
+            "true" => "Ja",     // instead of "yes"
+            "false" => "Nein"   // instead of "no"
         )
     )),
     'trueLabel' => 'yes',
@@ -737,10 +739,10 @@ Sometimes you don't want to display all the data in a database table. For this y
   */
 public function index(Request $request, HelloBootstrapTableFactory $tableFactory)
 {
-  	//first create a instance of your table
+    //first create a instance of your table
     $table = $tableFactory->create(TestTable::class);
 
-  	//then you can access the QueryBuilder from the table
+    //then you can access the QueryBuilder from the table
     $table->getQueryBuilder()
         ->andWhere('department.name = :departmentName')
         ->setParameter('departmentName', 'IT');
