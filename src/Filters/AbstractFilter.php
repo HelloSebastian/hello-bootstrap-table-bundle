@@ -41,6 +41,9 @@ abstract class AbstractFilter
             "advSearchFieldFormatter" => "defaultAdvSearchTextField",
             "placeholder" => null
         ));
+
+        $resolver->setAllowedTypes("advSearchFieldFormatter", ["string"]);
+        $resolver->setAllowedTypes("placeholder", ["string", "null"]);
     }
 
     public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key);

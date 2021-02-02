@@ -19,16 +19,21 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
    3. [DateTimeColumn](#datetimecolumn)
    4. [HiddenColumn](#hiddencolumn)
    5. [ActionColumn](#actioncolumn)
-5. [Configuration](#configuration)
+5. [Filters](#filters)
+   1. [TextFilter](#textfilter)
+   2. [ChoiceFilter](#choicefilter)
+   3. [BooleanChoiceFilter](#booleanchoicefilter)
+6. [Configuration](#configuration)
    1. [Table Dataset Options](#table-dataset-options)
    2. [Table Options](#table-options)
-6. [Custom Doctrine Queries](#custom-doctrine-queries)
+7. [Custom Doctrine Queries](#custom-doctrine-queries)
 
 ## Features
 
 * Create bootstrap-tables in PHP
 * Twig render function
 * global filtering*
+* column based filtering (advanced search)
 * column sorting*
 * Pagination*
 * different column types
@@ -238,28 +243,28 @@ Represents column with text. With formatter you can create complex columns.
 
 #### Options
 
-| Option             | Type           | Default | Description                                                  |
-| ------------------ | -------------- | ------- | ------------------------------------------------------------ |
-| title              | string / null  | null    | Set column title. If no value is set, the specified attribute name is taken. |
-| field              | string / null  | null    | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
-| width              | integer / null | null    | column width in px                                           |
-| widthUnit          | string         | "px"    | Unit of width.                                               |
-| class              | string / null  | null    | The column class name.                                       |
-| formatter          | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
-| footerFormatter    | string / null  | null    | JavaScript function name for footer formatter.               |
-| searchable         | bool           | true    | enable / disable filtering for this column                   |
-| sortable           | bool           | true    | enable / disable sortable for this column                    |
-| switchable         | bool           | true    | enable / disable interactive hide and show of column.        |
-| visible            | bool           | true    | show / hide column                                           |
-| emptyData          | string         | ""      | default value if attribute from entity is null               |
-| sort               | Closure / null | null    | custom sort query callback (see example)                     |
-| filter             | Closure / null | null    | custom filter query callback (see example)                   |
-| data               | Closure / null | null    | custom data callback (see example)                           |
-| align              | string / null  | null    | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
-| halign             | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
-| valign             | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
-| falign             | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
-| advancedSearchType | string         | "text"  | set `text` for input field or `checkbox` for radio input (Empty, True, False) in advanced search |
+| Option          | Type           | Default                        | Description                                                  |
+| --------------- | -------------- | ------------------------------ | ------------------------------------------------------------ |
+| title           | string / null  | null                           | Set column title. If no value is set, the specified attribute name is taken. |
+| field           | string / null  | null                           | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
+| width           | integer / null | null                           | column width in px                                           |
+| widthUnit       | string         | "px"                           | Unit of width.                                               |
+| class           | string / null  | null                           | The column class name.                                       |
+| formatter       | string / null  | null                           | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
+| footerFormatter | string / null  | null                           | JavaScript function name for footer formatter.               |
+| searchable      | bool           | true                           | enable / disable filtering for this column                   |
+| sortable        | bool           | true                           | enable / disable sortable for this column                    |
+| switchable      | bool           | true                           | enable / disable interactive hide and show of column.        |
+| visible         | bool           | true                           | show / hide column                                           |
+| emptyData       | string         | ""                             | default value if attribute from entity is null               |
+| sort            | Closure / null | null                           | custom sort query callback (see example)                     |
+| filter          | Closure / null | null                           | custom filter query callback (see example)                   |
+| data            | Closure / null | null                           | custom data callback (see example)                           |
+| align           | string / null  | null                           | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
+| halign          | string / null  | null                           | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
+| valign          | string / null  | null                           | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
+| falign          | string / null  | null                           | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
+| filter          | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
 
 #### Example
 
@@ -314,6 +319,8 @@ Represents column with boolean values.
 All options of TextColumn.
 
 `advancedSearchType` is set to `checkbox` by default.
+
+`filter` is set to `array(BooelanChoiceFilter::class, array())` by default.
 
 **And**:
 
@@ -438,6 +445,114 @@ hello_bootstrap_table:
 ```
 
 YAML config options are set to all buttons. If you want override global options from YAML config use `classNames` option.
+
+## Filters
+
+Filters can be used to generate predefined queries. In addition, different input fields for the filters are displayed (currently only under the Advanced Search).
+
+### TextFilter
+
+With the TextFilter you can filter by text within the column. TextFilter is set by default to all columns.
+
+#### Options
+
+| Option                  | Type           | Default                                | Description                                         |
+| ----------------------- | -------------- | -------------------------------------- | --------------------------------------------------- |
+| advSearchFieldFormatter | string         | "defaultAdvSearchTextField"            | Set JavaScript function name to format input field. |
+| placeholder             | string /  null | `title` option from column with " ..." | Set HTML placeholder for input field.               |
+
+If you want to change `advSearchFieldFormatter`, you also need to create a JavaScript function with the same name in the `window` scope. As an example here is the default function:
+
+```javascript
+//value can be undefined
+window.defaultAdvSearchTextField = function (field, filterOptions, value) {
+		let val = value || "";
+    return `<input type="text" value="${val}" class="form-control" name="${field}" placeholder="${filterOptions.placeholder}" id="${field}">`;
+};
+```
+
+#### Example
+
+```php
+use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
+
+->add('firstName', TextColumn::class, array(
+    'title' => 'First name',
+    'filter' => array(TextFilter::class, array(
+    		'placeholder' => 'Enter first name ...'
+    ))
+))
+```
+
+### ChoiceFilter
+
+With the ChoiceFilter you can create a `select` input field.
+
+#### Options
+
+All Options from TextFilter.
+
+`advSearchFieldFormatter` is set to `defaultAdvSearchChoiceField`.
+
+**And**:
+
+| Option  | Type  | Default | Description                                                  |
+| ------- | ----- | ------- | ------------------------------------------------------------ |
+| choices | array | [ ]     | Key - Values pair of choices. Key: `value` attribute of `select` field; Value: display name of options in `select` field. |
+
+#### Example
+
+```php
+use HelloSebastian\HelloBootstrapTableBundle\Filters\ChoiceFilter;
+
+->add('department.name', TextColumn::class, array(
+    'title' => 'Department',
+    'filter' => array(ChoiceFilter::class, array(
+        'choices' => array(
+            'null' => 'All', //null is special key word. If null is set Query Builder skip this column.
+            'IT' => 'IT',
+            'Sales' => 'Sales'
+        )
+    ))
+))
+```
+
+### BooleanChoiceFilter
+
+BooleanChoiceFilter is a special `ChoiceFilter` with default choices and query expression. The expression is optimized for boolean values.
+
+#### Options
+
+All Options from ChoiceFilter.
+
+If you use BooleanChoiceFilter inside a BooleanColumn, the `trueLabel` and `falseLabel` options from BooleanColumn are taken for `true` and `false` for the BooleanChoiceFilter `choices` option by default.
+
+If not `choices` is set to:
+
+```php
+"choices" => array(
+    "null" => "All",
+    "true" => "True", // key must be "true", if you want allow true
+    "false" => "False" //key must be "false", if you want allow false
+)
+```
+
+#### Example
+
+```php
+->add("isActive", BooleanColumn::class, array(
+    'title' => 'is active',
+  	'filter' => array(BooleanChoiceFilter::class, array( // only if you want to override the choices
+        'choices' => array(
+            "null" => "Alle",
+            "true" => "Ja",
+            "false" => "Nein"
+        )
+    )),
+    'trueLabel' => 'yes',
+    'falseLabel' => 'no'
+))
+```
 
 
 

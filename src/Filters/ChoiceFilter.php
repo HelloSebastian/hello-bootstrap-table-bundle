@@ -18,6 +18,8 @@ class ChoiceFilter extends AbstractFilter
             "choices" => array(),
             "advSearchFieldFormatter" => "defaultAdvSearchChoiceField"
         ));
+
+        $resolver->setAllowedTypes("choices", ["array"]);
     }
 
     public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key)

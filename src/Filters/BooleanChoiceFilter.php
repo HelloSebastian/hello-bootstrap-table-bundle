@@ -6,10 +6,27 @@ namespace HelloSebastian\HelloBootstrapTableBundle\Filters;
 
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
+use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
+use HelloSebastian\HelloBootstrapTableBundle\Columns\BooleanColumn;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanChoiceFilter extends ChoiceFilter
 {
+    public function __construct(AbstractColumn $column, $options)
+    {
+        if ($column instanceof BooleanColumn) {
+            if (!isset($options["choices"]) || (count($options["choices"]) == 0)) {
+                $options["choices"] = array(
+                    "null" => "All",
+                    "true" => $column->getOutputOptions()["trueLabel"],
+                    "false" => $column->getOutputOptions()["falseLabel"]
+                );
+            }
+        }
+
+        parent::__construct($column, $options);
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
