@@ -223,7 +223,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 
 ### Step 3: Add table in Template
 
-``` html
+``` twig
 {% extends 'base.html.twig' %}
 
 {% block body %}
