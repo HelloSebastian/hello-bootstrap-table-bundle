@@ -87,12 +87,16 @@ abstract class AbstractColumn
             $this->outputOptions['title'] = $this->dql;
         }
 
-        if ($this->isSearchable() && is_null($this->internalOptions['filter'])) {
-            throw new \Exception("Column is searchable but no filter is set. Column: " . $this->getDql());
+        if ($this->isSearchable()) {
+            if ((is_null($this->internalOptions["search"]) && is_null($this->internalOptions["filter"]))) {
+                throw new \Exception("Column is searchable but no filter or custom search is set. Column: " . $this->getDql());
+            }
         }
 
-        $this->filter = new $this->internalOptions['filter'][0]($this, $this->internalOptions['filter'][1]);
-        $this->outputOptions["filterOptions"] = $this->filter->getOptions();
+        if (!is_null($this->internalOptions['filter'])) {
+            $this->filter = new $this->internalOptions['filter'][0]($this, $this->internalOptions['filter'][1]);
+            $this->outputOptions["filterOptions"] = $this->filter->getOptions();
+        }
     }
 
     /**
