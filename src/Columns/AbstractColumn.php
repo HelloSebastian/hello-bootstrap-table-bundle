@@ -4,6 +4,8 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
 
 
+use HelloSebastian\HelloBootstrapTableBundle\Filters\AbstractFilter;
+use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -40,6 +42,11 @@ abstract class AbstractColumn
      * @var ColumnBuilder
      */
     protected $columnBuilder;
+
+    /**
+     * @var AbstractFilter|null
+     */
+    protected $filter;
 
     public function __construct($dql, $options)
     {
@@ -78,6 +85,17 @@ abstract class AbstractColumn
 
         if (is_null($this->outputOptions['title'])) {
             $this->outputOptions['title'] = $this->dql;
+        }
+
+        if ($this->isSearchable()) {
+            if ((is_null($this->internalOptions["search"]) && is_null($this->internalOptions["filter"]))) {
+                throw new \Exception("Column is searchable but no filter or custom search is set. Column: " . $this->getDql());
+            }
+        }
+
+        if (!is_null($this->internalOptions['filter'])) {
+            $this->filter = new $this->internalOptions['filter'][0]($this, $this->internalOptions['filter'][1]);
+            $this->outputOptions["filterOptions"] = $this->filter->getOptions();
         }
     }
 
@@ -120,7 +138,7 @@ abstract class AbstractColumn
      */
     public function replaceOption($key, $value)
     {
-        $options = $this->outputOptions;
+        $options = array_merge($this->outputOptions, $this->internalOptions);
         $options[$key] = $value;
 
         $this->setOptions($options);
@@ -153,6 +171,11 @@ abstract class AbstractColumn
     public function getField()
     {
         return $this->outputOptions['field'];
+    }
+
+    public function getFilter()
+    {
+        return $this->filter;
     }
 
     public function getDataCallback()
@@ -197,12 +220,14 @@ abstract class AbstractColumn
             'data' => null,
             'sort' => null,
             'search' => null,
+            'filter' => array(TextFilter::class, array())
         ));
 
         $resolver->setAllowedTypes('emptyData', ['string']);
         $resolver->setAllowedTypes('data', ['Closure', 'null']);
         $resolver->setAllowedTypes('sort', ['Closure', 'null']);
         $resolver->setAllowedTypes('search', ['Closure', 'null']);
+        $resolver->setAllowedTypes('filter', ['array', 'null']);
     }
 
     protected function configureOutputOptions(OptionsResolver $resolver)
@@ -223,7 +248,7 @@ abstract class AbstractColumn
             'sortable' => true,
             'visible' => true,
             'switchable' => true,
-            'advancedSearchType' => "text",
+            'filterOptions' => null,
             'formatter' => null,
             'footerFormatter' => null
         ));
@@ -246,7 +271,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('sortable', ['boolean']);
         $resolver->setAllowedTypes('visible', ['boolean']);
         $resolver->setAllowedTypes('switchable', ['boolean']);
-        $resolver->setAllowedTypes('advancedSearchType', ['string']);
+        $resolver->setAllowedTypes('filterOptions', ['array', 'null']);
 
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);

@@ -4,6 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
 
 
+use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanColumn extends AbstractColumn
@@ -13,13 +14,21 @@ class BooleanColumn extends AbstractColumn
         parent::configureOutputOptions($resolver);
 
         $resolver->setDefaults(array(
-            'trueLabel' => 'True',
-            'falseLabel' => 'False',
-            'advancedSearchType' => "checkbox"
+            "trueLabel" => "True",
+            "falseLabel" => "False"
         ));
 
         $resolver->setAllowedTypes('trueLabel', 'string');
         $resolver->setAllowedTypes('falseLabel', 'string');
+    }
+
+    protected function configureInternalOptions(OptionsResolver $resolver)
+    {
+        parent::configureInternalOptions($resolver);
+
+        $resolver->setDefaults(array(
+            "filter" => array(BooleanChoiceFilter::class, array())
+        ));
     }
 
     public function buildData($entity)

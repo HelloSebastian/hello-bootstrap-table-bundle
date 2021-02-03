@@ -103,8 +103,8 @@ $.BootstrapTable = class extends $.BootstrapTable {
       // match bootstrap table style
       this.$stickyContainer.show().addClass('fix-sticky fixed-table-container')
       // stick it in position
-      let stickyHeaderOffsetLeft = this.options.stickyHeaderOffsetLeft === 0 ? getLeftOffset(this.$el, this) : this.options.stickyHeaderOffsetLeft
-      let stickyHeaderOffsetRight = getRightOffset(stickyHeaderOffsetLeft, this.$el)
+      let stickyHeaderOffsetLeft = this.options.stickyHeaderOffsetLeft === 0 ? getLeftOffset(this.$el, this) : this.options.stickyHeaderOffsetLeft //changed this
+      let stickyHeaderOffsetRight = getRightOffset(stickyHeaderOffsetLeft, this.$el) //changed this
 
       if (this.$el.closest('.bootstrap-table').hasClass('fullscreen')) {
         stickyHeaderOffsetLeft = 0
@@ -124,13 +124,13 @@ $.BootstrapTable = class extends $.BootstrapTable {
       this.$stickyContainer.removeClass('fix-sticky').hide()
     }
 
-    function getLeftOffset($table, that) {
+    function getLeftOffset($table, that) { //add this
       let result = Math.abs($table.offset().left) + 'px';
       that.options.stickyHeaderOffsetLeft = result;
       return result;
     }
 
-    function getRightOffset(leftOffset, $table) {
+    function getRightOffset(leftOffset, $table) { //add this
       let leftOffsetWithoutUnit = leftOffset
 
       if (typeof (leftOffset) === 'string') {

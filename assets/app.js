@@ -22,17 +22,19 @@ require("bootstrap-table/dist/extensions/export/bootstrap-table-export.min");
 
 $(function () {
 
+    /**
+     * Default formatter for action columns.
+     */
     window.defaultActionFormatter = function (value) {
-        const $wrapper = $("<div>");
+        const buttons = [];
 
         for (let i = 0; i < value.length; i++) {
-            const $button = $('<a />');
-            $button.attr('href', value[i].route);
-            $button.attr('class', value[i].classNames);
-            $button.html(value[i].displayName);
-            $wrapper.append($button);
+            buttons.push(
+                `<a href="${value[i].route}" class="${value[i].classNames}">${value[i].displayName}</a>`
+            );
         }
-        return $wrapper.html();
+
+       return buttons.join("");
     };
 
     window.defaultActionCellStyle = function () {
@@ -41,6 +43,22 @@ $(function () {
                 display: 'inline-block'
             }
         };
+    };
+
+    window.defaultAdvSearchTextField = function (field, filterOptions, value) {
+        let val = value || "";
+        return `<input type="text" value="${val}" class="form-control" name="${field}" placeholder="${filterOptions.placeholder}" id="${field}">`;
+    };
+
+    window.defaultAdvSearchChoiceField = function (field, filterOptions, value) {
+        const choices = [];
+        for (var prop in filterOptions.choices) {
+            choices.push(`<option ${value !== undefined && value == prop ? "selected" : ""} value="${prop}">${filterOptions.choices[prop]}</option>`);
+        }
+
+        return `<select class="form-control" name="${field}" id="${field}">
+            ${choices.join("")}
+        </select>`;
     };
 
     const $table = $(".hello-bootstrap-table");
