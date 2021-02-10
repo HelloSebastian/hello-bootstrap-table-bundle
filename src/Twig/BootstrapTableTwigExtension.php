@@ -1,20 +1,9 @@
 <?php
 
-/*
- * This file is part of the SgDatatablesBundle package.
- *
- * (c) stwe <https://github.com/stwe/DatatablesBundle>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace HelloSebastian\HelloBootstrapTableBundle\Twig;
 
 
-use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTable;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -24,6 +13,8 @@ use Twig\TwigFunction;
 
 class BootstrapTableTwigExtension extends AbstractExtension
 {
+    const ASSET_VERSION = "0.3.1";
+
     /**
      * {@inheritdoc}
      */
@@ -41,6 +32,16 @@ class BootstrapTableTwigExtension extends AbstractExtension
             new TwigFunction(
                 'hello_bootstrap_table_render',
                 [$this, 'helloBootstrapTableRender'],
+                ['is_safe' => ['html'], 'needs_environment' => true]
+            ),
+            new TwigFunction(
+                'hello_bootstrap_table_js',
+                [$this, 'helloBootstrapTableJs'],
+                ['is_safe' => ['html'], 'needs_environment' => true]
+            ),
+            new TwigFunction(
+                'hello_bootstrap_table_css',
+                [$this, 'helloBootstrapTableCss'],
                 ['is_safe' => ['html'], 'needs_environment' => true]
             )
         ];
@@ -60,6 +61,24 @@ class BootstrapTableTwigExtension extends AbstractExtension
         return $twig->render('@HelloBootstrapTable/table/hello_bootstrap_table.html.twig', array(
             'table' => $bootstrapTable,
         ));
+    }
+
+    public function helloBootstrapTableJs(Environment $twig)
+    {
+        $assetFunction = $twig->getFunction('asset')->getCallable();
+        return sprintf('<script src="%s?v=%s"></script>',
+            call_user_func($assetFunction, "bundles/hellobootstraptable/bootstrap-table.js"),
+            self::ASSET_VERSION
+        );
+    }
+
+    public function helloBootstrapTableCss(Environment $twig)
+    {
+        $assetFunction = $twig->getFunction('asset')->getCallable();
+        return sprintf('<link rel="stylesheet" href="%s?v=%s">',
+            call_user_func($assetFunction, "bundles/hellobootstraptable/bootstrap-table.css"),
+            self::ASSET_VERSION
+        );
     }
 
 }
