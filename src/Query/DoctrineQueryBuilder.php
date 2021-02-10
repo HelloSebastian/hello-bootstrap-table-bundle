@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
+use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -144,7 +145,7 @@ class DoctrineQueryBuilder
         if ($search) {
             foreach ($this->columnBuilder->getColumns() as $column) {
 
-                if ($column->isSearchable()) {
+                if ($column->isSearchable() && !$column->getFilter() instanceof BooleanChoiceFilter) {
                     $path = $this->getPropertyPath($column);
                     if ($searchCallback = $column->getSearchCallback()) {
                         $searchCallback($orExpr, $this->qb, $path, $search, $this->parameterIndex);
