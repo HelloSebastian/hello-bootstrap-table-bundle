@@ -5,6 +5,7 @@ namespace HelloSebastian\HelloBootstrapTableBundle\Response;
 
 
 use HelloSebastian\HelloBootstrapTableBundle\Data\DataBuilder;
+use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTable;
 use HelloSebastian\HelloBootstrapTableBundle\Query\DoctrineQueryBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\Options;
@@ -22,6 +23,11 @@ class TableResponse
     private $doctrineQueryBuilder;
 
     /**
+     * @var HelloBootstrapTable
+     */
+    private $bootstrapTable;
+
+    /**
      * @var DataBuilder
      */
     private $dataBuilder;
@@ -34,11 +40,13 @@ class TableResponse
     /**
      * TableResponse constructor. Created in HelloBootstrapTable.
      *
+     * @param HelloBootstrapTable $bootstrapTable
      * @param DoctrineQueryBuilder $doctrineQueryBuilder
      * @param DataBuilder $dataBuilder
      */
-    public function __construct(DoctrineQueryBuilder $doctrineQueryBuilder, DataBuilder $dataBuilder)
+    public function __construct(HelloBootstrapTable $bootstrapTable, DoctrineQueryBuilder $doctrineQueryBuilder, DataBuilder $dataBuilder)
     {
+        $this->bootstrapTable = $bootstrapTable;
         $this->doctrineQueryBuilder = $doctrineQueryBuilder;
         $this->dataBuilder = $dataBuilder;
 
@@ -86,6 +94,7 @@ class TableResponse
             'order' => null,
             'limit' => 10,
             'isCallback' => false,
+            'tableName' => '',
             'searchable' => array()
         ));
 
@@ -114,13 +123,13 @@ class TableResponse
     }
 
     /**
-     * Checks if request is initial or callback.
+     * Checks if request is initial or callback and if table name is equal.
      *
      * @return bool
      */
     public function isCallback()
     {
-        return $this->requestData['isCallback'];
+        return $this->requestData['isCallback'] && $this->requestData['tableName'] == $this->bootstrapTable->getTableName();
     }
 
     /**

@@ -1,11 +1,13 @@
 require('bootstrap-table/dist/bootstrap-table.min.css');
 require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.css');
 require("bootstrap-table/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css");
+require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.css');
 require('./css/styles.css');
 
 require('bootstrap-table/dist/bootstrap-table.min');
 require('bootstrap-table/dist/extensions/export/bootstrap-table-export.min');
 require('bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min');
+require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min');
 //require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
 require('./bootstrap-table-sticky-header');
 //require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
@@ -61,22 +63,29 @@ $(function () {
         </select>`;
     };
 
-    const $table = $(".hello-bootstrap-table");
+    const $tables = $(".hello-bootstrap-table");
 
-    if ($table.length) {
-        const $bulkForm = $("#bulk_form");
+    if ($tables.length) {
+        $tables.each(index => {
+            const $table = $($tables[index]);
+            const tableName = $table.data('id-table');
 
-        $table.bootstrapTable('destroy').bootstrapTable({
-            queryParams: function (params) {
-                params.isCallback = true;
-                return params;
-            }
+            $table.bootstrapTable('destroy').bootstrapTable({
+                queryParams: function (params) {
+                    params.isCallback = true;
+                    params.tableName = tableName;
+                    return params;
+                }
+            });
+
+            const $bulkForm = $("#bulk_form_" + tableName);
+            $bulkForm.submit(function (e) {
+                const selectedRows = $table.bootstrapTable("getSelections");
+                const hidden = $table.find("bulk_form_" + tableName + " input[type=hidden]");
+                hidden.val(JSON.stringify(selectedRows));
+            });
         });
 
-        $bulkForm.submit(function (e) {
-            const selectedRows = $table.bootstrapTable("getSelections");
-            const hidden = $("#bulk_form input[type=hidden]");
-            hidden.val(JSON.stringify(selectedRows));
-        });
+
     }
 });

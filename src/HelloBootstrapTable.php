@@ -16,8 +16,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 abstract class HelloBootstrapTable
 {
-    static $unique = 0;
-
     /**
      * @var RouterInterface
      */
@@ -74,8 +72,6 @@ abstract class HelloBootstrapTable
      */
     public function __construct(RouterInterface $router, EntityManagerInterface $em, $options, $defaultOptions = array())
     {
-        self::$unique++;
-
         $this->router = $router;
         $this->_em = clone $em;
         $this->defaultOptions = $defaultOptions;
@@ -84,7 +80,7 @@ abstract class HelloBootstrapTable
         $this->doctrineQueryBuilder = new DoctrineQueryBuilder($em, $this->getEntityClass(), $this->columnBuilder);
 
         $dataBuilder = new DataBuilder($this->columnBuilder);
-        $this->tableResponse = new TableResponse($this->doctrineQueryBuilder, $dataBuilder);
+        $this->tableResponse = new TableResponse($this, $this->doctrineQueryBuilder, $dataBuilder);
 
         $this->buildColumns($this->columnBuilder, $options);
     }
@@ -133,7 +129,7 @@ abstract class HelloBootstrapTable
     }
 
     /**
-     * Returns table structure as encoded array.
+     * Returns table structure as array.
      *
      * @return array
      */
@@ -207,13 +203,13 @@ abstract class HelloBootstrapTable
         $this->tableOptions = array_merge($this->tableOptions, $options);
     }
 
-    private function getTableName()
+    public function getTableName()
     {
         $className = get_class($this);
         $className = strtolower($className);
         $className = str_replace("\\", "_", $className);
 
-        return $className . '_' . self::$unique;
+        return $className;
     }
 
     /**

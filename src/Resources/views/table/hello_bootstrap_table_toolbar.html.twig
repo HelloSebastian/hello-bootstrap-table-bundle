@@ -1,8 +1,7 @@
-<div id="toolbar"
-     style="width: 100%">
-    <form id="bulk_form" method="post" action="{{ table.tableOptions.bulkUrl }}">
-        <select id="bulk_action"
-                name="bulk_action"
+<div
+     style="float:left; padding-top: 6px;">
+    <form id="bulk_form_{{ table.tableName }}" method="post" action="{{ table.tableOptions.bulkUrl }}">
+        <select name="bulk_action"
                 class="{{ table.tableOptions.bulkActionSelectClassNames }}"
                 style="width: auto; display: inline-block; vertical-align: middle; margin-right: 5px;">
             {% for value, name in table.tableOptions.bulkActions %}
