@@ -670,7 +670,7 @@ All options that should not be provided directly as data-attributes of the table
 | Option                     | Type   | Default                         |
 | -------------------------- | ------ | ------------------------------- |
 | tableClassNames            | string | "table table-stripped table-sm" |
-| enableCheckbox             | bool   | true                            |
+| enableCheckbox             | bool   | false                           |
 | bulkUrl                    | string | ""                              |
 | bulkActionSelectClassNames | string | "form-control"                  |
 | bulkActions                | array  | [ ]                             |
