@@ -81,11 +81,9 @@ $(function () {
             const $bulkForm = $("#bulk_form_" + tableName);
             $bulkForm.submit(function (e) {
                 const selectedRows = $table.bootstrapTable("getSelections");
-                const hidden = $table.find("bulk_form_" + tableName + " input[type=hidden]");
+                const hidden = $("#bulk_form_" + tableName + " input[type=hidden]");
                 hidden.val(JSON.stringify(selectedRows));
             });
         });
-
-
     }
 });
