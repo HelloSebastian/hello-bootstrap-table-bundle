@@ -13,7 +13,7 @@ use Twig\TwigFunction;
 
 class BootstrapTableTwigExtension extends AbstractExtension
 {
-    const ASSET_VERSION = "0.3.1";
+    const ASSET_VERSION = "0.3.3";
 
     /**
      * {@inheritdoc}
@@ -66,7 +66,7 @@ class BootstrapTableTwigExtension extends AbstractExtension
     public function helloBootstrapTableJs(Environment $twig)
     {
         $assetFunction = $twig->getFunction('asset')->getCallable();
-        return sprintf('<script src="%s?v=%s"></script>',
+        return sprintf('<script src="%s?v=%s" defer></script>',
             call_user_func($assetFunction, "bundles/hellobootstraptable/bootstrap-table.js"),
             self::ASSET_VERSION
         );

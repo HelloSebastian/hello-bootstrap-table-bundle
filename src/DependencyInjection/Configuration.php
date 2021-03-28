@@ -82,6 +82,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('show-columns')->end()
                 ->booleanNode('show-footer')->end()
                 ->booleanNode('show-refresh')->end()
+                ->booleanNode('filter-control')->end()
                 ->scalarNode('toolbar')->end()
                 ->scalarNode('page-list')->end()
                 ->integerNode('page-size')->end()

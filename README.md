@@ -92,7 +92,7 @@ $ php bin/console assets:install --symlink
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 
 <!-- bootstrap-table CSS with all used extensions -->
-<link rel="stylesheet" href="{{ asset('bundles/hellobootstraptable/bootstrap-table.css') }}">
+{{ hello_bootstrap_table_css() }}
 ```
 
 **JavaScript**:
@@ -103,7 +103,7 @@ $ php bin/console assets:install --symlink
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- bootstrap-table JS with all used extensions -->
-<script src="{{ asset('bundles/hellobootstraptable/bootstrap-table.js') }}"></script>
+{{ hello_bootstrap_table_js() }}
 ```
 
 You can also use other CSS frameworks. See the bootstrap-table documentation for more information.
@@ -199,8 +199,8 @@ class UserTable extends HelloBootstrapTable
 ``` php
 // src/Controller/UserController.php
 
-// ...
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
+use App\HelloTable\UserTable;
 // ...
 
 /**
@@ -224,6 +224,8 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 ### Step 3: Add table in Template
 
 ``` twig
+{# index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -265,6 +267,7 @@ Represents column with text. With formatter you can create complex columns.
 | valign          | string / null  | null                           | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
 | falign          | string / null  | null                           | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
 | filter          | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
+| filterControl   | string         | "input"                        | render text field in column header                           |
 
 #### Example
 
@@ -573,6 +576,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | search                     | bool   | true                                                        |
 | show-columns               | bool   | true                                                        |
 | show-footer                | bool   | true                                                        |
+| filter-control             | bool   | false                                                       |
 | show-refresh               | bool   | true                                                        |
 | toolbar                    | string | "#toolbar"                                                  |
 | page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"                          |

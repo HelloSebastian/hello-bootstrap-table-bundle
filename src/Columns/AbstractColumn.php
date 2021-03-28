@@ -250,7 +250,8 @@ abstract class AbstractColumn
             'switchable' => true,
             'filterOptions' => null,
             'formatter' => null,
-            'footerFormatter' => null
+            'footerFormatter' => null,
+            'filterControl' => "input"
         ));
 
         $resolver->setAllowedTypes('title', ['string', 'null']);
@@ -275,6 +276,7 @@ abstract class AbstractColumn
 
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);
+        $resolver->setAllowedTypes('filterControl', ['string']);
     }
 
 }
