@@ -2,7 +2,7 @@
 
 **This Bundle provides *simple* [bootstrap-table](https://github.com/wenzhixin/bootstrap-table) configuration for your Doctrine Entities.** 
 
-Used bootstrap-table version 1.8.2.
+Used bootstrap-table version 1.18.3.
 
 Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
 
