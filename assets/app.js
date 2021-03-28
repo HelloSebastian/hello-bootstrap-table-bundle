@@ -7,7 +7,6 @@ require('./css/styles.css');
 require('bootstrap-table/dist/bootstrap-table.min');
 require('bootstrap-table/dist/extensions/export/bootstrap-table-export.min');
 require('bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min');
-require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min');
 //require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
 require('./bootstrap-table-sticky-header');
 //require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
@@ -20,6 +19,7 @@ require("tableexport.jquery.plugin/libs/js-xlsx/xlsx.core.min");
 require("tableexport.jquery.plugin/tableExport.min");
 
 require("bootstrap-table/dist/extensions/export/bootstrap-table-export.min");
+require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control');
 
 
 $(function () {
