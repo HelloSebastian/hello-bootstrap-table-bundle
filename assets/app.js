@@ -68,20 +68,31 @@ $(function () {
         $tables.each(index => {
             const $table = $($tables[index]);
             const tableName = $table.data('id-table');
+            const bulkIdentifier = $table.data('bulk-identifier');
 
             $table.bootstrapTable('destroy').bootstrapTable({
                 queryParams: function (params) {
                     params.isCallback = true;
                     params.tableName = tableName;
                     return params;
+                },
+                icons: {
+                    advancedSearchIcon: 'fa-filter',
+                    paginationSwitchDown: 'fa-caret-square-o-down',
+                    paginationSwitchUp: 'fa-caret-square-o-up',
+                    columns: 'fa-columns',
+                    refresh: 'fa-sync',
+                    export: 'fa-download'
                 }
             });
 
             const $bulkForm = $("#bulk_form_" + tableName);
             $bulkForm.submit(function (e) {
                 const selectedRows = $table.bootstrapTable("getSelections");
+                const identifiers = selectedRows.map(row => row[bulkIdentifier]);
+
                 const hidden = $("#bulk_form_" + tableName + " input[type=hidden]");
-                hidden.val(JSON.stringify(selectedRows));
+                hidden.val(JSON.stringify(identifiers));
             });
         });
     }

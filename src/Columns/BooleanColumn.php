@@ -15,7 +15,8 @@ class BooleanColumn extends AbstractColumn
 
         $resolver->setDefaults(array(
             "trueLabel" => "True",
-            "falseLabel" => "False"
+            "falseLabel" => "False",
+            "filterControl" => "select"
         ));
 
         $resolver->setAllowedTypes('trueLabel', 'string');

@@ -55,6 +55,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('tableClassNames')->end()
                 ->booleanNode('enableCheckbox')->end()
+                ->scalarNode('bulkIdentifier')->end()
                 ->scalarNode('bulkUrl')->end()
                 ->scalarNode('bulkActionSelectClassNames')->end()
                 ->scalarNode('bulkButtonName')->end()
