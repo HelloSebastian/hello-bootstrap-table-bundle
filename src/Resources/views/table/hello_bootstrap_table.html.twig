@@ -9,6 +9,7 @@
         data-classes="{{ table.tableOptions.tableClassNames }}"
         data-columns="{{ table.columns|json_encode }}"
         data-url="{{ table.callbackUrl }}"
+        data-bulk-identifier="{{ table.tableOptions.bulkIdentifier }}"
         {% for key, value in table.tableDataset %}
             data-{{ key }}="{{ value is iterable ? value|json_encode : value|raw }}"
         {% endfor %}

@@ -13,7 +13,7 @@ use Twig\TwigFunction;
 
 class BootstrapTableTwigExtension extends AbstractExtension
 {
-    const ASSET_VERSION = "0.4.0";
+    const ASSET_VERSION = "0.5.0";
 
     /**
      * {@inheritdoc}

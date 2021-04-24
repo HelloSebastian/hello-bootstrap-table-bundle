@@ -671,6 +671,7 @@ All options that should not be provided directly as data-attributes of the table
 | -------------------------- | ------ | ------------------------------- |
 | tableClassNames            | string | "table table-stripped table-sm" |
 | enableCheckbox             | bool   | false                           |
+| bulkIndentifier            | string | "id"                            |
 | bulkUrl                    | string | ""                              |
 | bulkActionSelectClassNames | string | "form-control"                  |
 | bulkActions                | array  | [ ]                             |

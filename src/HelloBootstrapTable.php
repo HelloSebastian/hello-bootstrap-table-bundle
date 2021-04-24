@@ -151,6 +151,10 @@ abstract class HelloBootstrapTable
         $columns = $this->columnBuilder->buildColumnsArray();
 
         if ($this->tableOptions['enableCheckbox']) {
+            if (!$this->columnBuilder->getColumnByField($this->tableOptions['bulkIdentifier'])) {
+                throw new \Exception("Field for bulk identifier not found in columns. Given identifier: " . $this->tableOptions['bulkIdentifier']);
+            }
+
             array_unshift($columns, array("checkbox" => true));
         }
 
@@ -298,6 +302,7 @@ abstract class HelloBootstrapTable
         $resolver->setDefaults(array(
             'tableClassNames' => 'table table-striped table-sm',
             'enableCheckbox' => false,
+            'bulkIdentifier' => 'id',
             'bulkUrl' => '',
             'bulkActionSelectClassNames' => 'form-control',
             'bulkActions' => array(),
@@ -305,7 +310,9 @@ abstract class HelloBootstrapTable
             'bulkButtonClassNames' => 'btn btn-primary'
         ));
 
+        $resolver->setAllowedTypes("tableClassNames", ["string"]);
         $resolver->setAllowedTypes("enableCheckbox", ["bool"]);
+        $resolver->setAllowedTypes("bulkIdentifier", ["string"]);
         $resolver->setAllowedTypes("bulkUrl", ["string"]);
         $resolver->setAllowedTypes("bulkActionSelectClassNames", ["string"]);
         $resolver->setAllowedTypes("bulkActions", ["array"]);
