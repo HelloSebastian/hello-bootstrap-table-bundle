@@ -243,7 +243,7 @@ $.BootstrapTable = class extends $.BootstrapTable {
         if ($(modalSelector).length > 0) {
             $(modalSelector).remove();
         }
-        $('body').append(Utils.sprintf(theme.html.modal, o.idTable, o.formatAdvancedSearch(), o.idTable, o.idTable, o.buttonsClass, o.formatAdvancedCloseButton()))
+        $('body').append(Utils.sprintf(theme.html.modal, o.idTable, o.formatAdvancedSearch(), o.idTable, o.idTable, o.buttonsClass, o.formatSearch()))
 
         let timeoutId = 0
 
