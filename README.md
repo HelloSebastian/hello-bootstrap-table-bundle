@@ -26,7 +26,7 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
    2. [Table Options](#table-options)
 7. [Common Use-Cases](#common-use-cases)
    1. [Custom Doctrine Queries](#custom-doctrine-queries)
-   2. Detail View
+   2. [Detail View](#detail-view)
 
 ## Features
 
@@ -779,7 +779,7 @@ You can expand rows in bootstrap-table. This option is called "detail view" and 
  {
      //enable detail-view and set formatter
      $this->setTableDataset(array(
-        'detail-view' => true,
+         'detail-view' => true,
          'detail-formatter' => 'detailViewFormatter'
      ));
 
@@ -787,12 +787,13 @@ You can expand rows in bootstrap-table. This option is called "detail view" and 
        // other columns ...
        
        // detailView is not a database field and can be named as you like.
-       // but the columns should not displayed in the table (HiddenColumn)
+       // but the column should not displayed in the table (HiddenColumn)
        ->add('detailView', HiddenColumn::class, array(
-           // override data callback (as attribte you can access the entity that you specified in getEntityClass())
+           // override data callback (as attribute you can access the entity that you specified in getEntityClass())
            'data' => function (User $user) {
-              // now you can return everthing (twig render included)
-              return $this->twig->render('user/detail-view.html.twig', array(
+              // now you can return everthing you want (twig render included)
+              // twig is provided by HelloBootstrapTable
+              return $this->twig->render('user/detail_view.html.twig', array(
                  'user' => $user
               ));
            }
@@ -800,11 +801,11 @@ You can expand rows in bootstrap-table. This option is called "detail view" and 
 }
 ```
 
-To display detailView as content of the expanded table row a formatter function must be created and detailView must be returned. Remember to create the formatter before calling `{{ hello_bootstrap_table_js() }}`.
+To display `detailView` as content of the expanded table row a formatter function must be created and `detailView` must be returned. Remember to create the formatter before calling `{{ hello_bootstrap_table_js() }}`.
 
 ```javascript
-// index => index of row inside table
-// row => data object of the row
+// index   => index of row inside table
+// row     => data object of the row
 // element => row DOM element
 window.detailViewFormatter = function (index, row, element) {
     // detailView matched with the name from add('detailView', HiddenColumn::class). If you use a different name you must changed it here too.
@@ -812,4 +813,4 @@ window.detailViewFormatter = function (index, row, element) {
 };
 ```
 
-You can of course create your HTML with JavaScript inside the formatter and do not use Twig.
+Alternative you can of course create your HTML with JavaScript inside the formatter.
