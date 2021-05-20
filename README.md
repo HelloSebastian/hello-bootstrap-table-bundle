@@ -27,24 +27,24 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
 7. [Common Use-Cases](#common-use-cases)
    1. [Custom Doctrine Queries](#custom-doctrine-queries)
    2. [Detail View](#detail-view)
+8. [Contributing](#contributing)
 
 ## Features
 
 * Create bootstrap-tables in PHP
 * Twig render function
-* global filtering*
+* global filtering (server side)
 * column based filtering (advanced search)
-* column sorting*
-* Pagination*
+* column sorting (server side)
+* Pagination (service side)
 * different column types
 * bootstrap-table extensions
   * [sticky-header](https://bootstrap-table.com/docs/extensions/sticky-header/)
   * [export](https://bootstrap-table.com/docs/extensions/export/)
   * [page-jump-to](https://bootstrap-table.com/docs/extensions/page-jump-to/)
   * [toolbar](https://bootstrap-table.com/docs/extensions/toolbar/) with [advanced-search](https://bootstrap-table.com/docs/extensions/toolbar/#advancedsearch)
-  * more in progress...
 
-*server-side
+
 
 ## Installation
 
@@ -814,3 +814,9 @@ window.detailViewFormatter = function (index, row, element) {
 ```
 
 Alternative you can of course create your HTML with JavaScript inside the formatter.
+
+
+
+## Contributing
+
+Contributions are **welcome** and will be credited.
