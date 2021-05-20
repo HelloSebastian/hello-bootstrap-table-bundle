@@ -82,7 +82,14 @@ $(function () {
                     paginationSwitchUp: 'fa-caret-square-o-up',
                     columns: 'fa-columns',
                     refresh: 'fa-sync',
-                    export: 'fa-download'
+                    export: 'fa-download',
+                    detailOpen: 'fa-plus',
+                    detailClose: 'fa-minus',
+                    toggleOff: 'fa-toggle-off',
+                    toggleOn: 'fa-toggle-on',
+                    fullscreen: 'fa-arrows-alt',
+                    search: 'fa-search',
+                    clearSearch: 'fa-trash'
                 }
             });
 
