@@ -10,7 +10,14 @@
         data-columns="{{ table.columns|json_encode }}"
         data-url="{{ table.callbackUrl }}"
         data-bulk-identifier="{{ table.tableOptions.bulkIdentifier }}"
+
         {% for key, value in table.tableDataset %}
-            data-{{ key }}="{{ value is iterable ? value|json_encode : value|raw }}"
+            {% if value is iterable %}
+                data-{{ key }}="{{ value|json_encode }}"
+            {% elseif value is same as(true) or value is same as(false) %}
+                data-{{ key }}="{{ value|json_encode }}"
+            {% else %}
+                data-{{ key }}="{{ value }}"
+            {% endif %}
         {% endfor %}
 ></table>

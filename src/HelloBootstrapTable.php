@@ -142,6 +142,7 @@ abstract class HelloBootstrapTable
         //set up table dataset resolver
         $tableDatasetResolver = new OptionsResolver();
         $this->configureTableDataset($tableDatasetResolver);
+        $this->tableDataset = $tableDatasetResolver->resolve($this->tableDataset);
 
         //set up table option resolver
         $tableOptionResolver = new OptionsResolver();
@@ -161,7 +162,7 @@ abstract class HelloBootstrapTable
         return array(
             'columns' => $columns,
             'tableName' => $this->getTableName(),
-            'tableDataset' => $tableDatasetResolver->resolve($this->tableDataset),
+            'tableDataset' => $this->tableDataset,
             'tableOptions' => $this->tableOptions,
             'callbackUrl' => $this->tableResponse->getCallbackUrl()
         );
@@ -233,6 +234,11 @@ abstract class HelloBootstrapTable
             "show-footer" => true,
             "show-refresh" => true,
             "filter-control" => false,
+            "detail-view" => false,
+            "detail-formatter" => "",
+            "detail-view-align" => "left",
+            "detail-view-icon" => true,
+            "detail-view-by-click" => false,
             "toolbar" => "#toolbar",
             "page-list" => "[10, 25, 50, 100, 200, 500, All]",
             "page-size" => 25,
@@ -267,6 +273,11 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("search", ["bool"]);
         $resolver->setAllowedTypes("show-columns", ["bool"]);
         $resolver->setAllowedTypes("show-footer", ["bool"]);
+        $resolver->setAllowedTypes("detail-view", ["bool"]);
+        $resolver->setAllowedTypes("detail-formatter", ["string"]);
+        $resolver->setAllowedTypes("detail-view-align", ["string"]);
+        $resolver->setAllowedTypes("detail-view-icon", ["bool"]);
+        $resolver->setAllowedTypes("detail-view-by-click", ["bool"]);
         $resolver->setAllowedTypes("show-refresh", ["bool"]);
         $resolver->setAllowedTypes("filter-control", ["bool"]);
         $resolver->setAllowedTypes("toolbar", ["string", "null"]);
