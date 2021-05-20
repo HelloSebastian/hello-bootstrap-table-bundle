@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
 abstract class HelloBootstrapTable
 {
@@ -20,6 +21,11 @@ abstract class HelloBootstrapTable
      * @var RouterInterface
      */
     protected $router;
+
+    /**
+     * @var Environment
+     */
+    protected $twig;
 
     /**
      * @var EntityManagerInterface
@@ -67,12 +73,14 @@ abstract class HelloBootstrapTable
      *
      * @param RouterInterface $router
      * @param EntityManagerInterface $em
+     * @param Environment $twig
      * @param array $options
      * @param array $defaultOptions
      */
-    public function __construct(RouterInterface $router, EntityManagerInterface $em, $options, $defaultOptions = array())
+    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, $options, $defaultOptions = array())
     {
         $this->router = $router;
+        $this->twig = $twig;
         $this->_em = clone $em;
         $this->defaultOptions = $defaultOptions;
 
