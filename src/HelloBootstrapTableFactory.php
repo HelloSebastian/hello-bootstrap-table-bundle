@@ -6,6 +6,7 @@ namespace HelloSebastian\HelloBootstrapTableBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
 class HelloBootstrapTableFactory
 {
@@ -20,16 +21,22 @@ class HelloBootstrapTableFactory
     private $em;
 
     /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
      * YAML config options.
      *
      * @var array
      */
     private $defaultConfig;
 
-    public function __construct(RouterInterface $router, EntityManagerInterface $em, $defaultConfig = array())
+    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, $defaultConfig = array())
     {
         $this->router = $router;
         $this->em = $em;
+        $this->twig = $twig;
         $this->defaultConfig = $defaultConfig;
     }
 
@@ -55,6 +62,7 @@ class HelloBootstrapTableFactory
         return new $helloTable(
             $this->router,
             $this->em,
+            $this->twig,
             $options,
             $this->defaultConfig
         );

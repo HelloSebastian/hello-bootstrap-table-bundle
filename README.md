@@ -6,8 +6,6 @@ Used bootstrap-table version 1.18.3.
 
 Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
 
-**The project is currently still under development. It can not be excluded that configuration changes.**
-
 ## Overview
 
 1. [Features](#features)
@@ -26,25 +24,27 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
 6. [Configuration](#configuration)
    1. [Table Dataset Options](#table-dataset-options)
    2. [Table Options](#table-options)
-7. [Custom Doctrine Queries](#custom-doctrine-queries)
+7. [Common Use-Cases](#common-use-cases)
+   1. [Custom Doctrine Queries](#custom-doctrine-queries)
+   2. [Detail View](#detail-view)
+8. [Contributing](#contributing)
 
 ## Features
 
 * Create bootstrap-tables in PHP
 * Twig render function
-* global filtering*
+* global filtering (server side)
 * column based filtering (advanced search)
-* column sorting*
-* Pagination*
+* column sorting (server side)
+* Pagination (service side)
 * different column types
 * bootstrap-table extensions
   * [sticky-header](https://bootstrap-table.com/docs/extensions/sticky-header/)
   * [export](https://bootstrap-table.com/docs/extensions/export/)
   * [page-jump-to](https://bootstrap-table.com/docs/extensions/page-jump-to/)
   * [toolbar](https://bootstrap-table.com/docs/extensions/toolbar/) with [advanced-search](https://bootstrap-table.com/docs/extensions/toolbar/#advancedsearch)
-  * more in progress...
 
-*server-side
+
 
 ## Installation
 
@@ -592,6 +592,11 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | show-export                | bool   | true                                                        |
 | export-types               | string | "['csv', 'txt'', 'excel']"                                  |
 | export-options             | array  | see under table*                                            |
+| detail-view                | bool   | false                                                       |
+| detail-formatter           | string | ""                                                          |
+| detail-view-align          | string | ""                                                          |
+| detail-view-icon           | bool   | true                                                        |
+| detail-view-by-click       | bool   | false                                                       |
 | sticky-header              | bool   | true                                                        |
 | sticky-header-offset-left  | int    | 0                                                           |
 | sticky-header-offset-right | int    | 0                                                           |
@@ -732,11 +737,13 @@ hello_bootstrap_table:
 
 
 
-## Custom Doctrine Queries
+## Common Use-Cases
+
+### Custom Doctrine Queries
 
 Sometimes you don't want to display all the data in a database table. For this you can "prefilter" the Doctrine query.
 
-### Example
+#### Example
 
 ```php
 /**
@@ -763,11 +770,53 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 }
 ```
 
+### Detail View
+
+You can expand rows in bootstrap-table. This option is called "detail view" and can be enabled in the datasets (by default this is disabled). For displaying the content of detail-view a formatter is needed (also to be specified in datasets). In the formatter you have access to the data of the table row. For complex representations Twig can also be used. See the example below.
+
+```php
+ protected function buildColumns(ColumnBuilder $builder, $options)
+ {
+     //enable detail-view and set formatter
+     $this->setTableDataset(array(
+         'detail-view' => true,
+         'detail-formatter' => 'detailViewFormatter'
+     ));
+
+     $builder
+       // other columns ...
+       
+       // detailView is not a database field and can be named as you like.
+       // but the column should not displayed in the table (HiddenColumn)
+       ->add('detailView', HiddenColumn::class, array(
+           // override data callback (as attribute you can access the entity that you specified in getEntityClass())
+           'data' => function (User $user) {
+              // now you can return everthing you want (twig render included)
+              // twig is provided by HelloBootstrapTable
+              return $this->twig->render('user/detail_view.html.twig', array(
+                 'user' => $user
+              ));
+           }
+       ));
+}
+```
+
+To display `detailView` as content of the expanded table row a formatter function must be created and `detailView` must be returned. Remember to create the formatter before calling `{{ hello_bootstrap_table_js() }}`.
+
+```javascript
+// index   => index of row inside table
+// row     => data object of the row
+// element => row DOM element
+window.detailViewFormatter = function (index, row, element) {
+    // detailView matched with the name from add('detailView', HiddenColumn::class). If you use a different name you must changed it here too.
+    return row.detailView;
+};
+```
+
+Alternative you can of course create your HTML with JavaScript inside the formatter.
 
 
-## ToDo's
-* Documentation
-* Cookie Extension
-* More Examples
-* Tests
-  * Unit Tests
+
+## Contributing
+
+Contributions are **welcome** and will be credited.

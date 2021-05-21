@@ -8,6 +8,7 @@
                  class="HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory" public="true">
             <argument type="service" id="router" on-invalid="null"/>
             <argument type="service" id="doctrine.orm.entity_manager" on-invalid="null"/>
+            <argument type="service" id="twig" on-invalid="null"/>
         </service>
 
         <service id="HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory"

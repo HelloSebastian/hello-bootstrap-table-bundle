@@ -27,8 +27,7 @@ class HelloBootstrapTableExtension extends Extension
         }
 
         $definition = $container->getDefinition('hello_sebastian_hello_bootstrap_table.hello_bootstrap_table_factory');
-        $definition->setArgument(2, $config);
+        $definition->setArgument(3, $config);
     }
-
 
 }
