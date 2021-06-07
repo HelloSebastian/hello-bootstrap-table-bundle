@@ -587,6 +587,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | locale                     | string | "en-US"                                                     |
 | advanced-search            | bool   | true                                                        |
 | id-table                   | string | class name of table with counter. (`$this->getTableName()`) |
+| icons-prefix               | string | "fa"                                                        |
 | click-to-select            | bool   | true                                                        |
 | show-jump-to               | bool   | true                                                        |
 | show-export                | bool   | true                                                        |

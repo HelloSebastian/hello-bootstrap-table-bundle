@@ -256,6 +256,7 @@ abstract class HelloBootstrapTable
             "locale" => "en-US",
             "advanced-search" => true,
             "id-table" => $this->getTableName(),
+            "icons-prefix" => "fa",
 
             //extensions
             "click-to-select" => true,
@@ -294,6 +295,7 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("sort-reset", ["bool"]);
         $resolver->setAllowedTypes("pagination-V-Align", ["string"]);
         $resolver->setAllowedTypes("undefined-text", ["string"]);
+        $resolver->setAllowedTypes("icons-prefix", ["string"]);
         $resolver->setAllowedTypes("locale", ["string"]);
         $resolver->setAllowedTypes("advanced-search", ["bool"]);
         $resolver->setAllowedTypes("id-table", ["string"]);
