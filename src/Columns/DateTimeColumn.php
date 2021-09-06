@@ -35,7 +35,7 @@ class DateTimeColumn extends AbstractColumn
         }
 
         if (!$dateTime instanceof \DateTime) {
-            throw new \Exception("DateTimeColumn :: Property should be DateTime. Type: " . gettype($dateTime));
+            throw new \LogicException("DateTimeColumn :: Property should be DateTime. Type: " . gettype($dateTime));
         }
 
         return $dateTime->format($this->outputOptions['format']);

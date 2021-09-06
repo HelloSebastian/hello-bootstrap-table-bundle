@@ -89,7 +89,7 @@ abstract class AbstractColumn
 
         if ($this->isSearchable()) {
             if ((is_null($this->internalOptions["search"]) && is_null($this->internalOptions["filter"]))) {
-                throw new \Exception("Column is searchable but no filter or custom search is set. Column: " . $this->getDql());
+                throw new \LogicException("Column is searchable but no filter or custom search is set. Column: " . $this->getDql());
             }
         }
 

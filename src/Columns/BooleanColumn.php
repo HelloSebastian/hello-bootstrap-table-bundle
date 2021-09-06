@@ -45,7 +45,7 @@ class BooleanColumn extends AbstractColumn
         }
 
         if (!is_bool($booleanValue)) {
-            throw new \Exception("Value should be boolean. Type: " . gettype($booleanValue));
+            throw new \LogicException("Value should be boolean. Type: " . gettype($booleanValue));
         }
 
         return $this->outputOptions[$booleanValue ? 'trueLabel' : 'falseLabel'];
