@@ -52,11 +52,11 @@ class HelloBootstrapTableFactory
         if (!\is_string($helloTable)) {
             $type = \gettype($helloTable);
 
-            throw new \Exception("HelloBootstrapTableFactory::create(): String expected, {$type} given");
+            throw new \LogicException("HelloBootstrapTableFactory::create(): String expected, {$type} given");
         }
 
         if (false === class_exists($helloTable)) {
-            throw new \Exception("HelloBootstrapTableFactory::create(): {$helloTable} does not exist");
+            throw new \LogicException("HelloBootstrapTableFactory::create(): {$helloTable} does not exist");
         }
 
         return new $helloTable(

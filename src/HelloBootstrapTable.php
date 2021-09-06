@@ -161,7 +161,7 @@ abstract class HelloBootstrapTable
 
         if ($this->tableOptions['enableCheckbox']) {
             if (!$this->columnBuilder->getColumnByField($this->tableOptions['bulkIdentifier'])) {
-                throw new \Exception("Field for bulk identifier not found in columns. Given identifier: " . $this->tableOptions['bulkIdentifier']);
+                throw new \LogicException("Field for bulk identifier not found in columns. Given identifier: " . $this->tableOptions['bulkIdentifier']);
             }
 
             array_unshift($columns, array("checkbox" => true));
