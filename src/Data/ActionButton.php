@@ -43,7 +43,10 @@ class ActionButton
             'classNames' => '',
             'additionalClassNames' => '',
             'routeName' => null,
-            'routeParams' => array('id')
+            'routeParams' => array('id'),
+            'addIf' => function () {
+                return true;
+            }
         ));
 
         $resolver->setRequired('displayName');
@@ -86,6 +89,11 @@ class ActionButton
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function getAddIfCallback()
+    {
+        return $this->options['addIf'];
     }
 
 }
