@@ -155,6 +155,10 @@ class UserTable extends HelloBootstrapTable
             ->add('department.name', TextColumn::class, array(
                 'title' => 'Department',
                 'emptyData' => 'No Department',
+                'addIf' => function() {
+                    // In this callback it is decided if the column will be rendered.
+                    return $this->security->isGranted('ROLE_DEPARTMENT_VIEWER');
+                }
             ))
             ->add("isActive", BooleanColumn::class, array(
                 'title' => 'is active',
@@ -180,7 +184,11 @@ class UserTable extends HelloBootstrapTable
                     array(
                         'displayName' => 'edit',
                         'routeName' => 'edit_user',
-                        'classNames' => 'btn btn-xs btn-warning'
+                        'classNames' => 'btn btn-xs btn-warning',
+                        'addIf' => function() {
+                            // In this callback it is decided if the button will be rendered.
+                            return $this->security->isGranted('ROLE_USER_EDITOR');
+                        }
                     )
                 )
             ));
@@ -262,6 +270,7 @@ Represents column with text. With formatter you can create complex columns.
 | sort            | Closure / null | null                           | custom sort query callback (see example)                     |
 | filter          | Closure / null | null                           | custom filter query callback (see example)                   |
 | data            | Closure / null | null                           | custom data callback (see example)                           |
+| addIf           | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
 | align           | string / null  | null                           | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
 | halign          | string / null  | null                           | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
 | valign          | string / null  | null                           | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
@@ -423,7 +432,11 @@ All Options of TextColumn
             'displayName' => 'edit',
             'routeName' => 'edit_user',
             // 'classNames' => 'btn btn-xs' (see below for more information)
-            'additionalClassNames' => 'btn-warning'
+            'additionalClassNames' => 'btn-warning',
+            'addIf' => function() {
+                // In this callback it is decided if the button will be rendered.
+                return $this->security->isGranted('ROLE_ADMIN');
+            }
        )
   	)
 ))
@@ -431,13 +444,14 @@ All Options of TextColumn
 
 #### ActionButtons
 
-| Option               | Type   | Default     | Description                                                  |
-| -------------------- | ------ | ----------- | ------------------------------------------------------------ |
-| displayName          | string | ""          | label of button                                              |
-| routeName            | string | ""          | route name                                                   |
-| routeParams          | array  | array("id") | Array of property value names for the route parameters. By default is `id` set. |
-| classNames           | string | ""          | CSS class names which added directly to the `a` element. Overrides default class names from YAML config. |
-| additionalClassNames | string | ""          | You can set default class names in YAML config. Then you can add additional class names to the button without override the default config. |
+| Option               | Type    | Default                      | Description                                                  |
+| -------------------- | ------- | ---------------------------- | ------------------------------------------------------------ |
+| displayName          | string  | ""                           | label of button                                              |
+| routeName            | string  | ""                           | route name                                                   |
+| routeParams          | array   | array("id")                  | Array of property value names for the route parameters. By default is `id` set. |
+| classNames           | string  | ""                           | CSS class names which added directly to the `a` element. Overrides default class names from YAML config. |
+| additionalClassNames | string  | ""                           | You can set default class names in YAML config. Then you can add additional class names to the button without override the default config. |
+| addIf                | Closure | ` function() {return true;}` | In this callback it is decided if the button will be rendered. |
 
 #### YAML Example
 
