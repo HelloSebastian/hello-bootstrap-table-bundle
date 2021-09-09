@@ -27,6 +27,7 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
 7. [Common Use-Cases](#common-use-cases)
    1. [Custom Doctrine Queries](#custom-doctrine-queries)
    2. [Detail View](#detail-view)
+   3. [Use Icons as action buttons](#use-icons-as-action-buttons)
 8. [Contributing](#contributing)
 
 ## Features
