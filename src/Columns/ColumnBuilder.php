@@ -112,7 +112,7 @@ class ColumnBuilder
     public function buildColumnsArray()
     {
         $data = array();
-        foreach ($this->columns as $column) {
+        foreach ($this->getColumns() as $column) {
             $data[] = $column->getOutputOptions();
         }
 
@@ -122,8 +122,19 @@ class ColumnBuilder
     /**
      * @return AbstractColumn[]
      */
-    public function getColumns()
+    public function getColumns($ignoreAddIf = false)
     {
+        if (!$ignoreAddIf) {
+            $columns = array();
+            foreach ($this->columns as $column) {
+                if ($column->getAddIfCallback()()) {
+                    $columns[] = $column;
+                }
+            }
+
+            return $columns;
+        }
+
         return $this->columns;
     }
 
