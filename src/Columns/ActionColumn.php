@@ -45,7 +45,8 @@ class ActionColumn extends AbstractColumn
                 $item[] = array(
                     'displayName' => $button->getDisplayName(),
                     'classNames' => $button->getClassNames(),
-                    'route' => $this->router->generate($button->getRouteName(), $routeParams)
+                    'route' => $this->router->generate($button->getRouteName(), $routeParams),
+                    'attr' => $button->formatAttr()
                 );
             }
         }

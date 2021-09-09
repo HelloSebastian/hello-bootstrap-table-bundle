@@ -31,7 +31,7 @@ $(function () {
 
         for (let i = 0; i < value.length; i++) {
             buttons.push(
-                `<a href="${value[i].route}" class="${value[i].classNames}">${value[i].displayName}</a>`
+                `<a href="${value[i].route}" class="${value[i].classNames}" ${value[i].attr}>${value[i].displayName}</a>`
             );
         }
 
