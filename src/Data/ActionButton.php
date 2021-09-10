@@ -43,7 +43,11 @@ class ActionButton
             'classNames' => '',
             'additionalClassNames' => '',
             'routeName' => null,
-            'routeParams' => array('id')
+            'routeParams' => array('id'),
+            'attr' => array(),
+            'addIf' => function () {
+                return true;
+            }
         ));
 
         $resolver->setRequired('displayName');
@@ -54,6 +58,8 @@ class ActionButton
         $resolver->setAllowedTypes('classNames', 'string');
         $resolver->setAllowedTypes('additionalClassNames', 'string');
         $resolver->setAllowedTypes('routeParams', 'array');
+        $resolver->setAllowedTypes('addIf', 'Closure');
+        $resolver->setAllowedTypes('attr', 'array');
     }
 
     public function getClassNames()
@@ -86,6 +92,32 @@ class ActionButton
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function getAddIfCallback()
+    {
+        return $this->options['addIf'];
+    }
+
+    public function getAttr()
+    {
+        return $this->options['attr'];
+    }
+
+    public function formatAttr()
+    {
+        $formattedAttributes = array();
+        foreach ($this->options['attr'] as $attribute => $value) {
+            if (empty($value) === false) {
+                $formattedAttributes[] = sprintf("%s=\"%s\"", $attribute, $value);
+            }
+        }
+
+        if (count($formattedAttributes) < 1) {
+            return "";
+        }
+
+        return " " . implode(" ", $formattedAttributes);
     }
 
 }

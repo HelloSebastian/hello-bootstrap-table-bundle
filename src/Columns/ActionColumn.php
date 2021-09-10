@@ -36,16 +36,19 @@ class ActionColumn extends AbstractColumn
          * @var ActionButton $button
          */
         foreach ($this->outputOptions['buttons'] as $key => $button) {
-            $routeParams = array();
-            foreach ($button->getRouteParams() as $param) {
-                $routeParams[$param] = $this->propertyAccessor->getValue($entity, $param);
-            }
+            if ($button->getAddIfCallback()()) {
+                $routeParams = array();
+                foreach ($button->getRouteParams() as $param) {
+                    $routeParams[$param] = $this->propertyAccessor->getValue($entity, $param);
+                }
 
-            $item[] = array(
-                'displayName' => $button->getDisplayName(),
-                'classNames' => $button->getClassNames(),
-                'route' => $this->router->generate($button->getRouteName(), $routeParams)
-            );
+                $item[] = array(
+                    'displayName' => $button->getDisplayName(),
+                    'classNames' => $button->getClassNames(),
+                    'route' => $this->router->generate($button->getRouteName(), $routeParams),
+                    'attr' => $button->formatAttr()
+                );
+            }
         }
 
         return $item;

@@ -193,6 +193,11 @@ abstract class AbstractColumn
         return $this->internalOptions['search'];
     }
 
+    public function getAddIfCallback()
+    {
+        return $this->internalOptions['addIf'];
+    }
+
     public function getEmptyData()
     {
         return $this->internalOptions['emptyData'];
@@ -220,7 +225,10 @@ abstract class AbstractColumn
             'data' => null,
             'sort' => null,
             'search' => null,
-            'filter' => array(TextFilter::class, array())
+            'filter' => array(TextFilter::class, array()),
+            'addIf' => function() {
+                return true;
+            }
         ));
 
         $resolver->setAllowedTypes('emptyData', ['string']);
@@ -228,6 +236,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('sort', ['Closure', 'null']);
         $resolver->setAllowedTypes('search', ['Closure', 'null']);
         $resolver->setAllowedTypes('filter', ['array', 'null']);
+        $resolver->setAllowedTypes('addIf', ['Closure']);
     }
 
     protected function configureOutputOptions(OptionsResolver $resolver)
