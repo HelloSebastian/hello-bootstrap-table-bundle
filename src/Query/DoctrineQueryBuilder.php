@@ -4,6 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
@@ -129,9 +130,9 @@ class DoctrineQueryBuilder
             if ($column->isSearchable()) {
                 $path = $this->getPropertyPath($column);
                 if ($searchCallback = $column->getSearchCallback()) {
-                    $searchCallback($andExpr, $this->qb, $path, $value, $this->parameterIndex);
+                    $searchCallback($andExpr, $this->qb, $value);
                 } else {
-                    $column->getFilter()->addExpression($andExpr, $this->qb, $path, $value, $this->parameterIndex);
+                    $column->getFilter()->addExpression($andExpr, $this->qb, $path, $value, $this->parameterIndex, $this->metadata);
                 }
             }
 
@@ -153,7 +154,7 @@ class DoctrineQueryBuilder
                 if ($column->isSearchable() && !$column->getFilter() instanceof BooleanChoiceFilter) {
                     $path = $this->getPropertyPath($column);
                     if ($searchCallback = $column->getSearchCallback()) {
-                        $searchCallback($orExpr, $this->qb, $path, $search, $this->parameterIndex);
+                        $searchCallback($orExpr, $this->qb, $search);
                     } else {
                         $column->getFilter()->addExpression($orExpr, $this->qb, $path, $search, $this->parameterIndex, $this->metadata);
                     }

@@ -2,6 +2,7 @@
 
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\PersistentCollection;
 use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,16 +25,16 @@ class CountColumn extends AbstractColumn
             return $this->getEmptyData();
         }
 
-        $arrayCollection = $this->propertyAccessor->getValue($entity, $this->getDql());
+        $collection = $this->propertyAccessor->getValue($entity, $this->getDql());
 
-        if (is_null($arrayCollection)) {
+        if (is_null($collection)) {
             return $this->getEmptyData();
         }
 
-        if (!$arrayCollection instanceof PersistentCollection) {
-            throw new \LogicException("Value should be of type of ArrayCollection. Type: " . gettype($arrayCollection));
+        if (!$collection instanceof Collection) {
+            throw new \LogicException("Value should be implemented the interface Doctrine\Common\Collections\Collection. Type: " . gettype($collection));
         }
 
-        return $arrayCollection->count();
+        return $collection->count();
     }
 }

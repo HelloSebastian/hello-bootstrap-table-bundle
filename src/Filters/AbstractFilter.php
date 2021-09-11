@@ -4,6 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Filters;
 
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
@@ -46,7 +47,7 @@ abstract class AbstractFilter
         $resolver->setAllowedTypes("placeholder", ["string", "null"]);
     }
 
-    public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null);
+    public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata);
 
     public function getOptions()
     {
