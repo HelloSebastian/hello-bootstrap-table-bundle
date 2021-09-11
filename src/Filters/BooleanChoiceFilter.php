@@ -41,7 +41,7 @@ class BooleanChoiceFilter extends ChoiceFilter
     }
 
 
-    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key)
+    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null)
     {
         if ($search == "null") {
             return;

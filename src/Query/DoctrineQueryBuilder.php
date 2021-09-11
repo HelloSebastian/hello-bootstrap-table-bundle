@@ -4,7 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
@@ -59,6 +59,11 @@ class DoctrineQueryBuilder
      */
     private $parameterIndex = 1;
 
+    /**
+     * @var ClassMetadata
+     */
+    private $metadata;
+
 
     public function __construct(EntityManagerInterface $em, $entityName, ColumnBuilder $columnBuilder)
     {
@@ -66,9 +71,9 @@ class DoctrineQueryBuilder
         $this->entityName = $entityName;
         $this->columnBuilder = $columnBuilder;
 
-        $metadata = $this->em->getMetadataFactory()->getMetadataFor($this->entityName);
-        $this->entityShortName = $this->getSafeName(strtolower($metadata->getReflectionClass()->getShortName()));
-        $this->entityIdentifier = $this->getIdentifier($metadata);
+        $this->metadata = $this->em->getMetadataFactory()->getMetadataFor($this->entityName);
+        $this->entityShortName = $this->getSafeName(strtolower($this->metadata->getReflectionClass()->getShortName()));
+        $this->entityIdentifier = $this->getIdentifier($this->metadata);
         $this->qb = $this->em->getRepository($this->entityName)->createQueryBuilder($this->entityShortName);
         $this->rootAlias = $this->qb->getRootAliases()[0];
     }
@@ -150,7 +155,7 @@ class DoctrineQueryBuilder
                     if ($searchCallback = $column->getSearchCallback()) {
                         $searchCallback($orExpr, $this->qb, $path, $search, $this->parameterIndex);
                     } else {
-                        $column->getFilter()->addExpression($orExpr, $this->qb, $path, $search, $this->parameterIndex);
+                        $column->getFilter()->addExpression($orExpr, $this->qb, $path, $search, $this->parameterIndex, $this->metadata);
                     }
                 }
 

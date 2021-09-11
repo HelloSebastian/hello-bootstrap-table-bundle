@@ -9,9 +9,9 @@ use Doctrine\ORM\QueryBuilder;
 
 class TextFilter extends AbstractFilter
 {
-    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $parameterKey)
+    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null)
     {
-        $composite->add($qb->expr()->like($dql, '?' . $parameterKey));
-        $qb->setParameter($parameterKey, '%' . $search . '%');
+        $composite->add($qb->expr()->like($dql, '?' . $key));
+        $qb->setParameter($key, '%' . $search . '%');
     }
 }

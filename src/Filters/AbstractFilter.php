@@ -46,7 +46,7 @@ abstract class AbstractFilter
         $resolver->setAllowedTypes("placeholder", ["string", "null"]);
     }
 
-    public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key);
+    public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null);
 
     public function getOptions()
     {
