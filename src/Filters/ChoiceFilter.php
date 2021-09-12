@@ -4,6 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Filters;
 
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class ChoiceFilter extends AbstractFilter
         $resolver->setAllowedTypes("choices", ["array"]);
     }
 
-    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null)
+    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata)
     {
         if ($search == "null") {
             return;

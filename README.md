@@ -269,7 +269,6 @@ Represents column with text. With formatter you can create complex columns.
 | visible         | bool           | true                           | show / hide column                                           |
 | emptyData       | string         | ""                             | default value if attribute from entity is null               |
 | sort            | Closure / null | null                           | custom sort query callback (see example)                     |
-| filter          | Closure / null | null                           | custom filter query callback (see example)                   |
 | data            | Closure / null | null                           | custom data callback (see example)                           |
 | addIf           | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
 | align           | string / null  | null                           | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
@@ -300,28 +299,24 @@ use Doctrine\ORM\QueryBuilder;
         $qb->addOrderBy('username', $direction);
     },
 
-    'search' => function (Composite $composite, QueryBuilder $qb, $dql, $search, $key) {
+    'search' => function (Composite $composite, QueryBuilder $qb, $search) {
       	//first add condition to $composite
-        //don't forget the '?' before $key
-        $composite->add($qb->expr()->like($dql, '?' . $key));
+        //don't forget the '?' before the parameter for binding
+        $composite->add($qb->expr()->like($dql, '?username'));
       
       	//then bind search to query
-        $qb->setParameter($key, '%' . $search . '%');
+        $qb->setParameter("username", $search . '%');
     }
 ))
 ```
 
 **search** Option:
 
-The search option seems a bit complicated at first, but it allows full control over the query in the column.
-
 | Paramenter name        | Description                                                  |
 | ---------------------- | ------------------------------------------------------------ |
-| `Composite $composite` | In the global search all columns are connected as or. In the advanced search all columns are combined with an and-connection. With `$composite` more parts can be added to the query. |
+| `Composite $composite` | In the global search all columns are connected as or. In the advanced search all columns are combined with an and-connection. With `$composite` more parts can be added to the query. `Composite` is the parent class of `AndX` and `OrX`. |
 | `QueryBuilder $qb`     | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
-| `$dql`                 | `$dql` represents the "path" to the variable in the query (e.g. `user.username` or in case of a JOIN `costCentre.name`) |
 | `$search`              | The search in the type of a string.                          |
-| `$key`                 | The index of the columns already gone through. The index is used for parameter binding to the query. |
 
 
 
@@ -347,6 +342,8 @@ All options of TextColumn.
 #### Example
 
 ```php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\BooleanColumn;
+
 ->add('isActive', BooleanColumn::class, array(
     'title' => 'is active',
     'trueLabel' => 'yes',
@@ -373,6 +370,8 @@ All Options of TextColumn
 #### Example
 
 ```php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\DateTimeColumn;
+
 ->add('createdAt', DateTimeColumn::class, array(
     'title' => 'Created at',
     'format' => 'd.m.Y'
@@ -394,7 +393,41 @@ All Options of TextColumn.
 #### Example
 
 ```php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\HiddenColumn;
+
 ->add("id", HiddenColumn::class)
+```
+
+
+
+### CountColumn
+
+Represents column for counting OneToMany relations (for ArrayCollection attributes).
+
+#### Options
+
+All Options of TextColumn.
+
+`filter` is set to `array(CountFilter::class, array())` by default.
+
+#### Example
+
+```php
+// App\Entity\Department.php
+
+/**
+ * @var ArrayCollection|User[]
+ * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="department")
+ */
+private $users;
+
+
+// App\HelloTable\UserTable.php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\CountColumn;
+
+->add('users', CountColumn::class, array(
+    'title' => 'Users',
+))
 ```
 
 
@@ -509,6 +542,8 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
 ))
 ```
 
+
+
 ### ChoiceFilter
 
 With the ChoiceFilter you can create a `select` input field.
@@ -541,6 +576,8 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\ChoiceFilter;
     ))
 ))
 ```
+
+
 
 ### BooleanChoiceFilter
 
@@ -576,6 +613,37 @@ If not `choices` is set to:
     )),
     'trueLabel' => 'yes',
     'falseLabel' => 'no'
+))
+```
+
+
+
+### CountFilter
+
+With the CountFilter you can filtering and sorting by counting OneToMany relations.
+
+#### Options
+
+All Options from TextFilter.
+
+**And**:
+
+| Option     | Type   | Default | Description                                                  |
+| ---------- | ------ | ------- | ------------------------------------------------------------ |
+| condition  | string | "gte"   | Operation to compare counting.<br /> Available options: "gt", "gte", "eq", "neq", "lt", "lte" |
+| primaryKey | string | "id"    | Primary key of the target entity in the OneToMany relation. <br />For example: A user is in one deparment. One department has many users. In the user entity there is a `$department` attribute that is pointing to the department entity. With this option you specify the primary key of the department entity (the target entity). |
+
+#### Example
+
+```php
+use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
+
+->add('users', CountColumn::class, array(
+    'title' => 'Users',
+    'filter' => array(CountFilter::class, array(
+        'condition' => 'lte',
+        'primaryKey' => 'uuid'
+    ))
 ))
 ```
 

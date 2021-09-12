@@ -4,6 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Filters;
 
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
@@ -41,7 +42,7 @@ class BooleanChoiceFilter extends ChoiceFilter
     }
 
 
-    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, $metadata = null)
+    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata)
     {
         if ($search == "null") {
             return;
