@@ -303,8 +303,8 @@ use Doctrine\ORM\QueryBuilder;
 
     'search' => function (Composite $composite, QueryBuilder $qb, $search) {
       	//first add condition to $composite
-        //don't forget the '?' before the parameter for binding
-        $composite->add($qb->expr()->like($dql, '?username'));
+        //don't forget the ':' before the parameter for binding
+        $composite->add($qb->expr()->like($dql, ':username'));
       
       	//then bind search to query
         $qb->setParameter("username", $search . '%');
