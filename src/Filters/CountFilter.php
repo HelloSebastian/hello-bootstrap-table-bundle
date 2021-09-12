@@ -29,7 +29,7 @@ class CountFilter extends AbstractFilter
         $resolver->setAllowedTypes("primaryKey", ["string"]);
     }
 
-    public function addOrdered(QueryBuilder $qb, $dql, $direction, ClassMetadata $metadata)
+    public function addOrder(QueryBuilder $qb, $dql, $direction, ClassMetadata $metadata)
     {
         $alias = str_replace(".", "_", $dql);
 

@@ -49,6 +49,11 @@ abstract class AbstractFilter
 
     public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata);
 
+    public function addOrder(QueryBuilder $qb, $dql, $direction, ClassMetadata $metadata)
+    {
+        $qb->addOrderBy($dql, $direction);
+    }
+
     public function getOptions()
     {
         return $this->options;

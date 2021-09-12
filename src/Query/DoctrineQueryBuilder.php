@@ -4,7 +4,6 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
@@ -12,7 +11,6 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
 
 class DoctrineQueryBuilder
 {
@@ -111,18 +109,15 @@ class DoctrineQueryBuilder
             if ($sortCallback = $column->getSortCallback()) {
                 $sortCallback($this->qb, $order);
             } else {
-                $filter = $column->getFilter();
-                if ($filter instanceof CountFilter) {
-                    $filter->addOrdered($this->qb, $path, $order, $this->metadata);
-                } else {
-                    $this->qb->addOrderBy($path, $order);
-                }
+                // every column has a filter instance
+                $column->getFilter()->addOrder($this->qb, $path, $order, $this->metadata);
             }
         }
     }
 
     private function setupFilterSearch($filters)
     {
+        // in filter search all searchable columns are connected as an AND expression
         $andExpr = $this->qb->expr()->andX();
 
         foreach ($filters as $columnField => $value) {
@@ -147,6 +142,7 @@ class DoctrineQueryBuilder
 
     private function setupGlobalSearch($search)
     {
+        // in global search all searchable columns are connected as a OR expression
         $orExpr = $this->qb->expr()->orX();
 
         if ($search) {
