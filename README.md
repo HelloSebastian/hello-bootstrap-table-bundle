@@ -428,7 +428,7 @@ private $users;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\CountColumn;
 
 ->add('users', CountColumn::class, array(
-    'title' => 'Users',
+    'title' => 'Users'
 ))
 ```
 
