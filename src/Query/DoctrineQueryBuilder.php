@@ -12,6 +12,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
 
 class DoctrineQueryBuilder
 {
@@ -105,17 +106,17 @@ class DoctrineQueryBuilder
     {
         if ($sortColumn) {
             $column = $this->columnBuilder->getColumnByField($sortColumn);
-
-            if ($column->isAssociation()) {
-                $path = $column->getPropertyPath();
-            } else {
-                $path = $this->rootAlias . '.' . $column->getDql();
-            }
+            $path = $this->getPropertyPath($column);
 
             if ($sortCallback = $column->getSortCallback()) {
                 $sortCallback($this->qb, $order);
             } else {
-                $this->qb->addOrderBy($path, $order);
+                $filter = $column->getFilter();
+                if ($filter instanceof CountFilter) {
+                    $filter->addOrdered($this->qb, $path, $order, $this->metadata);
+                } else {
+                    $this->qb->addOrderBy($path, $order);
+                }
             }
         }
     }
