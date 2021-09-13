@@ -93,6 +93,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('locale')->end()
                 ->booleanNode('advanced-search')->end()
                 ->scalarNode('id-table')->end()
+                ->scalarNode('icons-prefix')->end()
+                ->append($this->addIconsOptions())
                 ->booleanNode('click-to-select')->end()
                 ->booleanNode('show-jump-to')->end()
                 ->booleanNode('show-export')->end()
@@ -106,6 +108,33 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('sticky-header-offset-left')->end()
                 ->integerNode('sticky-header-offset-right')->end()
                 ->integerNode('sticky-header-offset-y')->end()
+            ->end();
+
+        return $node;
+    }
+
+    private function addIconsOptions()
+    {
+        $treeBuilder = new TreeBuilder('icons');
+        $node = $treeBuilder->getRootNode();
+
+        $node
+            ->addDefaultsIfNotSet()
+            ->normalizeKeys(false)
+            ->children()
+                ->scalarNode('advancedSearchIcon')->end()
+                ->scalarNode('paginationSwitchDown')->end()
+                ->scalarNode('paginationSwitchUp')->end()
+                ->scalarNode('columns')->end()
+                ->scalarNode('refresh')->end()
+                ->scalarNode('export')->end()
+                ->scalarNode('detailOpen')->end()
+                ->scalarNode('detailClose')->end()
+                ->scalarNode('toggleOff')->end()
+                ->scalarNode('toggleOn')->end()
+                ->scalarNode('fullscreen')->end()
+                ->scalarNode('search')->end()
+                ->scalarNode('clearSearch')->end()
             ->end();
 
         return $node;

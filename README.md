@@ -4,7 +4,7 @@
 
 Used bootstrap-table version 1.18.3.
 
-Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
+Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [omines/datatables-bundle](https://github.com/omines/datatables-bundle)
 
 ## Overview
 
@@ -662,38 +662,59 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 
 #### Options
 
-| Option                     | Type   | Default                                                     |
-| -------------------------- | ------ | ----------------------------------------------------------- |
-| pagination                 | bool   | true                                                        |
-| search                     | bool   | true                                                        |
-| show-columns               | bool   | true                                                        |
-| show-footer                | bool   | true                                                        |
-| filter-control             | bool   | false                                                       |
-| show-refresh               | bool   | true                                                        |
-| toolbar                    | string | "#toolbar"                                                  |
-| page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"                          |
-| page-size                  | int    | 25                                                          |
-| sort-reset                 | bool   | true                                                        |
-| pagination-V-Align         | string | "both"                                                      |
-| undefined-text             | string | ""                                                          |
-| locale                     | string | "en-US"                                                     |
-| advanced-search            | bool   | true                                                        |
-| id-table                   | string | class name of table with counter. (`$this->getTableName()`) |
-| icons-prefix               | string | "fa"                                                        |
-| click-to-select            | bool   | true                                                        |
-| show-jump-to               | bool   | true                                                        |
-| show-export                | bool   | true                                                        |
-| export-types               | string | "['csv', 'txt'', 'excel']"                                  |
-| export-options             | array  | see under table*                                            |
-| detail-view                | bool   | false                                                       |
-| detail-formatter           | string | ""                                                          |
-| detail-view-align          | string | ""                                                          |
-| detail-view-icon           | bool   | true                                                        |
-| detail-view-by-click       | bool   | false                                                       |
-| sticky-header              | bool   | true                                                        |
-| sticky-header-offset-left  | int    | 0                                                           |
-| sticky-header-offset-right | int    | 0                                                           |
-| sticky-header-offset-y     | int    | 0                                                           |
+| Option                     | Type   | Default                                        |
+| -------------------------- | ------ | ---------------------------------------------- |
+| pagination                 | bool   | true                                           |
+| search                     | bool   | true                                           |
+| show-columns               | bool   | true                                           |
+| show-footer                | bool   | true                                           |
+| filter-control             | bool   | false                                          |
+| show-refresh               | bool   | true                                           |
+| toolbar                    | string | "#toolbar"                                     |
+| page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"             |
+| page-size                  | int    | 25                                             |
+| sort-reset                 | bool   | true                                           |
+| pagination-V-Align         | string | "both"                                         |
+| undefined-text             | string | ""                                             |
+| locale                     | string | "en-US"                                        |
+| advanced-search            | bool   | true                                           |
+| id-table                   | string | class name of table. (`$this->getTableName()`) |
+| icons-prefix               | string | "fa"                                           |
+| icons                      | array  | see under table*                               |
+| click-to-select            | bool   | true                                           |
+| show-jump-to               | bool   | true                                           |
+| show-export                | bool   | true                                           |
+| export-types               | string | "['csv', 'txt'', 'excel']"                     |
+| export-options             | array  | see under table*                               |
+| detail-view                | bool   | false                                          |
+| detail-formatter           | string | ""                                             |
+| detail-view-align          | string | ""                                             |
+| detail-view-icon           | bool   | true                                           |
+| detail-view-by-click       | bool   | false                                          |
+| sticky-header              | bool   | true                                           |
+| sticky-header-offset-left  | int    | 0                                              |
+| sticky-header-offset-right | int    | 0                                              |
+| sticky-header-offset-y     | int    | 0                                              |
+
+`icons`:
+
+| Option               | Type   | Default                  |
+| -------------------- | ------ | ------------------------ |
+| advancedSearchIcon   | string | "fa-filter"              |
+| paginationSwitchDown | string | "fa-caret-square-o-down" |
+| paginationSwitchUp   | string | "fa-caret-square-o-up"   |
+| columns              | string | "fa-columns"             |
+| refresh              | string | "fa-sync"                |
+| export               | string | "fa-download"            |
+| detailOpen           | string | "fa-plus"                |
+| detailClose          | string | "fa-minus"               |
+| toggleOff            | string | "fa-toggle-off"          |
+| toggleOn             | string | "fa-toggle-on"           |
+| fullscreen           | string | "fa-arrows-alt"          |
+| search               | string | "fa-search"              |
+| clearSearch          | string | "fa-trash"               |
+
+
 
 `export-options`:
 

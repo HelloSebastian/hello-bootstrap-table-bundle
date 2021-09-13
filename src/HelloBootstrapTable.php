@@ -265,6 +265,35 @@ abstract class HelloBootstrapTable
             "advanced-search" => true,
             "id-table" => $this->getTableName(),
             "icons-prefix" => "fa",
+            "icons" => function (OptionsResolver $resolver) {
+                $resolver->setDefaults(array(
+                    "advancedSearchIcon" => "fa-filter",
+                    "paginationSwitchDown" => "fa-caret-square-o-down",
+                    "paginationSwitchUp" => "fa-caret-square-o-up",
+                    "columns" => "fa-columns",
+                    "refresh" => "fa-sync",
+                    "export" => "fa-download",
+                    "detailOpen" => "fa-plus",
+                    "detailClose" => "fa-minus",
+                    "toggleOff" => "fa-toggle-off",
+                    "toggleOn" => "fa-toggle-on",
+                    "fullscreen" => "fa-arrows-alt",
+                    "search" => "fa-search",
+                    "clearSearch" => "fa-trash"
+                ));
+
+                $resolver->setAllowedTypes("advancedSearchIcon", ["string"]);
+                $resolver->setAllowedTypes("paginationSwitchDown", ["string"]);
+                $resolver->setAllowedTypes("columns", ["string"]);
+                $resolver->setAllowedTypes("refresh", ["string"]);
+                $resolver->setAllowedTypes("export", ["string"]);
+                $resolver->setAllowedTypes("detailOpen", ["string"]);
+                $resolver->setAllowedTypes("toggleOff", ["string"]);
+                $resolver->setAllowedTypes("toggleOn", ["string"]);
+                $resolver->setAllowedTypes("fullscreen", ["string"]);
+                $resolver->setAllowedTypes("search", ["string"]);
+                $resolver->setAllowedTypes("clearSearch", ["string"]);
+            },
 
             //extensions
             "click-to-select" => true,
@@ -304,6 +333,7 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("pagination-V-Align", ["string"]);
         $resolver->setAllowedTypes("undefined-text", ["string"]);
         $resolver->setAllowedTypes("icons-prefix", ["string"]);
+        $resolver->setAllowedTypes("icons", ["array"]);
         $resolver->setAllowedTypes("locale", ["string"]);
         $resolver->setAllowedTypes("advanced-search", ["bool"]);
         $resolver->setAllowedTypes("id-table", ["string"]);
