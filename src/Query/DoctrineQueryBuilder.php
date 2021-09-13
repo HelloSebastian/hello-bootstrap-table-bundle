@@ -4,7 +4,7 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
@@ -59,6 +59,11 @@ class DoctrineQueryBuilder
      */
     private $parameterIndex = 1;
 
+    /**
+     * @var ClassMetadata
+     */
+    private $metadata;
+
 
     public function __construct(EntityManagerInterface $em, $entityName, ColumnBuilder $columnBuilder)
     {
@@ -66,9 +71,9 @@ class DoctrineQueryBuilder
         $this->entityName = $entityName;
         $this->columnBuilder = $columnBuilder;
 
-        $metadata = $this->em->getMetadataFactory()->getMetadataFor($this->entityName);
-        $this->entityShortName = $this->getSafeName(strtolower($metadata->getReflectionClass()->getShortName()));
-        $this->entityIdentifier = $this->getIdentifier($metadata);
+        $this->metadata = $this->em->getMetadataFactory()->getMetadataFor($this->entityName);
+        $this->entityShortName = $this->getSafeName(strtolower($this->metadata->getReflectionClass()->getShortName()));
+        $this->entityIdentifier = $this->getIdentifier($this->metadata);
         $this->qb = $this->em->getRepository($this->entityName)->createQueryBuilder($this->entityShortName);
         $this->rootAlias = $this->qb->getRootAliases()[0];
     }
@@ -99,23 +104,20 @@ class DoctrineQueryBuilder
     {
         if ($sortColumn) {
             $column = $this->columnBuilder->getColumnByField($sortColumn);
-
-            if ($column->isAssociation()) {
-                $path = $column->getPropertyPath();
-            } else {
-                $path = $this->rootAlias . '.' . $column->getDql();
-            }
+            $path = $this->getPropertyPath($column);
 
             if ($sortCallback = $column->getSortCallback()) {
                 $sortCallback($this->qb, $order);
             } else {
-                $this->qb->addOrderBy($path, $order);
+                // every column has a filter instance
+                $column->getFilter()->addOrder($this->qb, $path, $order, $this->metadata);
             }
         }
     }
 
     private function setupFilterSearch($filters)
     {
+        // in filter search all searchable columns are connected as an AND expression
         $andExpr = $this->qb->expr()->andX();
 
         foreach ($filters as $columnField => $value) {
@@ -124,9 +126,9 @@ class DoctrineQueryBuilder
             if ($column->isSearchable()) {
                 $path = $this->getPropertyPath($column);
                 if ($searchCallback = $column->getSearchCallback()) {
-                    $searchCallback($andExpr, $this->qb, $path, $value, $this->parameterIndex);
+                    $searchCallback($andExpr, $this->qb, $value);
                 } else {
-                    $column->getFilter()->addExpression($andExpr, $this->qb, $path, $value, $this->parameterIndex);
+                    $column->getFilter()->addExpression($andExpr, $this->qb, $path, $value, $this->parameterIndex, $this->metadata);
                 }
             }
 
@@ -140,6 +142,7 @@ class DoctrineQueryBuilder
 
     private function setupGlobalSearch($search)
     {
+        // in global search all searchable columns are connected as a OR expression
         $orExpr = $this->qb->expr()->orX();
 
         if ($search) {
@@ -148,9 +151,9 @@ class DoctrineQueryBuilder
                 if ($column->isSearchable() && !$column->getFilter() instanceof BooleanChoiceFilter) {
                     $path = $this->getPropertyPath($column);
                     if ($searchCallback = $column->getSearchCallback()) {
-                        $searchCallback($orExpr, $this->qb, $path, $search, $this->parameterIndex);
+                        $searchCallback($orExpr, $this->qb, $search);
                     } else {
-                        $column->getFilter()->addExpression($orExpr, $this->qb, $path, $search, $this->parameterIndex);
+                        $column->getFilter()->addExpression($orExpr, $this->qb, $path, $search, $this->parameterIndex, $this->metadata);
                     }
                 }
 

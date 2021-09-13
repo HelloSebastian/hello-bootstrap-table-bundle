@@ -235,7 +235,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('data', ['Closure', 'null']);
         $resolver->setAllowedTypes('sort', ['Closure', 'null']);
         $resolver->setAllowedTypes('search', ['Closure', 'null']);
-        $resolver->setAllowedTypes('filter', ['array', 'null']);
+        $resolver->setAllowedTypes('filter', ['array']);
         $resolver->setAllowedTypes('addIf', ['Closure']);
     }
 

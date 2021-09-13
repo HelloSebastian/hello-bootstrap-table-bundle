@@ -32,10 +32,9 @@ class ActionColumn extends AbstractColumn
         $item = array();
 
         /**
-         * @var int $key
          * @var ActionButton $button
          */
-        foreach ($this->outputOptions['buttons'] as $key => $button) {
+        foreach ($this->outputOptions['buttons'] as $button) {
             if ($button->getAddIfCallback()()) {
                 $routeParams = array();
                 foreach ($button->getRouteParams() as $param) {
