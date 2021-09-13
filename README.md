@@ -4,7 +4,7 @@
 
 Used bootstrap-table version 1.18.3.
 
-Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle).
+Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [omines](https://github.com/omines)/[datatables-bundle](https://github.com/omines/datatables-bundle)
 
 ## Overview
 
@@ -680,6 +680,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | advanced-search            | bool   | true                                                        |
 | id-table                   | string | class name of table with counter. (`$this->getTableName()`) |
 | icons-prefix               | string | "fa"                                                        |
+| icons                      | array  | see under table*                                            |
 | click-to-select            | bool   | true                                                        |
 | show-jump-to               | bool   | true                                                        |
 | show-export                | bool   | true                                                        |
@@ -694,6 +695,26 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | sticky-header-offset-left  | int    | 0                                                           |
 | sticky-header-offset-right | int    | 0                                                           |
 | sticky-header-offset-y     | int    | 0                                                           |
+
+`icons`:
+
+| Option               | Type   | Default                  |
+| -------------------- | ------ | ------------------------ |
+| advancedSearchIcon   | string | "fa-filter"              |
+| paginationSwitchDown | string | "fa-caret-square-o-down" |
+| paginationSwitchUp   | string | "fa-caret-square-o-up"   |
+| columns              | string | "fa-columns"             |
+| refresh              | string | "fa-sync"                |
+| export               | string | "fa-download"            |
+| detailOpen           | string | "fa-plus"                |
+| detailClose          | string | "fa-minus"               |
+| toggleOff            | string | "fa-toggle-off"          |
+| toggleOn             | string | "fa-toggle-on"           |
+| fullscreen           | string | "fa-arrows-alt"          |
+| search               | string | "fa-search"              |
+| clearSearch          | string | "fa-trash"               |
+
+
 
 `export-options`:
 
