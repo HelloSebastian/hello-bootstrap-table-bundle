@@ -406,6 +406,8 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\HiddenColumn;
 
 Represents column for counting OneToMany relations (for ArrayCollection attributes).
 
+*Only works with direct attributes so far. For example, "users" would work in a `DepartmentTable`, but "users.items" would not.*
+
 #### Options
 
 All Options of TextColumn.
