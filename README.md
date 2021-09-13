@@ -4,7 +4,7 @@
 
 Used bootstrap-table version 1.18.3.
 
-Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [omines](https://github.com/omines)/[datatables-bundle](https://github.com/omines/datatables-bundle)
+Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [omines/datatables-bundle](https://github.com/omines/datatables-bundle)
 
 ## Overview
 
