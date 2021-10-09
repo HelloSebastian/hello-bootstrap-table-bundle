@@ -35,7 +35,7 @@ $(function () {
             );
         }
 
-       return buttons.join("");
+        return buttons.join("");
     };
 
     window.defaultActionCellStyle = function () {
@@ -75,6 +75,13 @@ $(function () {
                     params.isCallback = true;
                     params.tableName = tableName;
                     return params;
+                },
+                filterTemplate: {
+                    ...$.fn.bootstrapTable.defaults.filterTemplate,
+                    select(table, field) {
+                        const filterOptions = table.columns[table.fieldsColumnsIndex[field]].filterOptions;
+                        return window.defaultAdvSearchChoiceField(field, filterOptions, undefined);
+                    },
                 }
             });
 
