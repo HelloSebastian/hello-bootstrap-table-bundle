@@ -16,8 +16,9 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [
    2. [BooleanColumn](#booleancolumn)
    3. [DateTimeColumn](#datetimecolumn)
    4. [HiddenColumn](#hiddencolumn)
-   5. [CountColumn](#countcolumn)
-   6. [ActionColumn](#actioncolumn)
+   5. [LinkColumn](#linkcolumn)
+   6. [CountColumn](#countcolumn)
+   7. [ActionColumn](#actioncolumn)
 5. [Filters](#filters)
    1. [TextFilter](#textfilter)
    2. [ChoiceFilter](#choicefilter)
@@ -399,6 +400,35 @@ All Options of TextColumn.
 use HelloSebastian\HelloBootstrapTableBundle\Columns\HiddenColumn;
 
 ->add("id", HiddenColumn::class)
+```
+
+### LinkColumn
+
+Represents column with a link.
+
+#### Options
+
+All Options of TextColumn.
+
+`formatter` is set to `defaultLinkFormatter`.
+
+**And**:
+
+| Option      | Type   | Default | Description                                                  |
+| ----------- | ------ | ------- | ------------------------------------------------------------ |
+| routeName   | string | null    | route name. This option is required.                         |
+| routeParams | array  | ["id"]  | Array of property value names for the route parameters. By default is `id` set. |
+| attr        | array  | [ ]     | Array of any number of attributes formatted as HTML attributes. The array `["class" => "btn btn-success"]` is formatted as `title="btn btn-success"`. |
+
+#### Example
+
+```php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\LinkColumn;
+
+->add('department.name', LinkColumn::class, array(
+    'title' => 'Department',
+    'routeName' => 'show_department' // this option is required
+))
 ```
 
 

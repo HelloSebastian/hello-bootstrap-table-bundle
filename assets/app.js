@@ -38,6 +38,10 @@ $(function () {
         return buttons.join("");
     };
 
+    window.defaultLinkFormatter = function (data) {
+          return `<a href="${data.route}" ${data.attr}>${data.displayName}</a>`;
+    };
+
     window.defaultActionCellStyle = function () {
         return {
             css: {

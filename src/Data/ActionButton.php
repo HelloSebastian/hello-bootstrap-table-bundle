@@ -4,10 +4,13 @@ namespace HelloSebastian\HelloBootstrapTableBundle\Data;
 
 
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
+use HelloSebastian\HelloBootstrapTableBundle\Columns\FormatAttributeTrait;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActionButton
 {
+    use FormatAttributeTrait;
+
     /**
      * @var array
      */
@@ -102,22 +105,6 @@ class ActionButton
     public function getAttr()
     {
         return $this->options['attr'];
-    }
-
-    public function formatAttr()
-    {
-        $formattedAttributes = array();
-        foreach ($this->options['attr'] as $attribute => $value) {
-            if (empty($value) === false) {
-                $formattedAttributes[] = sprintf("%s=\"%s\"", $attribute, $value);
-            }
-        }
-
-        if (count($formattedAttributes) < 1) {
-            return "";
-        }
-
-        return " " . implode(" ", $formattedAttributes);
     }
 
 }
