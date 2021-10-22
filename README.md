@@ -336,10 +336,11 @@ All options of TextColumn.
 
 **And**:
 
-| Option     | Type   | Default | Description            |
-| ---------- | ------ | ------- | ---------------------- |
-| trueLabel  | string | "True"  | label for true values  |
-| falseLabel | string | "False" | label for false values |
+| Option     | Type   | Default | Description             |
+| ---------- | ------ | ------- | ----------------------- |
+| allLabel   | string | "All"   | label for "null" values |
+| trueLabel  | string | "True"  | label for true values   |
+| falseLabel | string | "False" | label for false values  |
 
 #### Example
 
@@ -592,13 +593,13 @@ BooleanChoiceFilter is a special `ChoiceFilter` with default choices and query e
 
 All Options from ChoiceFilter.
 
-If you use BooleanChoiceFilter inside a BooleanColumn, the `trueLabel` and `falseLabel` options from BooleanColumn are taken for `true` and `false` for the `choices` option by default.
+If you use BooleanChoiceFilter inside a BooleanColumn, the `allLabel`, `trueLabel` and `falseLabel` options from `BooleanColumn` are taken for `null`, `true` and `false` for the `choices` option by default.
 
 If not `choices` is set to:
 
 ```php
 "choices" => array(
-    "null" => "All",
+    "null" => "All",		// key must be "null", if you want allow to show all results
     "true" => "True",   // key must be "true", if you want allow true
     "false" => "False"  // key must be "false", if you want allow false
 )

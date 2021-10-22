@@ -14,11 +14,13 @@ class BooleanColumn extends AbstractColumn
         parent::configureOutputOptions($resolver);
 
         $resolver->setDefaults(array(
+            "allLabel" => "All",
             "trueLabel" => "True",
             "falseLabel" => "False",
             "filterControl" => "select"
         ));
 
+        $resolver->setAllowedTypes('allLabel', 'string');
         $resolver->setAllowedTypes('trueLabel', 'string');
         $resolver->setAllowedTypes('falseLabel', 'string');
     }
