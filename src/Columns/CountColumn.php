@@ -3,7 +3,6 @@
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\QueryBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

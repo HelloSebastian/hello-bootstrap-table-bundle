@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
-
 
 use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
