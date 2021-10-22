@@ -759,12 +759,12 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 {
     $table = $tableFactory->create(UserTable::class);
 
-  	// other options will be merged.
+    // other options will be merged.
     $table->setTableDataset(array(
         'locale' => 'de-DE'
     ));
 
-    ...
+    // ...
 }
 ```
 
@@ -835,7 +835,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
         'enableCheckbox' => false
     ));
 
-    ...
+    // ...
 }
 ```
 
@@ -940,7 +940,7 @@ To save space in the table, it makes sense to use icons instead of written out b
 
 class UserTable extends HelloBootstrapTable
 {
-    ...
+    // ...
 
     protected function buildColumns(ColumnBuilder $builder, $options)
     {
