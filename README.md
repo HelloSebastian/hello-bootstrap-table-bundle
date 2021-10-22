@@ -560,9 +560,10 @@ All Options from TextFilter.
 
 **And**:
 
-| Option  | Type  | Default | Description                                                  |
-| ------- | ----- | ------- | ------------------------------------------------------------ |
-| choices | array | [ ]     | Key - Values pair of choices. Key: `value` attribute of `select` field; Value: display name of options in `select` field. |
+| Option        | Type          | Default | Description                                                  |
+| ------------- | ------------- | ------- | ------------------------------------------------------------ |
+| choices       | array         | [ ]     | Key - Values pair of choices. Key: `value` attribute of `select` field; Value: display name of options in `select` field. |
+| selectedValue | string \| int | "null"  | Default selected value when table is rendered.               |
 
 #### Example
 
@@ -573,7 +574,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\ChoiceFilter;
     'title' => 'Department',
     'filter' => array(ChoiceFilter::class, array(
         'choices' => array(
-            'null' => 'All', //null is special key word. If null is set Query Builder skip this column.
+            'null' => 'All', //null is special key word. If 'null' is set QueryBuilder skip this column.
             'IT' => 'IT',
             'Sales' => 'Sales'
         )
