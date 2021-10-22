@@ -18,7 +18,7 @@ class BooleanChoiceFilter extends ChoiceFilter
         if ($column instanceof BooleanColumn) {
             if (!isset($options["choices"]) || (count($options["choices"]) == 0)) {
                 $options["choices"] = array(
-                    "null" => "All",
+                    "null" => $column->getOutputOptions()["allLabel"],
                     "true" => $column->getOutputOptions()["trueLabel"],
                     "false" => $column->getOutputOptions()["falseLabel"]
                 );

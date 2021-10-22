@@ -53,8 +53,16 @@ $(function () {
 
     window.defaultAdvSearchChoiceField = function (field, filterOptions, value) {
         const choices = [];
-        for (var prop in filterOptions.choices) {
-            choices.push(`<option ${value !== undefined && value == prop ? "selected" : ""} value="${prop}">${filterOptions.choices[prop]}</option>`);
+        for (let prop in filterOptions.choices) {
+            let selected = false;
+
+            if (value !== undefined && value == prop) {
+                selected = true;
+            } else if (filterOptions.selectedValue == prop) {
+                selected = true;
+            }
+
+            choices.push(`<option ${selected ? "selected" : ""} value="${prop}">${filterOptions.choices[prop]}</option>`);
         }
 
         return `<select class="form-control" name="${field}" id="${field}">

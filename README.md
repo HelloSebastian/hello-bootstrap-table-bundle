@@ -336,10 +336,11 @@ All options of TextColumn.
 
 **And**:
 
-| Option     | Type   | Default | Description            |
-| ---------- | ------ | ------- | ---------------------- |
-| trueLabel  | string | "True"  | label for true values  |
-| falseLabel | string | "False" | label for false values |
+| Option     | Type   | Default | Description             |
+| ---------- | ------ | ------- | ----------------------- |
+| allLabel   | string | "All"   | label for "null" values |
+| trueLabel  | string | "True"  | label for true values   |
+| falseLabel | string | "False" | label for false values  |
 
 #### Example
 
@@ -560,9 +561,10 @@ All Options from TextFilter.
 
 **And**:
 
-| Option  | Type  | Default | Description                                                  |
-| ------- | ----- | ------- | ------------------------------------------------------------ |
-| choices | array | [ ]     | Key - Values pair of choices. Key: `value` attribute of `select` field; Value: display name of options in `select` field. |
+| Option        | Type          | Default | Description                                                  |
+| ------------- | ------------- | ------- | ------------------------------------------------------------ |
+| choices       | array         | [ ]     | Key - Values pair of choices. Key: `value` attribute of `select` field; Value: display name of options in `select` field. |
+| selectedValue | string \| int | "null"  | Default selected value when table is rendered.               |
 
 #### Example
 
@@ -573,7 +575,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\ChoiceFilter;
     'title' => 'Department',
     'filter' => array(ChoiceFilter::class, array(
         'choices' => array(
-            'null' => 'All', //null is special key word. If null is set Query Builder skip this column.
+            'null' => 'All', //null is special key word. If 'null' is set QueryBuilder skip this column.
             'IT' => 'IT',
             'Sales' => 'Sales'
         )
@@ -591,13 +593,13 @@ BooleanChoiceFilter is a special `ChoiceFilter` with default choices and query e
 
 All Options from ChoiceFilter.
 
-If you use BooleanChoiceFilter inside a BooleanColumn, the `trueLabel` and `falseLabel` options from BooleanColumn are taken for `true` and `false` for the `choices` option by default.
+If you use BooleanChoiceFilter inside a BooleanColumn, the `allLabel`, `trueLabel` and `falseLabel` options from `BooleanColumn` are taken for `null`, `true` and `false` for the `choices` option by default.
 
 If not `choices` is set to:
 
 ```php
 "choices" => array(
-    "null" => "All",
+    "null" => "All",    // key must be "null", if you want allow to show all results
     "true" => "True",   // key must be "true", if you want allow true
     "false" => "False"  // key must be "false", if you want allow false
 )
@@ -757,12 +759,12 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 {
     $table = $tableFactory->create(UserTable::class);
 
-  	// other options will be merged.
+    // other options will be merged.
     $table->setTableDataset(array(
         'locale' => 'de-DE'
     ));
 
-    ...
+    // ...
 }
 ```
 
@@ -833,7 +835,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
         'enableCheckbox' => false
     ));
 
-    ...
+    // ...
 }
 ```
 
@@ -938,7 +940,7 @@ To save space in the table, it makes sense to use icons instead of written out b
 
 class UserTable extends HelloBootstrapTable
 {
-    ...
+    // ...
 
     protected function buildColumns(ColumnBuilder $builder, $options)
     {
