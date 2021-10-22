@@ -599,7 +599,7 @@ If not `choices` is set to:
 
 ```php
 "choices" => array(
-    "null" => "All",		// key must be "null", if you want allow to show all results
+    "null" => "All",    // key must be "null", if you want allow to show all results
     "true" => "True",   // key must be "true", if you want allow true
     "false" => "False"  // key must be "false", if you want allow false
 )
