@@ -39,7 +39,7 @@ $(function () {
     };
 
     window.defaultLinkFormatter = function (data) {
-          return `<a href="${data.route}" ${data.attr}>${data.displayName}</a>`;
+        return `<a href="${data.route}" ${data.attr}>${data.displayName}</a>`;
     };
 
     window.defaultActionCellStyle = function () {
