@@ -477,7 +477,7 @@ All Options of TextColumn
 
 `sortable`,  `searchable` and `switchable` are disable by default.
 
-`formatter` is set to `defaultActionFormatter`. `cellStyle` is set to `defaultActionCellStyle`.
+`formatter` is set to `defaultActionFormatter`.
 
 **And:**
 
@@ -700,7 +700,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | search                     | bool   | true                                           |
 | show-columns               | bool   | true                                           |
 | show-footer                | bool   | true                                           |
-| filter-control             | bool   | false                                          |
+| filter-control             | bool   | true                                           |
 | show-refresh               | bool   | true                                           |
 | toolbar                    | string | "#toolbar"                                     |
 | page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"             |
@@ -709,7 +709,7 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | pagination-V-Align         | string | "both"                                         |
 | undefined-text             | string | ""                                             |
 | locale                     | string | "en-US"                                        |
-| advanced-search            | bool   | true                                           |
+| advanced-search            | bool   | false                                          |
 | id-table                   | string | class name of table. (`$this->getTableName()`) |
 | icons-prefix               | string | "fa"                                           |
 | icons                      | array  | see under table*                               |
