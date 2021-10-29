@@ -18,8 +18,7 @@ class ActionColumn extends AbstractColumn
             "sortable" => false,
             "switchable" => false,
             "searchable" => false,
-            "formatter" => "defaultActionFormatter",
-            "cellStyle" => "defaultActionCellStyle"
+            "formatter" => "defaultActionFormatter"
         ));
 
         $resolver->setRequired('buttons');

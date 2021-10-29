@@ -42,14 +42,6 @@ $(function () {
         return `<a href="${data.route}" ${data.attr}>${data.displayName}</a>`;
     };
 
-    window.defaultActionCellStyle = function () {
-        return {
-            css: {
-                display: 'inline-block'
-            }
-        };
-    };
-
     window.defaultAdvSearchTextField = function (field, filterOptions, value) {
         let val = value || "";
         return `<input type="text" value="${val}" class="form-control" name="${field}" placeholder="${filterOptions.placeholder}" id="${field}">`;
