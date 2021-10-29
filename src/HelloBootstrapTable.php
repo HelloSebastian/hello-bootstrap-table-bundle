@@ -249,7 +249,7 @@ abstract class HelloBootstrapTable
             "show-columns" => true,
             "show-footer" => true,
             "show-refresh" => true,
-            "filter-control" => false,
+            "filter-control" => true,
             "detail-view" => false,
             "detail-formatter" => "",
             "detail-view-align" => "left",
@@ -262,7 +262,7 @@ abstract class HelloBootstrapTable
             "pagination-V-Align" => "both",
             "undefined-text" => "",
             "locale" => "en-US",
-            "advanced-search" => true,
+            "advanced-search" => false,
             "id-table" => $this->getTableName(),
             "icons-prefix" => "fa",
             "icons" => function (OptionsResolver $resolver) {
