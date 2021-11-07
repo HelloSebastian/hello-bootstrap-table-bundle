@@ -294,7 +294,7 @@ The following options are not included in bootstrap-table. They were added separ
 #### Example
 
 <details>
-  <summary>Click to show Examples!</summary>
+  <summary>Click to show Example!</summary>
 
   ```php
 //use statements for search and sort option
@@ -326,8 +326,6 @@ use Doctrine\ORM\QueryBuilder;
 ))
   ```
 
-</details>
-
 **search** Option:
 
 | Paramenter name        | Description                                                  |
@@ -336,7 +334,7 @@ use Doctrine\ORM\QueryBuilder;
 | `QueryBuilder $qb`     | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
 | `$search`              | The search in the type of a string.                          |
 
-
+</details>
 
 ### BooleanColumn
 
