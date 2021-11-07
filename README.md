@@ -33,6 +33,8 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [
    3. [Use Icons as action buttons](#use-icons-as-action-buttons)
 8. [Contributing](#contributing)
 
+---
+
 ## Features
 
 * Create bootstrap-tables in PHP
@@ -48,7 +50,7 @@ Inspired by [SgDatatablesBundle](https://github.com/stwe/DatatablesBundle) and [
   * [page-jump-to](https://bootstrap-table.com/docs/extensions/page-jump-to/)
   * [toolbar](https://bootstrap-table.com/docs/extensions/toolbar/) with [advanced-search](https://bootstrap-table.com/docs/extensions/toolbar/#advancedsearch)
 
-
+---
 
 ## Installation
 
@@ -112,7 +114,7 @@ $ php bin/console assets:install --symlink
 
 You can also use other CSS frameworks. See the bootstrap-table documentation for more information.
 
-
+---
 
 ## Your First Table
 
@@ -247,7 +249,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 
 The Twig function will render a `table` with all attributes configured.
 
-
+---
 
 ## Columns
 
@@ -255,35 +257,46 @@ The Twig function will render a `table` with all attributes configured.
 
 Represents column with text. With formatter you can create complex columns.
 
-#### Options
+#### Options from bootstrap-table
 
-| Option          | Type           | Default                        | Description                                                  |
-| --------------- | -------------- | ------------------------------ | ------------------------------------------------------------ |
-| title           | string / null  | null                           | Set column title. If no value is set, the specified attribute name is taken. |
-| field           | string / null  | null                           | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
-| width           | integer / null | null                           | column width in px                                           |
-| widthUnit       | string         | "px"                           | Unit of width.                                               |
-| class           | string / null  | null                           | The column class name.                                       |
-| formatter       | string / null  | null                           | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
-| footerFormatter | string / null  | null                           | JavaScript function name for footer formatter.               |
-| searchable      | bool           | true                           | enable / disable filtering for this column                   |
-| sortable        | bool           | true                           | enable / disable sortable for this column                    |
-| switchable      | bool           | true                           | enable / disable interactive hide and show of column.        |
-| visible         | bool           | true                           | show / hide column                                           |
-| emptyData       | string         | ""                             | default value if attribute from entity is null               |
-| sort            | Closure / null | null                           | custom sort query callback (see example)                     |
-| data            | Closure / null | null                           | custom data callback (see example)                           |
-| addIf           | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
-| align           | string / null  | null                           | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
-| halign          | string / null  | null                           | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
-| valign          | string / null  | null                           | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
-| falign          | string / null  | null                           | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
-| filter          | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
-| filterControl   | string         | "input"                        | render text field in column header                           |
+The following options were taken from bootstrap-table. For more information about the options, see the bootstrap-table documentation: https://bootstrap-table.com/docs/api/column-options/
+
+| Option          | Type           | Default | Description                                                  |
+| --------------- | -------------- | ------- | ------------------------------------------------------------ |
+| title           | string / null  | null    | Set column title. If no value is set, the specified attribute name is taken. |
+| field           | string / null  | null    | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
+| width           | integer / null | null    | column width in px                                           |
+| widthUnit       | string         | "px"    | Unit of width.                                               |
+| class           | string / null  | null    | The column class name.                                       |
+| formatter       | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
+| footerFormatter | string / null  | null    | JavaScript function name for footer formatter.               |
+| searchable      | bool           | true    | enable / disable filtering for this column                   |
+| sortable        | bool           | true    | enable / disable sortable for this column                    |
+| switchable      | bool           | true    | enable / disable interactive hide and show of column.        |
+| visible         | bool           | true    | show / hide column                                           |
+| align           | string / null  | null    | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
+| halign          | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
+| valign          | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
+| falign          | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
+| filterControl   | string         | "input" | render text field in column header                           |
+| titleTooltip    | string / null  | null    | add tooltip to header                                        |
+
+#### Options from HelloBootstrapTable
+
+The following options are not included in bootstrap-table. They were added separately.
+
+| Option    | Type           | Default                        | Description                                                  |
+| --------- | -------------- | ------------------------------ | ------------------------------------------------------------ |
+| emptyData | string         | ""                             | default value if attribute from entity is null               |
+| filter    | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
+| addIf     | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
+| data      | Closure / null | null                           | custom data callback (see example)                           |
+| sort      | Closure / null | null                           | custom sort query callback (see example)                     |
+| search    | Closure / null | null                           | custom search query callback (see example)                   |
 
 #### Example
 
-```php
+  ```php
 //use statements for search and sort option
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
@@ -311,7 +324,7 @@ use Doctrine\ORM\QueryBuilder;
         $qb->setParameter("username", $search . '%');
     }
 ))
-```
+  ```
 
 **search** Option:
 
@@ -321,7 +334,7 @@ use Doctrine\ORM\QueryBuilder;
 | `QueryBuilder $qb`     | `$qb` holds the use QueryBuilder. It is the same instance as can be queried with `getQueryBuilder()` in the table class. |
 | `$search`              | The search in the type of a string.                          |
 
-
+------
 
 ### BooleanColumn
 
@@ -355,7 +368,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\BooleanColumn;
 ))
 ```
 
-
+---
 
 ### DateTimeColumn
 
@@ -382,7 +395,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\DateTimeColumn;
 ))
 ```
 
-
+---
 
 ### HiddenColumn
 
@@ -401,6 +414,8 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\HiddenColumn;
 
 ->add("id", HiddenColumn::class)
 ```
+
+---
 
 ### LinkColumn
 
@@ -431,7 +446,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\LinkColumn;
 ))
 ```
 
-
+---
 
 ### CountColumn
 
@@ -465,7 +480,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\CountColumn;
 ))
 ```
 
-
+---
 
 ### ActionColumn
 
@@ -539,9 +554,13 @@ hello_bootstrap_table:
 
 YAML config options are set to all buttons. If you want override global options from YAML config use `classNames` option.
 
+---
+
 ## Filters
 
 Filters can be used to generate predefined queries. In addition, different input fields for the filters are displayed (currently only under the Advanced Search).
+
+---
 
 ### TextFilter
 
@@ -577,7 +596,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
 ))
 ```
 
-
+---
 
 ### ChoiceFilter
 
@@ -613,7 +632,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\ChoiceFilter;
 ))
 ```
 
-
+---
 
 ### BooleanChoiceFilter
 
@@ -652,7 +671,7 @@ If not `choices` is set to:
 ))
 ```
 
-
+---
 
 ### CountFilter
 
@@ -683,50 +702,57 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\CountFilter;
 ))
 ```
 
-
+---
 
 ## Configuration
 
 
 ### Table Dataset Options
 
-Table Dataset are provided directly to the `bootstrap-table` as data-attributes and are a collection of setting options for the table.
+Table Dataset are provided directly to the `bootstrap-table` as data-attributes and are a collection of setting options for the table. For more information check bootstrap-table documentation: https://bootstrap-table.com/docs/api/table-options/
 
 #### Options
 
-| Option                     | Type   | Default                                        |
-| -------------------------- | ------ | ---------------------------------------------- |
-| pagination                 | bool   | true                                           |
-| search                     | bool   | true                                           |
-| show-columns               | bool   | true                                           |
-| show-footer                | bool   | true                                           |
-| filter-control             | bool   | true                                           |
-| show-refresh               | bool   | true                                           |
-| toolbar                    | string | "#toolbar"                                     |
-| page-list                  | string | "[10, 25, 50, 100, 200, 500, All]"             |
-| page-size                  | int    | 25                                             |
-| sort-reset                 | bool   | true                                           |
-| pagination-V-Align         | string | "both"                                         |
-| undefined-text             | string | ""                                             |
-| locale                     | string | "en-US"                                        |
-| advanced-search            | bool   | false                                          |
-| id-table                   | string | class name of table. (`$this->getTableName()`) |
-| icons-prefix               | string | "fa"                                           |
-| icons                      | array  | see under table*                               |
-| click-to-select            | bool   | true                                           |
-| show-jump-to               | bool   | true                                           |
-| show-export                | bool   | true                                           |
-| export-types               | string | "['csv', 'txt'', 'excel']"                     |
-| export-options             | array  | see under table*                               |
-| detail-view                | bool   | false                                          |
-| detail-formatter           | string | ""                                             |
-| detail-view-align          | string | ""                                             |
-| detail-view-icon           | bool   | true                                           |
-| detail-view-by-click       | bool   | false                                          |
-| sticky-header              | bool   | true                                           |
-| sticky-header-offset-left  | int    | 0                                              |
-| sticky-header-offset-right | int    | 0                                              |
-| sticky-header-offset-y     | int    | 0                                              |
+| Option                     | Type          | Default                                        |
+| -------------------------- | ------------- | ---------------------------------------------- |
+| pagination                 | bool          | true                                           |
+| search                     | bool          | true                                           |
+| show-columns               | bool          | true                                           |
+| show-columns-toggle-all    | bool          | false                                          |
+| show-footer                | bool          | true                                           |
+| filter-control             | bool          | true                                           |
+| show-refresh               | bool          | true                                           |
+| toolbar                    | string        | "#toolbar"                                     |
+| page-list                  | string        | "[10, 25, 50, 100, 200, 500, All]"             |
+| page-size                  | int           | 25                                             |
+| sort-reset                 | bool          | true                                           |
+| pagination-V-Align         | string        | "both"                                         |
+| undefined-text             | string        | ""                                             |
+| locale                     | string        | "en-US"                                        |
+| advanced-search            | bool          | false                                          |
+| id-table                   | string        | class name of table. (`$this->getTableName()`) |
+| icons-prefix               | string        | "fa"                                           |
+| icons                      | array         | see under table*                               |
+| click-to-select            | bool          | true                                           |
+| show-jump-to               | bool          | true                                           |
+| show-export                | bool          | true                                           |
+| export-types               | string        | "['csv', 'txt'', 'excel']"                     |
+| export-options             | array         | see under table*                               |
+| detail-view                | bool          | false                                          |
+| detail-formatter           | string        | ""                                             |
+| detail-view-align          | string        | ""                                             |
+| detail-view-icon           | bool          | true                                           |
+| detail-view-by-click       | bool          | false                                          |
+| sticky-header              | bool          | true                                           |
+| sticky-header-offset-left  | int           | 0                                              |
+| sticky-header-offset-right | int           | 0                                              |
+| sticky-header-offset-y     | int           | 0                                              |
+| checkbox-header            | bool          | true                                           |
+| escape                     | bool          | false                                          |
+| height                     | int / null    | null                                           |
+| multiple-select-row        | bool          | false                                          |
+| sort-name                  | string / null | null                                           |
+| sort-order                 | string / null | null                                           |
 
 `icons`:
 
@@ -745,8 +771,6 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | fullscreen           | string | "fa-arrows-alt"          |
 | search               | string | "fa-search"              |
 | clearSearch          | string | "fa-trash"               |
-
-
 
 `export-options`:
 
@@ -810,7 +834,7 @@ hello_bootstrap_table:
         locale: 'de-DE' # see Table Dataset Options
 ```
 
-
+---
 
 ### Table Options
 
@@ -881,7 +905,7 @@ hello_bootstrap_table:
         enableCheckbox: false # see Table Options
 ```
 
-
+---
 
 ## Common Use-Cases
 
@@ -915,6 +939,57 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
     ));
 }
 ```
+
+---
+
+### Default table sorting
+
+bootstrap-table allows you to specify a default sort order. For this purpose there are two options "sort-name" and "sort-order". These can be set by the `setTableDataset` method. "sort-name" expects the dql (or if set field name) of the column. "sort-order" can be set by "asc" or "desc".
+
+```php
+// inside table class
+protected function buildColumns(ColumnBuilder $builder, $options)
+{
+    $this->setTableDataset(array(
+        'sort-name' => 'firstName', // dql (or if set field name) of column
+        'sort-order' => 'desc' // or asc
+    ));
+
+    $builder->add('firstName', TextColumn::class, array(
+        'title' => 'First name'
+    ));
+}
+
+// outside table class
+$table = $tableFactory->create(UserTable::class);
+$table->setTableDataset(array(
+    'sort-name' => 'firstName',
+    'sort-order' => 'desc'
+));
+```
+
+HelloBootstrapTable provides a helper method `setDefaultSorting` to set the default sort order.
+
+```php
+// inside table class
+protected function buildColumns(ColumnBuilder $builder, $options)
+{
+    $this->setDefaultSorting("firstName", "desc");
+
+    $builder->add('firstName', TextColumn::class, array(
+        'title' => 'First name'
+    ));
+}
+
+// outside table class
+$table = $tableFactory->create(UserTable::class);
+$table->setDefaultSorting("firstName", "desc");
+
+```
+
+
+
+---
 
 ### Detail View
 
@@ -961,6 +1036,8 @@ window.detailViewFormatter = function (index, row, element) {
 
 Alternative you can of course create your HTML with JavaScript inside the formatter.
 
+---
+
 ### Use Icons as action buttons
 
 To save space in the table, it makes sense to use icons instead of written out buttons. This is easily possible by using HTML instead of a word in the ` displayName` option of the action buttons.
@@ -991,7 +1068,7 @@ class UserTable extends HelloBootstrapTable
 }
 ```
 
-
+---
 
 ## Contributing
 
