@@ -753,8 +753,6 @@ Table Dataset are provided directly to the `bootstrap-table` as data-attributes 
 | multiple-select-row        | bool          | false                                          |
 | sort-name                  | string / null | null                                           |
 | sort-order                 | string / null | null                                           |
-| virtual-scroll             | bool          | false                                          |
-| virtual-scroll-item-height | int / null    | null                                           |
 
 `icons`:
 
