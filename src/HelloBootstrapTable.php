@@ -293,7 +293,6 @@ abstract class HelloBootstrapTable
             "escape" => false,
             "height" => null,
             "multiple-select-row" => false,
-            "search-highlight" => false,
             "sort-name" => null,
             "sort-order" => null,
             "virtual-scroll" => false,
@@ -385,7 +384,6 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("escape", ["bool"]);
         $resolver->setAllowedTypes("height", ["int", "null"]);
         $resolver->setAllowedTypes("multiple-select-row", ["bool"]);
-        $resolver->setAllowedTypes("search-highlight", ["bool"]);
         $resolver->setAllowedTypes("sort-name", ["string", "null"]);
         $resolver->setAllowedTypes("sort-order", ["string", "null"]);
         $resolver->setAllowedTypes("virtual-scroll", ["bool"]);
