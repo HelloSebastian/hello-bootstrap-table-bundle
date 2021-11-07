@@ -273,6 +273,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('cellStyle', ['string', 'null']);
         $resolver->setAllowedTypes('class', ['string', 'null']);
 
+        $resolver->setAllowedTypes('titleTooltip', ['string', 'null']);
         $resolver->setAllowedTypes('align', ['string', 'null']);
         $resolver->setAllowedTypes('halign', ['string', 'null']);
         $resolver->setAllowedTypes('valign', ['string', 'null']);
@@ -286,8 +287,6 @@ abstract class AbstractColumn
 
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);
-        $resolver->setAllowedTypes('titleTooltip', ['string', 'null']);
-
         $resolver->setAllowedTypes('filterControl', ['string']);
     }
 
