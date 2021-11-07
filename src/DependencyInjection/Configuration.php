@@ -113,11 +113,8 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('escape')->end()
                 ->integerNode('height')->end()
                 ->booleanNode('multiple-select-row')->end()
-                ->booleanNode('search-highlight')->end()
                 ->scalarNode('sort-name')->end()
                 ->scalarNode('sort-order')->end()
-                ->booleanNode('virtual-scroll')->end()
-                ->integerNode('virtual-scroll-item-height')->end()
             ->end();
 
         return $node;

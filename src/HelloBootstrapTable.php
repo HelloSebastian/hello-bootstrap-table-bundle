@@ -295,8 +295,6 @@ abstract class HelloBootstrapTable
             "multiple-select-row" => false,
             "sort-name" => null,
             "sort-order" => null,
-            "virtual-scroll" => false,
-            "virtual-scroll-item-height" => null,
 
             //extensions
             "click-to-select" => true,
@@ -386,8 +384,6 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("multiple-select-row", ["bool"]);
         $resolver->setAllowedTypes("sort-name", ["string", "null"]);
         $resolver->setAllowedTypes("sort-order", ["string", "null"]);
-        $resolver->setAllowedTypes("virtual-scroll", ["bool"]);
-        $resolver->setAllowedTypes("virtual-scroll-item-height", ["int", "null"]);
 
         $resolver->setAllowedValues("sort-order", ["asc", "desc", null]);
     }
