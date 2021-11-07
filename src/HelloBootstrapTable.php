@@ -247,6 +247,7 @@ abstract class HelloBootstrapTable
             "pagination" => true,
             "search" => true,
             "show-columns" => true,
+            "show-columns-toggle-all" => false,
             "show-footer" => true,
             "show-refresh" => true,
             "filter-control" => true,
@@ -265,6 +266,35 @@ abstract class HelloBootstrapTable
             "advanced-search" => false,
             "id-table" => $this->getTableName(),
             "icons-prefix" => "fa",
+            "checkbox-header" => true,
+            "escape" => false,
+            "height" => null,
+            "multiple-select-row" => false,
+            "search-highlight" => false,
+            "sort-name" => null,
+            "sort-order" => null,
+            "virtual-scroll" => false,
+            "virtual-scroll-item-height" => null,
+
+            //extensions
+            "click-to-select" => true,
+            "show-jump-to" => true,
+
+            //export
+            "show-export" => true,
+            "export-types" => "['csv', 'txt'', 'excel']",
+            "export-options" => array(
+                'fileName' => (new \DateTime('now'))->format('Y-m-d_H-i-s') . '_export',
+                'ignoreColumn' => array("checkbox", "actions"),
+                'csvSeparator' => ';'
+            ),
+
+            //sticky header
+            "sticky-header" => true,
+            "sticky-header-offset-left" => 0,
+            "sticky-header-offset-right" => 0,
+            "sticky-header-offset-y" => 0,
+
             "icons" => function (OptionsResolver $resolver) {
                 $resolver->setDefaults(array(
                     "advancedSearchIcon" => "fa-filter",
@@ -294,30 +324,12 @@ abstract class HelloBootstrapTable
                 $resolver->setAllowedTypes("search", ["string"]);
                 $resolver->setAllowedTypes("clearSearch", ["string"]);
             },
-
-            //extensions
-            "click-to-select" => true,
-            "show-jump-to" => true,
-
-            //export
-            "show-export" => true,
-            "export-types" => "['csv', 'txt'', 'excel']",
-            "export-options" => array(
-                'fileName' => (new \DateTime('now'))->format('Y-m-d_H-i-s') . '_export',
-                'ignoreColumn' => array("checkbox", "actions"),
-                'csvSeparator' => ';'
-            ),
-
-            //sticky header
-            "sticky-header" => true,
-            "sticky-header-offset-left" => 0,
-            "sticky-header-offset-right" => 0,
-            "sticky-header-offset-y" => 0
         ));
 
         $resolver->setAllowedTypes("pagination", ["bool"]);
         $resolver->setAllowedTypes("search", ["bool"]);
         $resolver->setAllowedTypes("show-columns", ["bool"]);
+        $resolver->setAllowedTypes("show-columns-toggle-all", ["bool"]);
         $resolver->setAllowedTypes("show-footer", ["bool"]);
         $resolver->setAllowedTypes("detail-view", ["bool"]);
         $resolver->setAllowedTypes("detail-formatter", ["string"]);
@@ -346,6 +358,17 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("sticky-header-offset-left", ["int"]);
         $resolver->setAllowedTypes("sticky-header-offset-right", ["int"]);
         $resolver->setAllowedTypes("sticky-header-offset-y", ["int"]);
+        $resolver->setAllowedTypes("checkbox-header", ["bool"]);
+        $resolver->setAllowedTypes("escape", ["bool"]);
+        $resolver->setAllowedTypes("height", ["int", "null"]);
+        $resolver->setAllowedTypes("multiple-select-row", ["bool"]);
+        $resolver->setAllowedTypes("search-highlight", ["bool"]);
+        $resolver->setAllowedTypes("sort-name", ["string", "null"]);
+        $resolver->setAllowedTypes("sort-order", ["string", "null"]);
+        $resolver->setAllowedTypes("virtual-scroll", ["bool"]);
+        $resolver->setAllowedTypes("virtual-scroll-item-height", ["int", "null"]);
+
+        $resolver->setAllowedValues("sort-order", ["asc", "desc", null]);
     }
 
     /**

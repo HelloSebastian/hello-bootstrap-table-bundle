@@ -81,6 +81,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('pagination')->end()
                 ->booleanNode('search')->end()
                 ->booleanNode('show-columns')->end()
+                ->booleanNode('show-columns-toggle-all')->end()
                 ->booleanNode('show-footer')->end()
                 ->booleanNode('show-refresh')->end()
                 ->booleanNode('filter-control')->end()
@@ -108,6 +109,15 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('sticky-header-offset-left')->end()
                 ->integerNode('sticky-header-offset-right')->end()
                 ->integerNode('sticky-header-offset-y')->end()
+                ->booleanNode('checkbox-header')->end()
+                ->booleanNode('escape')->end()
+                ->integerNode('height')->end()
+                ->booleanNode('multiple-select-row')->end()
+                ->booleanNode('search-highlight')->end()
+                ->scalarNode('sort-name')->end()
+                ->scalarNode('sort-order')->end()
+                ->booleanNode('virtual-scroll')->end()
+                ->integerNode('virtual-scroll-item-height')->end()
             ->end();
 
         return $node;
