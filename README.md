@@ -255,35 +255,48 @@ The Twig function will render a `table` with all attributes configured.
 
 Represents column with text. With formatter you can create complex columns.
 
-#### Options
+#### Options from bootstrap-table
 
-| Option          | Type           | Default                        | Description                                                  |
-| --------------- | -------------- | ------------------------------ | ------------------------------------------------------------ |
-| title           | string / null  | null                           | Set column title. If no value is set, the specified attribute name is taken. |
-| field           | string / null  | null                           | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
-| width           | integer / null | null                           | column width in px                                           |
-| widthUnit       | string         | "px"                           | Unit of width.                                               |
-| class           | string / null  | null                           | The column class name.                                       |
-| formatter       | string / null  | null                           | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
-| footerFormatter | string / null  | null                           | JavaScript function name for footer formatter.               |
-| searchable      | bool           | true                           | enable / disable filtering for this column                   |
-| sortable        | bool           | true                           | enable / disable sortable for this column                    |
-| switchable      | bool           | true                           | enable / disable interactive hide and show of column.        |
-| visible         | bool           | true                           | show / hide column                                           |
-| emptyData       | string         | ""                             | default value if attribute from entity is null               |
-| sort            | Closure / null | null                           | custom sort query callback (see example)                     |
-| data            | Closure / null | null                           | custom data callback (see example)                           |
-| addIf           | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
-| align           | string / null  | null                           | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
-| halign          | string / null  | null                           | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
-| valign          | string / null  | null                           | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
-| falign          | string / null  | null                           | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
-| filter          | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
-| filterControl   | string         | "input"                        | render text field in column header                           |
+The following options were taken from bootstrap-table. For more information about the options, see the bootstrap-table documentation: https://bootstrap-table.com/docs/api/table-options/
+
+| Option          | Type           | Default | Description                                                  |
+| --------------- | -------------- | ------- | ------------------------------------------------------------ |
+| title           | string / null  | null    | Set column title. If no value is set, the specified attribute name is taken. |
+| field           | string / null  | null    | Set internal field name for bootstrap-table. If no value is set, the specified attribute name is taken. |
+| width           | integer / null | null    | column width in px                                           |
+| widthUnit       | string         | "px"    | Unit of width.                                               |
+| class           | string / null  | null    | The column class name.                                       |
+| formatter       | string / null  | null    | JavaScript function name for formatter. (see [formatter](https://bootstrap-table.com/docs/api/column-options/#formatter)) |
+| footerFormatter | string / null  | null    | JavaScript function name for footer formatter.               |
+| searchable      | bool           | true    | enable / disable filtering for this column                   |
+| sortable        | bool           | true    | enable / disable sortable for this column                    |
+| switchable      | bool           | true    | enable / disable interactive hide and show of column.        |
+| visible         | bool           | true    | show / hide column                                           |
+| align           | string / null  | null    | Indicate how to align the column data. `'left'`, `'right'`, `'center'` can be used. |
+| halign          | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
+| valign          | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
+| falign          | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
+| filterControl   | string         | "input" | render text field in column header                           |
+| titleTooltip    | string / null  | null    | add tooltip to header                                        |
+
+#### Options from HelloBootstrapTable
+
+The following options are not included in bootstrap-table. They were added separately.
+
+| Option    | Type           | Default                        | Description                                                  |
+| --------- | -------------- | ------------------------------ | ------------------------------------------------------------ |
+| emptyData | string         | ""                             | default value if attribute from entity is null               |
+| filter    | array          | `[TextFilter::class, array()]` | Set filter to column (see [Filters](#filters))               |
+| addIf     | Closure        | ` function() {return true;}`   | In this callback it is decided if the column will be rendered. |
+| sort      | Closure / null | null                           | custom sort query callback (see example)                     |
+| data      | Closure / null | null                           | custom data callback (see example)                           |
 
 #### Example
 
-```php
+<details>
+  <summary>Click to show Examples!</summary>
+
+  ```php
 //use statements for search and sort option
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
@@ -311,7 +324,9 @@ use Doctrine\ORM\QueryBuilder;
         $qb->setParameter("username", $search . '%');
     }
 ))
-```
+  ```
+
+</details>
 
 **search** Option:
 
