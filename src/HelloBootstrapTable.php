@@ -160,6 +160,13 @@ abstract class HelloBootstrapTable
         $this->configureTableDataset($tableDatasetResolver);
         $this->tableDataset = $tableDatasetResolver->resolve($this->tableDataset);
 
+        //remove dataset options that are null
+        foreach ($this->tableDataset as $key => $datum) {
+            if (is_null($datum)) {
+                unset($this->tableDataset[$key]);
+            }
+        }
+
         //set up table option resolver
         $tableOptionResolver = new OptionsResolver();
         $this->configureTableOptions($tableOptionResolver);
@@ -202,6 +209,22 @@ abstract class HelloBootstrapTable
     public function getQueryBuilder()
     {
         return $this->doctrineQueryBuilder->getQueryBuilder();
+    }
+
+    /**
+     * Sets default sorting for table.
+     *
+     * If direction is null, default sorting will be ignored.
+     *
+     * @param string $columnDql
+     * @param string|null $direction can only be "asc", "desc" or null
+     */
+    public function setDefaultSorting($columnDql, $direction)
+    {
+        $this->setTableDataset(array(
+            "sort-name" => $columnDql,
+            "sort-order" => $direction
+        ));
     }
 
     /**
