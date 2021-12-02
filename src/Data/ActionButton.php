@@ -48,7 +48,7 @@ class ActionButton
             'routeName' => null,
             'routeParams' => array('id'),
             'attr' => array(),
-            'addIf' => function () {
+            'addIf' => function ($entity) {
                 return true;
             }
         ));

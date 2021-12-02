@@ -191,7 +191,7 @@ class UserTable extends HelloBootstrapTable
                         'displayName' => 'edit',
                         'routeName' => 'edit_user',
                         'classNames' => 'btn btn-xs btn-warning',
-                        'addIf' => function() {
+                        'addIf' => function(User $user) {
                             // In this callback it is decided if the button will be rendered.
                             return $this->security->isGranted('ROLE_USER_EDITOR');
                         }
@@ -521,7 +521,7 @@ All Options of TextColumn
             'routeName' => 'edit_user',
             // 'classNames' => 'btn btn-xs' (see below for more information)
             'additionalClassNames' => 'btn-warning',
-            'addIf' => function() {
+            'addIf' => function(User $user) { // you can use your entity in the function
                 // In this callback it is decided if the button will be rendered.
                 return $this->security->isGranted('ROLE_ADMIN');
             }
@@ -532,15 +532,15 @@ All Options of TextColumn
 
 #### ActionButtons
 
-| Option               | Type    | Default                      | Description                                                  |
-| -------------------- | ------- | ---------------------------- | ------------------------------------------------------------ |
-| displayName          | string  | ""                           | label of button                                              |
-| routeName            | string  | ""                           | route name                                                   |
-| routeParams          | array   | ["id"]                       | Array of property value names for the route parameters. By default is `id` set. |
-| classNames           | string  | ""                           | CSS class names which added directly to the `a` element. Overrides default class names from YAML config. |
-| additionalClassNames | string  | ""                           | You can set default class names in YAML config. Then you can add additional class names to the button without override the default config. |
-| attr                 | array   | [ ]                          | Array of any number of attributes formatted as HTML attributes. The array `["title" => "Show"]` is formatted as `title="Show"`. The `href` and `class` attributes are created by the other options and should not be defined here. |
-| addIf                | Closure | ` function() {return true;}` | In this callback it is decided if the button will be rendered. |
+| Option               | Type    | Default                             | Description                                                  |
+| -------------------- | ------- | ----------------------------------- | ------------------------------------------------------------ |
+| displayName          | string  | ""                                  | label of button                                              |
+| routeName            | string  | ""                                  | route name                                                   |
+| routeParams          | array   | ["id"]                              | Array of property value names for the route parameters. By default is `id` set. |
+| classNames           | string  | ""                                  | CSS class names which added directly to the `a` element. Overrides default class names from YAML config. |
+| additionalClassNames | string  | ""                                  | You can set default class names in YAML config. Then you can add additional class names to the button without override the default config. |
+| attr                 | array   | [ ]                                 | Array of any number of attributes formatted as HTML attributes. The array `["title" => "Show"]` is formatted as `title="Show"`. The `href` and `class` attributes are created by the other options and should not be defined here. |
+| addIf                | Closure | ` function($entity) {return true;}` | In this callback it is decided if the button will be rendered. |
 
 #### YAML Example
 
