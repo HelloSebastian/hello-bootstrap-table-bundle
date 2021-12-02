@@ -34,7 +34,7 @@ class ActionColumn extends AbstractColumn
          * @var ActionButton $button
          */
         foreach ($this->outputOptions['buttons'] as $button) {
-            if ($button->getAddIfCallback()()) {
+            if ($button->getAddIfCallback()($entity)) {
                 $routeParams = array();
                 foreach ($button->getRouteParams() as $param) {
                     $routeParams[$param] = $this->propertyAccessor->getValue($entity, $param);
