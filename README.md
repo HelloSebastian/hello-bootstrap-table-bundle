@@ -431,9 +431,9 @@ All Options of TextColumn.
 
 | Option      | Type   | Default | Description                                                  |
 | ----------- | ------ | ------- | ------------------------------------------------------------ |
-| routeName   | string | null    | route name. This option is required.                         |
-| routeParams | array  | ["id"]  | Array of property value names for the route parameters. By default is `id` set. |
-| attr        | array  | [ ]     | Array of any number of attributes formatted as HTML attributes. The array `["class" => "btn btn-success"]` is formatted as `title="btn btn-success"`. |
+| routeName   | string | null    | Route name. This option is required.                         |
+| routeParams | array  | []      | Array of route parameters. The key is the parameter of the route. The value is the property path. |
+| attr        | array  | [ ]     | Array of any number of attributes formatted as HTML attributes. The array `["class" => "btn btn-success"]` is formatted as `class="btn btn-success"`. |
 
 #### Example
 
@@ -442,9 +442,31 @@ use HelloSebastian\HelloBootstrapTableBundle\Columns\LinkColumn;
 
 ->add('department.name', LinkColumn::class, array(
     'title' => 'Department',
-    'routeName' => 'show_department' // this option is required
+    'routeName' => 'show_department', // this option is required
+    'routeParams' => array(
+        'id' => 'department.id' // "id" is the route parameter of "show_department". "department.id" is the property path to fetch the value for the route parameter.
+    )
 ))
 ```
+
+If the route parameters cannot be determined automatically based on the entity, user-defined routes can be created by overwriting `data`. Once `data` is overwritten, `routeName` and `routeParams` are no longer necessary to specify.
+
+```php
+use HelloSebastian\HelloBootstrapTableBundle\Columns\LinkColumn;
+
+->add('department.name', LinkColumn::class, array(
+    'title' => 'Department',
+    'data' => function (User $user) {
+        return array(
+            'displayName' => $user->getDepartment()->getName(),
+            'route' => $this->router->generate('show_department', array('some_parameter' => 'Hello'),
+            'attr' => ''
+        );
+    }
+))
+```
+
+
 
 ---
 

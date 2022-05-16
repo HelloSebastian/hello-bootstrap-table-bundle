@@ -14,7 +14,7 @@ class LinkColumn extends AbstractColumn
 
         $resolver->setDefaults(array(
             "routeName" => null,
-            "routeParams" => array("id"),
+            "routeParams" => array(),
             "attr" => array(),
             "formatter" => "defaultLinkFormatter"
         ));
@@ -33,8 +33,8 @@ class LinkColumn extends AbstractColumn
         }
 
         $routeParams = array();
-        foreach ($this->outputOptions['routeParams'] as $param) {
-            $routeParams[$param] = $this->propertyAccessor->getValue($entity, $param);
+        foreach ($this->outputOptions['routeParams'] as $routeParam => $paramPath) {
+            $routeParams[$routeParam] = $this->propertyAccessor->getValue($entity, $paramPath);
         }
 
         return array(
