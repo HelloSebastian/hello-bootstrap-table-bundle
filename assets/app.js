@@ -6,7 +6,6 @@ require('./css/styles.css');
 
 require('bootstrap-table/dist/bootstrap-table.min');
 require('bootstrap-table/dist/extensions/export/bootstrap-table-export.min');
-require('bootstrap-table/dist/extensions/cookie/bootstrap-table-cookie.min');
 require('bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min');
 //require('bootstrap-table/dist/extensions/toolbar/bootstrap-table-toolbar.min');
 require('./bootstrap-table-toolbar');
