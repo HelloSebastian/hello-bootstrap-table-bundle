@@ -11,6 +11,7 @@ use HelloSebastian\HelloBootstrapTableBundle\Filters\BooleanChoiceFilter;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Cache\Adapter\PhpFilesAdapter;
 
 class DoctrineQueryBuilder
 {
@@ -82,16 +83,17 @@ class DoctrineQueryBuilder
      * Adds filtering and sorting to query, executes the query and returns data.
      *
      * @param array $requestData
+     * @param $enableTotalCountCache $enableCountCache
      * @return mixed
      */
-    public function fetchData($requestData)
+    public function fetchData($requestData, $enableTotalCountCache)
     {
         $this->setupJoinFields();
         $this->setupGlobalSearch($requestData['search']);
         $this->setupFilterSearch($requestData['filter']);
         $this->setupSort($requestData['sort'], $requestData['order']);
 
-        $this->setTotalCountAfterFiltering();
+        $this->setTotalCountAfterFiltering($enableTotalCountCache);
 
         $this->qb
             ->setFirstResult($requestData['offset'])
@@ -199,14 +201,20 @@ class DoctrineQueryBuilder
     /**
      * Executes sub query to count data after filtering was added to query.
      */
-    private function setTotalCountAfterFiltering()
+    private function setTotalCountAfterFiltering($enableTotalCountCache)
     {
         try {
             $qb = clone $this->qb;
             $qb->resetDQLPart('orderBy');
-            $this->totalCountAfterFiltering = $qb->select('COUNT(' . $this->rootAlias . '.' . $this->entityIdentifier . ')')
-                ->getQuery()
-                ->getSingleScalarResult();
+            $query = $qb->select('COUNT(' . $this->rootAlias . '.' . $this->entityIdentifier . ')')
+                ->getQuery();
+
+            if ($enableTotalCountCache) {
+                $cache = new PhpFilesAdapter($this->rootAlias . "_total_count_cache");
+                $query->setResultCache($cache);
+            }
+
+            $this->totalCountAfterFiltering = $query->getSingleScalarResult();
         } catch (NoResultException $e) {
             $this->totalCountAfterFiltering = 0;
         } catch (NonUniqueResultException $e) {

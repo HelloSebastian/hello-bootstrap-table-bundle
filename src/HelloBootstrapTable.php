@@ -141,7 +141,7 @@ abstract class HelloBootstrapTable
      */
     public function getResponse()
     {
-        return new JsonResponse($this->tableResponse->getData());
+        return new JsonResponse($this->tableResponse->getData($this->tableOptions["enableTotalCountCache"]));
     }
 
     /**
@@ -406,7 +406,8 @@ abstract class HelloBootstrapTable
             'bulkActionSelectClassNames' => 'form-control',
             'bulkActions' => array(),
             'bulkButtonName' => 'Okay',
-            'bulkButtonClassNames' => 'btn btn-primary'
+            'bulkButtonClassNames' => 'btn btn-primary',
+            'enableTotalCountCache' => false
         ));
 
         $resolver->setAllowedTypes("tableClassNames", ["string"]);
@@ -417,5 +418,6 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("bulkActions", ["array"]);
         $resolver->setAllowedTypes("bulkButtonName", ["string"]);
         $resolver->setAllowedTypes("bulkButtonClassNames", ["string"]);
+        $resolver->setAllowedTypes("enableTotalCountCache", ["bool"]);
     }
 }

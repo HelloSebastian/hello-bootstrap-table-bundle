@@ -112,8 +112,6 @@ $ php bin/console assets:install --symlink
 {{ hello_bootstrap_table_js() }}
 ```
 
-You can also use other CSS frameworks. See the bootstrap-table documentation for more information.
-
 ---
 
 ## Your First Table
@@ -874,6 +872,7 @@ All options that should not be provided directly as data-attributes of the table
 | bulkActions                | array  | [ ]                             |
 | bulkButtonName             | string | "Okay"                          |
 | bulkButtonClassNames       | string | "btn btn-primary"               |
+| enableTotalCountCache      | bool   | false                           |
 
 
 #### Examples
