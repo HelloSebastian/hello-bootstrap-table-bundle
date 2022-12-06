@@ -110,11 +110,12 @@ class TableResponse
     /**
      * Gets all fetches data from database with total count.
      *
+     * @param boolean $enableTotalCountCache
      * @return array
      */
-    public function getData()
+    public function getData($enableTotalCountCache)
     {
-        $entities = $this->doctrineQueryBuilder->fetchData($this->requestData);
+        $entities = $this->doctrineQueryBuilder->fetchData($this->requestData, $enableTotalCountCache);
 
         return array(
             "rows" => $this->dataBuilder->buildDataAsArray($entities),
