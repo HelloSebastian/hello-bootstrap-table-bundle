@@ -1,15 +1,13 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
-
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeColumn extends AbstractColumn
 {
 
-    protected function configureOutputOptions(OptionsResolver $resolver)
+    protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         parent::configureOutputOptions($resolver);
 

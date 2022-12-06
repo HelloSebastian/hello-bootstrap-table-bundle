@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
-
 
 use Symfony\Component\Routing\RouterInterface;
 
@@ -31,7 +29,7 @@ class ColumnBuilder
      * @param RouterInterface $router
      * @param array $defaultButtonOptions
      */
-    public function __construct(RouterInterface $router, $defaultButtonOptions)
+    public function __construct(RouterInterface $router, array $defaultButtonOptions)
     {
         $this->router = $router;
         $this->defaultButtonOptions = $defaultButtonOptions;
@@ -43,7 +41,7 @@ class ColumnBuilder
      * @param string $field
      * @return AbstractColumn|null
      */
-    public function getColumnByField($field)
+    public function getColumnByField(string $field): ?AbstractColumn
     {
         foreach ($this->columns as $column) {
             if ($column->getField() == $field) {
@@ -60,7 +58,7 @@ class ColumnBuilder
      * @param string $dql
      * @return AbstractColumn|null
      */
-    public function getColumnByDql($dql)
+    public function getColumnByDql(string $dql): ?AbstractColumn
     {
         foreach ($this->columns as $column) {
             if ($column->getDql() == $dql) {
@@ -79,7 +77,7 @@ class ColumnBuilder
      * @param array $options
      * @return $this
      */
-    public function add($dql, $columnClass, $options = array())
+    public function add(string $dql, string $columnClass, array $options = array()): self
     {
         /** @var AbstractColumn $column */
         $column = new $columnClass($dql, $options);
@@ -96,7 +94,7 @@ class ColumnBuilder
      *
      * @param string $dql
      */
-    public function remove($dql)
+    public function remove(string $dql): void
     {
         foreach ($this->columns as $key => $column) {
             if ($column->getDql() == $dql) {
@@ -109,7 +107,7 @@ class ColumnBuilder
     /**
      * @return array
      */
-    public function buildColumnsArray()
+    public function buildColumnsArray(): array
     {
         $data = array();
         foreach ($this->getColumns() as $column) {
@@ -120,9 +118,10 @@ class ColumnBuilder
     }
 
     /**
+     * @param bool $ignoreAddIf
      * @return AbstractColumn[]
      */
-    public function getColumns($ignoreAddIf = false)
+    public function getColumns(bool $ignoreAddIf = false): array
     {
         if (!$ignoreAddIf) {
             $columns = array();
@@ -138,7 +137,7 @@ class ColumnBuilder
         return $this->columns;
     }
 
-    public function getDefaultButtonOptions()
+    public function getDefaultButtonOptions(): array
     {
         return $this->defaultButtonOptions;
     }

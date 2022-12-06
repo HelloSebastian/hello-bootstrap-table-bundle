@@ -1,15 +1,13 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
-
 
 use HelloSebastian\HelloBootstrapTableBundle\Data\ActionButton;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ActionColumn extends AbstractColumn
 {
-    protected function configureOutputOptions(OptionsResolver $resolver)
+    protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         parent::configureOutputOptions($resolver);
 
@@ -55,7 +53,7 @@ class ActionColumn extends AbstractColumn
     /**
      * Creates for each array item a ActionButton object and replace it in buttons array.
      */
-    private function buildButtons()
+    private function buildButtons(): void
     {
         foreach ($this->outputOptions['buttons'] as $key => $button) {
             if (is_array($button)) {
@@ -63,5 +61,4 @@ class ActionColumn extends AbstractColumn
             }
         }
     }
-
 }

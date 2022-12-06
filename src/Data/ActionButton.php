@@ -2,7 +2,6 @@
 
 namespace HelloSebastian\HelloBootstrapTableBundle\Data;
 
-
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\FormatAttributeTrait;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +28,7 @@ class ActionButton
      * @param AbstractColumn $column
      * @param array $options
      */
-    public function __construct(AbstractColumn $column, $options)
+    public function __construct(AbstractColumn $column, array $options)
     {
         $this->column = $column;
 
@@ -39,7 +38,7 @@ class ActionButton
         $this->options = $resolver->resolve($options);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'displayName' => null,
@@ -65,7 +64,7 @@ class ActionButton
         $resolver->setAllowedTypes('attr', 'array');
     }
 
-    public function getClassNames()
+    public function getClassNames(): string
     {
         $defaultActionButtonOptions = $this->column->getColumnBuilder()->getDefaultButtonOptions();
         $defaultClassNames = "";
@@ -77,32 +76,32 @@ class ActionButton
         return $classNames . ' ' . $this->options['additionalClassNames'];
     }
 
-    public function getDisplayName()
+    public function getDisplayName(): string
     {
         return $this->options['displayName'];
     }
 
-    public function getRouteName()
+    public function getRouteName(): string
     {
         return $this->options['routeName'];
     }
 
-    public function getRouteParams()
+    public function getRouteParams(): array
     {
         return $this->options['routeParams'];
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function getAddIfCallback()
+    public function getAddIfCallback(): \Closure
     {
         return $this->options['addIf'];
     }
 
-    public function getAttr()
+    public function getAttr(): array
     {
         return $this->options['attr'];
     }

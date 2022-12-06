@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Query;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -65,8 +64,7 @@ class DoctrineQueryBuilder
      */
     private $metadata;
 
-
-    public function __construct(EntityManagerInterface $em, $entityName, ColumnBuilder $columnBuilder)
+    public function __construct(EntityManagerInterface $em, string $entityName, ColumnBuilder $columnBuilder)
     {
         $this->em = $em;
         $this->entityName = $entityName;
@@ -84,9 +82,9 @@ class DoctrineQueryBuilder
      *
      * @param array $requestData
      * @param $enableTotalCountCache $enableCountCache
-     * @return mixed
+     * @return array
      */
-    public function fetchData($requestData, $enableTotalCountCache)
+    public function fetchData(array $requestData, bool $enableTotalCountCache): array
     {
         $this->setupJoinFields();
         $this->setupGlobalSearch($requestData['search']);
@@ -102,7 +100,7 @@ class DoctrineQueryBuilder
         return $this->qb->getQuery()->getResult();
     }
 
-    private function setupSort($sortColumn, $order)
+    private function setupSort($sortColumn, $order): void
     {
         if ($sortColumn) {
             $column = $this->columnBuilder->getColumnByField($sortColumn);
@@ -117,7 +115,7 @@ class DoctrineQueryBuilder
         }
     }
 
-    private function setupFilterSearch($filters)
+    private function setupFilterSearch($filters): void
     {
         // in filter search all searchable columns are connected as an AND expression
         $andExpr = $this->qb->expr()->andX();
@@ -142,7 +140,7 @@ class DoctrineQueryBuilder
         }
     }
 
-    private function setupGlobalSearch($search)
+    private function setupGlobalSearch($search): void
     {
         // in global search all searchable columns are connected as a OR expression
         $orExpr = $this->qb->expr()->orX();
@@ -168,7 +166,7 @@ class DoctrineQueryBuilder
         }
     }
 
-    private function setupJoinFields()
+    private function setupJoinFields(): void
     {
         $joins = array();
 
@@ -201,7 +199,7 @@ class DoctrineQueryBuilder
     /**
      * Executes sub query to count data after filtering was added to query.
      */
-    private function setTotalCountAfterFiltering($enableTotalCountCache)
+    private function setTotalCountAfterFiltering($enableTotalCountCache): void
     {
         try {
             $qb = clone $this->qb;
@@ -227,17 +225,17 @@ class DoctrineQueryBuilder
      *
      * @return int
      */
-    public function getTotalCount()
+    public function getTotalCount(): int
     {
         return $this->totalCountAfterFiltering;
     }
 
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->qb;
     }
 
-    private function getSafeName($name)
+    private function getSafeName($name): string
     {
         try {
             $reservedKeywordsList = $this->em->getConnection()->getDatabasePlatform()->getReservedKeywordsList();
@@ -249,13 +247,13 @@ class DoctrineQueryBuilder
         return $isReservedKeyword ? "_{$name}" : $name;
     }
 
-    private function getIdentifier(ClassMetadata $metadata)
+    private function getIdentifier(ClassMetadata $metadata): ?string
     {
         $identifiers = $metadata->getIdentifierFieldNames();
         return array_shift($identifiers);
     }
 
-    private function getPropertyPath(AbstractColumn $column)
+    private function getPropertyPath(AbstractColumn $column): string
     {
         if ($column->isAssociation()) {
             $path = $column->getPropertyPath();

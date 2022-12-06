@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CountColumn extends AbstractColumn
 {
 
-    protected function configureInternalOptions(OptionsResolver $resolver)
+    protected function configureInternalOptions(OptionsResolver $resolver): void
     {
         parent::configureInternalOptions($resolver);
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle;
 
 
@@ -38,7 +37,7 @@ class HelloBootstrapTableFactory
      */
     private $defaultConfig;
 
-    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, Security $security, $defaultConfig = array())
+    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, Security $security, array $defaultConfig = array())
     {
         $this->router = $router;
         $this->em = $em;
@@ -54,7 +53,7 @@ class HelloBootstrapTableFactory
      * @param array $options
      * @return HelloBootstrapTable
      */
-    public function create($helloTable, $options = array())
+    public function create(string $helloTable, array $options = array()): HelloBootstrapTable
     {
         if (!\is_string($helloTable)) {
             $type = \gettype($helloTable);

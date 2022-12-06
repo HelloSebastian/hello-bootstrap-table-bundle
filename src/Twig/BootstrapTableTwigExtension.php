@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Twig;
-
 
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -15,10 +13,7 @@ class BootstrapTableTwigExtension extends AbstractExtension
 {
     const ASSET_VERSION = "5";
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'hello_bootstrap_table_twig_extension';
     }
@@ -26,7 +21,7 @@ class BootstrapTableTwigExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction(
@@ -56,14 +51,14 @@ class BootstrapTableTwigExtension extends AbstractExtension
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function helloBootstrapTableRender(Environment $twig, $bootstrapTable)
+    public function helloBootstrapTableRender(Environment $twig, array $bootstrapTable): string
     {
         return $twig->render('@HelloBootstrapTable/table/hello_bootstrap_table.html.twig', array(
             'table' => $bootstrapTable,
         ));
     }
 
-    public function helloBootstrapTableJs(Environment $twig)
+    public function helloBootstrapTableJs(Environment $twig): string
     {
         $assetFunction = $twig->getFunction('asset')->getCallable();
         return sprintf('<script src="%s?v=%s" defer></script>',
@@ -72,7 +67,7 @@ class BootstrapTableTwigExtension extends AbstractExtension
         );
     }
 
-    public function helloBootstrapTableCss(Environment $twig)
+    public function helloBootstrapTableCss(Environment $twig): string
     {
         $assetFunction = $twig->getFunction('asset')->getCallable();
         return sprintf('<link rel="stylesheet" href="%s?v=%s">',
