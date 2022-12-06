@@ -16,7 +16,7 @@ class CountFilter extends AbstractFilter
      */
     static $subQueryCounter = 0;
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -29,7 +29,7 @@ class CountFilter extends AbstractFilter
         $resolver->setAllowedTypes("primaryKey", ["string"]);
     }
 
-    public function addOrder(QueryBuilder $qb, $dql, $direction, ClassMetadata $metadata)
+    public function addOrder(QueryBuilder $qb, string $dql, string $direction, ClassMetadata $metadata): void
     {
         $alias = str_replace(".", "_", $dql);
 
@@ -41,7 +41,7 @@ class CountFilter extends AbstractFilter
         $qb->addOrderBy("count_$alias", $direction);
     }
 
-    public function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata)
+    public function addExpression(Composite $composite, QueryBuilder $qb, string $dql, string $search, int $key, ClassMetadata $metadata): void
     {
         if (!is_numeric($search)) {
             return;
@@ -54,7 +54,7 @@ class CountFilter extends AbstractFilter
         $qb->setParameter($key, $search);
     }
 
-    private function createSubQuery(QueryBuilder $qb, ClassMetadata $metadata, $dql)
+    private function createSubQuery(QueryBuilder $qb, ClassMetadata $metadata, string $dql): QueryBuilder
     {
         self::$subQueryCounter++;
 

@@ -1,18 +1,14 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\DependencyInjection;
 
-
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('hello_bootstrap_table');
         $rootNode = $treeBuilder->getRootNode();
@@ -29,7 +25,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function addActionButtonOptions()
+    private function addActionButtonOptions(): NodeDefinition
     {
         $treeBuilder = new TreeBuilder('action_button_options');
         $node = $treeBuilder->getRootNode();
@@ -44,7 +40,7 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    private function addTableOptions()
+    private function addTableOptions(): NodeDefinition
     {
         $treeBuilder = new TreeBuilder('table_options');
         $node = $treeBuilder->getRootNode();
@@ -69,7 +65,7 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    private function addTableDatasetOptions()
+    private function addTableDatasetOptions(): NodeDefinition
     {
         $treeBuilder = new TreeBuilder('table_dataset_options');
         $node = $treeBuilder->getRootNode();
@@ -120,7 +116,7 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    private function addIconsOptions()
+    private function addIconsOptions(): NodeDefinition
     {
         $treeBuilder = new TreeBuilder('icons');
         $node = $treeBuilder->getRootNode();

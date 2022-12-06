@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
 
 class TextColumn extends AbstractColumn

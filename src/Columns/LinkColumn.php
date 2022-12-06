@@ -8,7 +8,7 @@ class LinkColumn extends AbstractColumn
 {
     use FormatAttributeTrait;
 
-    protected function configureOutputOptions(OptionsResolver $resolver)
+    protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         parent::configureOutputOptions($resolver);
 

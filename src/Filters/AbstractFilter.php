@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Filters;
-
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr\Composite;
@@ -22,7 +20,7 @@ abstract class AbstractFilter
      */
     protected $options;
 
-    public function __construct(AbstractColumn $column, $options)
+    public function __construct(AbstractColumn $column, array $options)
     {
         $this->column = $column;
         $this->options = $options;
@@ -36,7 +34,7 @@ abstract class AbstractFilter
         }
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             "advSearchFieldFormatter" => "defaultAdvSearchTextField",
@@ -47,14 +45,14 @@ abstract class AbstractFilter
         $resolver->setAllowedTypes("placeholder", ["string", "null"]);
     }
 
-    public abstract function addExpression(Composite $composite, QueryBuilder $qb, $dql, $search, $key, ClassMetadata $metadata);
+    public abstract function addExpression(Composite $composite, QueryBuilder $qb, string $dql, string $search, int $key, ClassMetadata $metadata): void;
 
-    public function addOrder(QueryBuilder $qb, $dql, $direction, ClassMetadata $metadata)
+    public function addOrder(QueryBuilder $qb, string $dql, string $direction, ClassMetadata $metadata): void
     {
         $qb->addOrderBy($dql, $direction);
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }

@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BooleanColumn extends AbstractColumn
 {
-    protected function configureOutputOptions(OptionsResolver $resolver)
+    protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         parent::configureOutputOptions($resolver);
 
@@ -23,7 +23,7 @@ class BooleanColumn extends AbstractColumn
         $resolver->setAllowedTypes('falseLabel', 'string');
     }
 
-    protected function configureInternalOptions(OptionsResolver $resolver)
+    protected function configureInternalOptions(OptionsResolver $resolver): void
     {
         parent::configureInternalOptions($resolver);
 

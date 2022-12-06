@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Response;
-
 
 use HelloSebastian\HelloBootstrapTableBundle\Data\DataBuilder;
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTable;
@@ -13,8 +11,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TableResponse
 {
-    private $requestData = array();
+    /**
+     * @var array
+     */
+    private $requestData;
 
+    /**
+     * @var string
+     */
     private $defaultRequestUri;
 
     /**
@@ -60,7 +64,7 @@ class TableResponse
      *
      * @param Request $request
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request): void
     {
         $this->defaultRequestUri = $request->getRequestUri();
 
@@ -84,7 +88,7 @@ class TableResponse
      *
      * @param OptionsResolver $resolver
      */
-    public function configureRequestData(OptionsResolver $resolver)
+    public function configureRequestData(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'filter' => array(), //advanced search
@@ -113,7 +117,7 @@ class TableResponse
      * @param boolean $enableTotalCountCache
      * @return array
      */
-    public function getData($enableTotalCountCache)
+    public function getData(bool $enableTotalCountCache): array
     {
         $entities = $this->doctrineQueryBuilder->fetchData($this->requestData, $enableTotalCountCache);
 
@@ -128,7 +132,7 @@ class TableResponse
      *
      * @return bool
      */
-    public function isCallback()
+    public function isCallback(): bool
     {
         return $this->requestData['isCallback'] && $this->requestData['tableName'] == $this->bootstrapTable->getTableName();
     }
@@ -136,9 +140,9 @@ class TableResponse
     /**
      * Sets callback url. Used if callback should handle by other controller.
      *
-     * @param $callbackUrl
+     * @param string $callbackUrl
      */
-    public function setCallbackUrl($callbackUrl)
+    public function setCallbackUrl(string $callbackUrl): void
     {
         $this->callbackUrl = $callbackUrl;
     }
@@ -149,7 +153,7 @@ class TableResponse
      *
      * @return string
      */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return is_null($this->callbackUrl) ? $this->defaultRequestUri : $this->callbackUrl;
     }

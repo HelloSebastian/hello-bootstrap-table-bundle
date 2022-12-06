@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle;
 
 use Doctrine\ORM\QueryBuilder;
@@ -84,7 +83,7 @@ abstract class HelloBootstrapTable
      * @param array $options
      * @param array $defaultOptions
      */
-    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, Security $security, $options, $defaultOptions = array())
+    public function __construct(RouterInterface $router, EntityManagerInterface $em, Environment $twig, Security $security, array $options, array $defaultOptions = array())
     {
         $this->router = $router;
         $this->twig = $twig;
@@ -105,21 +104,21 @@ abstract class HelloBootstrapTable
      * @param ColumnBuilder $builder
      * @param array $options
      */
-    protected abstract function buildColumns(ColumnBuilder $builder, $options);
+    protected abstract function buildColumns(ColumnBuilder $builder, array $options): void;
 
     /**
-     * Returns FQCN of entity class.
+     * Returns FQDN of entity class.
      *
      * @return string
      */
-    protected abstract function getEntityClass();
+    protected abstract function getEntityClass(): string;
 
     /**
      * Handles request and gets request information.
      *
      * @param Request $request
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request): void
     {
         $this->tableResponse->handleRequest($request);
     }
@@ -129,7 +128,7 @@ abstract class HelloBootstrapTable
      *
      * @return boolean
      */
-    public function isCallback()
+    public function isCallback(): bool
     {
         return $this->tableResponse->isCallback();
     }
@@ -139,8 +138,9 @@ abstract class HelloBootstrapTable
      *
      * @return JsonResponse
      */
-    public function getResponse()
+    public function getResponse(): JsonResponse
     {
+        $this->setupTableOptions();
         return new JsonResponse($this->tableResponse->getData($this->tableOptions["enableTotalCountCache"]));
     }
 
@@ -149,28 +149,10 @@ abstract class HelloBootstrapTable
      *
      * @return array
      */
-    public function createView()
+    public function createView(): array
     {
-        //set default options from yaml config
-        $this->tableOptions = array_merge($this->defaultOptions['table_options'], $this->tableOptions);
-        $this->tableDataset = array_merge($this->defaultOptions['table_dataset_options'], $this->tableDataset);
-
-        //set up table dataset resolver
-        $tableDatasetResolver = new OptionsResolver();
-        $this->configureTableDataset($tableDatasetResolver);
-        $this->tableDataset = $tableDatasetResolver->resolve($this->tableDataset);
-
-        //remove dataset options that are null
-        foreach ($this->tableDataset as $key => $datum) {
-            if (is_null($datum)) {
-                unset($this->tableDataset[$key]);
-            }
-        }
-
-        //set up table option resolver
-        $tableOptionResolver = new OptionsResolver();
-        $this->configureTableOptions($tableOptionResolver);
-        $this->tableOptions = $tableOptionResolver->resolve($this->tableOptions);
+        $this->setupTableOptions();
+        $this->setupTableDataset();
 
         $columns = $this->columnBuilder->buildColumnsArray();
 
@@ -196,7 +178,7 @@ abstract class HelloBootstrapTable
      *
      * @return ColumnBuilder
      */
-    public function getColumnBuilder()
+    public function getColumnBuilder(): ColumnBuilder
     {
         return $this->columnBuilder;
     }
@@ -206,7 +188,7 @@ abstract class HelloBootstrapTable
      *
      * @return QueryBuilder
      */
-    public function getQueryBuilder()
+    public function getQueryBuilder(): QueryBuilder
     {
         return $this->doctrineQueryBuilder->getQueryBuilder();
     }
@@ -219,7 +201,7 @@ abstract class HelloBootstrapTable
      * @param string $columnDql
      * @param string|null $direction can only be "asc", "desc" or null
      */
-    public function setDefaultSorting($columnDql, $direction)
+    public function setDefaultSorting(string $columnDql, string $direction): void
     {
         $this->setTableDataset(array(
             "sort-name" => $columnDql,
@@ -232,7 +214,7 @@ abstract class HelloBootstrapTable
      *
      * @param array $tableDataset
      */
-    public function setTableDataset($tableDataset)
+    public function setTableDataset(array $tableDataset): void
     {
         $this->tableDataset = array_merge($this->tableDataset, $tableDataset);
     }
@@ -242,12 +224,12 @@ abstract class HelloBootstrapTable
      *
      * @param array $options
      */
-    public function setTableOptions($options)
+    public function setTableOptions(array $options): void
     {
         $this->tableOptions = array_merge($this->tableOptions, $options);
     }
 
-    public function getTableName()
+    public function getTableName(): string
     {
         $className = get_class($this);
         $className = strtolower($className);
@@ -264,7 +246,7 @@ abstract class HelloBootstrapTable
      *
      * @param OptionsResolver $resolver
      */
-    protected function configureTableDataset(OptionsResolver $resolver)
+    protected function configureTableDataset(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             "pagination" => true,
@@ -396,7 +378,7 @@ abstract class HelloBootstrapTable
      *
      * @param OptionsResolver $resolver
      */
-    protected function configureTableOptions(OptionsResolver $resolver)
+    protected function configureTableOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'tableClassNames' => 'table table-striped table-sm',
@@ -419,5 +401,34 @@ abstract class HelloBootstrapTable
         $resolver->setAllowedTypes("bulkButtonName", ["string"]);
         $resolver->setAllowedTypes("bulkButtonClassNames", ["string"]);
         $resolver->setAllowedTypes("enableTotalCountCache", ["bool"]);
+    }
+
+    private function setupTableOptions(): void
+    {
+        //set default options from yaml config
+        $this->tableOptions = array_merge($this->defaultOptions['table_options'], $this->tableOptions);
+
+        //set up table option resolver
+        $tableOptionResolver = new OptionsResolver();
+        $this->configureTableOptions($tableOptionResolver);
+        $this->tableOptions = $tableOptionResolver->resolve($this->tableOptions);
+    }
+
+    private function setupTableDataset(): void
+    {
+        //set default options from yaml config
+        $this->tableDataset = array_merge($this->defaultOptions['table_dataset_options'], $this->tableDataset);
+
+        //set up table dataset resolver
+        $tableDatasetResolver = new OptionsResolver();
+        $this->configureTableDataset($tableDatasetResolver);
+        $this->tableDataset = $tableDatasetResolver->resolve($this->tableDataset);
+
+        //remove dataset options that are null
+        foreach ($this->tableDataset as $key => $datum) {
+            if (is_null($datum)) {
+                unset($this->tableDataset[$key]);
+            }
+        }
     }
 }

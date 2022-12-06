@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Columns;
-
 
 use HelloSebastian\HelloBootstrapTableBundle\Filters\AbstractFilter;
 use HelloSebastian\HelloBootstrapTableBundle\Filters\TextFilter;
@@ -55,7 +53,7 @@ abstract class AbstractColumn
         $this->setOptions($options);
     }
 
-    public function setOptions($options)
+    public function setOptions($options): void
     {
         //configure resolvers ...
         $outputOptionResolver = new OptionsResolver();
@@ -104,7 +102,7 @@ abstract class AbstractColumn
      *
      * @param RouterInterface $router
      */
-    public function setRouter(RouterInterface $router)
+    public function setRouter(RouterInterface $router): void
     {
         $this->router = $router;
     }
@@ -114,14 +112,14 @@ abstract class AbstractColumn
      *
      * @param ColumnBuilder $columnBuilder
      */
-    public function setColumnBuilder(ColumnBuilder $columnBuilder)
+    public function setColumnBuilder(ColumnBuilder $columnBuilder): void
     {
         $this->columnBuilder = $columnBuilder;
     }
 
     /**
      * @param $entity
-     * @return array
+     * @return array|string
      */
     public abstract function buildData($entity);
 
@@ -136,7 +134,7 @@ abstract class AbstractColumn
      * @param string $key
      * @param mixed $value
      */
-    public function replaceOption($key, $value)
+    public function replaceOption(string $key, $value)
     {
         $options = array_merge($this->outputOptions, $this->internalOptions);
         $options[$key] = $value;
@@ -144,7 +142,7 @@ abstract class AbstractColumn
         $this->setOptions($options);
     }
 
-    public function getOutputOptions($filterNulls = true)
+    public function getOutputOptions(bool $filterNulls = true): array
     {
         if ($filterNulls) {
             $outputOptions = $this->outputOptions;
@@ -157,7 +155,7 @@ abstract class AbstractColumn
         return $this->outputOptions;
     }
 
-    public function getPropertyPath()
+    public function getPropertyPath(): string
     {
         if ($this->isAssociation()) {
             $parts = explode(".", $this->dql);
@@ -168,57 +166,57 @@ abstract class AbstractColumn
         return $this->dql;
     }
 
-    public function getField()
+    public function getField(): string
     {
         return $this->outputOptions['field'];
     }
 
-    public function getFilter()
+    public function getFilter(): ?AbstractFilter
     {
         return $this->filter;
     }
 
-    public function getDataCallback()
+    public function getDataCallback(): ?\Closure
     {
         return $this->internalOptions['data'];
     }
 
-    public function getSortCallback()
+    public function getSortCallback(): ?\Closure
     {
         return $this->internalOptions['sort'];
     }
 
-    public function getSearchCallback()
+    public function getSearchCallback(): ?\Closure
     {
         return $this->internalOptions['search'];
     }
 
-    public function getAddIfCallback()
+    public function getAddIfCallback(): ?\Closure
     {
         return $this->internalOptions['addIf'];
     }
 
-    public function getEmptyData()
+    public function getEmptyData(): string
     {
         return $this->internalOptions['emptyData'];
     }
 
-    public function isAssociation()
+    public function isAssociation(): bool
     {
         return (false !== strpos($this->dql, "."));
     }
 
-    public function isSearchable()
+    public function isSearchable(): bool
     {
         return $this->outputOptions['searchable'];
     }
 
-    public function getColumnBuilder()
+    public function getColumnBuilder(): ColumnBuilder
     {
         return $this->columnBuilder;
     }
 
-    protected function configureInternalOptions(OptionsResolver $resolver)
+    protected function configureInternalOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'emptyData' => '',
@@ -226,7 +224,7 @@ abstract class AbstractColumn
             'sort' => null,
             'search' => null,
             'filter' => array(TextFilter::class, array()),
-            'addIf' => function() {
+            'addIf' => function () {
                 return true;
             }
         ));
@@ -239,7 +237,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('addIf', ['Closure']);
     }
 
-    protected function configureOutputOptions(OptionsResolver $resolver)
+    protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(array(
             'title' => null,
@@ -289,5 +287,4 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);
         $resolver->setAllowedTypes('filterControl', ['string']);
     }
-
 }

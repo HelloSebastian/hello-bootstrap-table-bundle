@@ -1,8 +1,6 @@
 <?php
 
-
 namespace HelloSebastian\HelloBootstrapTableBundle\Data;
-
 
 use HelloSebastian\HelloBootstrapTableBundle\Columns\AbstractColumn;
 use HelloSebastian\HelloBootstrapTableBundle\Columns\ColumnBuilder;
@@ -27,19 +25,16 @@ class DataBuilder
     /**
      * Loops over all columns and builds data array.
      *
-     * @param $entities
+     * @param array $entities
      * @return array
      */
-    public function buildDataAsArray($entities)
+    public function buildDataAsArray(array $entities): array
     {
         $data = array();
         foreach ($entities as $entity) {
-
             $row = array();
 
-            /** @var AbstractColumn $column */
             foreach ($this->columnBuilder->getColumns() as $column) {
-
                 // if custom data callback is set, execute it.
                 if (!is_null($column->getDataCallback())) {
                     $row[$column->getField()] = $column->getDataCallback()($entity);
@@ -54,5 +49,4 @@ class DataBuilder
 
         return $data;
     }
-
 }
