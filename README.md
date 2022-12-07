@@ -119,7 +119,7 @@ $ php bin/console assets:install --symlink
 ### Step 1: Create a Table class
 
 
-``` php
+```php
 // src/HelloTable/UserTable.php
 
 <?php
@@ -207,7 +207,7 @@ class UserTable extends HelloBootstrapTable
 
 ### Step 2: In the Controller
 
-``` php
+```php
 // src/Controller/UserController.php
 
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
@@ -217,7 +217,7 @@ use App\HelloTable\UserTable;
 /**
  * @Route("/", name="default")
  */
-public function index(Request $request, HelloBootstrapTableFactory $tableFactory) : Response
+public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
 {
     $table = $tableFactory->create(UserTable::class);
 
@@ -234,7 +234,7 @@ public function index(Request $request, HelloBootstrapTableFactory $tableFactory
 
 ### Step 3: Add table in Template
 
-``` twig
+```twig
 {# index.html.twig #}
 
 {% extends 'base.html.twig' %}
@@ -293,7 +293,7 @@ The following options are not included in bootstrap-table. They were added separ
 
 #### Example
 
-  ```php
+```php
 //use statements for search and sort option
 use Doctrine\ORM\Query\Expr\Composite;
 use Doctrine\ORM\QueryBuilder;
@@ -321,7 +321,7 @@ use Doctrine\ORM\QueryBuilder;
         $qb->setParameter("username", $search . '%');
     }
 ))
-  ```
+ ```
 
 **search** Option:
 
@@ -805,7 +805,7 @@ array(
 
 **Inside from Table class:**
 
-``` php
+```php
 // src/HelloTable/UserTable.php
 
 class UserTable extends HelloBootstrapTable
@@ -823,7 +823,7 @@ class UserTable extends HelloBootstrapTable
 
 **Outside from Table class:**
 
-``` php
+```php
 // src/Controller/UserController.php
 
 public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
@@ -894,10 +894,10 @@ class UserTable extends HelloBootstrapTable
 
 **Outside from Table class:**
 
-``` php
+```php
 // src/Controller/UserController.php
 
-public function index(Request $request, HelloBootstrapTableFactory $tableFactory) : Response
+public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
 {
     $table = $tableFactory->create(UserTable::class);
 
@@ -1002,8 +1002,6 @@ $table = $tableFactory->create(UserTable::class);
 $table->setDefaultSorting("firstName", "desc");
 
 ```
-
-
 
 ---
 
