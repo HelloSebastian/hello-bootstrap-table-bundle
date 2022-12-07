@@ -137,8 +137,7 @@ use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTable;
 
 class UserTable extends HelloBootstrapTable
 {
-  
-    protected function buildColumns(ColumnBuilder $builder, $options)
+    protected function buildColumns(ColumnBuilder $builder, array $options): void
     {
         $builder
             ->add("id", HiddenColumn::class)
@@ -198,7 +197,7 @@ class UserTable extends HelloBootstrapTable
             ));
     }
 
-    protected function getEntityClass()
+    protected function getEntityClass(): string
     {
         return User::class;
     }
@@ -810,10 +809,8 @@ array(
 // src/HelloTable/UserTable.php
 
 class UserTable extends HelloBootstrapTable
-{
-    ...
-      
-    protected function buildColumns(ColumnBuilder $builder, $options)
+{ 
+    protected function buildColumns(ColumnBuilder $builder, array $options): void
     {
         $this->setTableDataset(array(
             'locale' => 'de-DE'
@@ -829,7 +826,7 @@ class UserTable extends HelloBootstrapTable
 ``` php
 // src/Controller/UserController.php
 
-public function index(Request $request, HelloBootstrapTableFactory $tableFactory) : Response
+public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
 {
     $table = $tableFactory->create(UserTable::class);
 
@@ -884,9 +881,7 @@ All options that should not be provided directly as data-attributes of the table
 
 class UserTable extends HelloBootstrapTable
 {
-    ...
-
-    protected function buildColumns(ColumnBuilder $builder, $options)
+    protected function buildColumns(ColumnBuilder $builder, array $options): void
     {
         $this->setTableOptions(array(
             'enableCheckbox' => false
@@ -969,7 +964,7 @@ bootstrap-table allows you to specify a default sort order. For this purpose the
 
 ```php
 // inside table class
-protected function buildColumns(ColumnBuilder $builder, $options)
+protected function buildColumns(ColumnBuilder $builder, array $options): void
 {
     $this->setTableDataset(array(
         'sort-name' => 'firstName', // dql (or if set field name) of column
@@ -993,7 +988,7 @@ HelloBootstrapTable provides a helper method `setDefaultSorting` to set the defa
 
 ```php
 // inside table class
-protected function buildColumns(ColumnBuilder $builder, $options)
+protected function buildColumns(ColumnBuilder $builder, array $options): void
 {
     $this->setDefaultSorting("firstName", "desc");
 
@@ -1017,7 +1012,7 @@ $table->setDefaultSorting("firstName", "desc");
 You can expand rows in bootstrap-table. This option is called "detail view" and can be enabled in the datasets (by default this is disabled). For displaying the content of detail-view a formatter is needed (also to be specified in datasets). In the formatter you have access to the data of the table row. For complex representations Twig can also be used. See the example below.
 
 ```php
- protected function buildColumns(ColumnBuilder $builder, $options)
+ protected function buildColumns(ColumnBuilder $builder, array $options): void
  {
      //enable detail-view and set formatter
      $this->setTableDataset(array(
@@ -1068,9 +1063,7 @@ To save space in the table, it makes sense to use icons instead of written out b
 
 class UserTable extends HelloBootstrapTable
 {
-    // ...
-
-    protected function buildColumns(ColumnBuilder $builder, $options)
+    protected function buildColumns(ColumnBuilder $builder, array $options): void
     {
       	$builder
             // more columns ...
