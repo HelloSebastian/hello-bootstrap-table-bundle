@@ -275,7 +275,7 @@ The following options were taken from bootstrap-table. For more information abou
 | halign          | string / null  | null    | Indicate how to align the table header. `'left'`, `'right'`, `'center'` can be used. |
 | valign          | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
 | falign          | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
-| filterControl   | string         | "input" | render text field in column header                           |
+| filterControl   | string         | "input" | render text field in column header (input, select, datepicker)                           |
 | titleTooltip    | string / null  | null    | add tooltip to header                                        |
 
 #### Options from HelloBootstrapTable
@@ -380,6 +380,7 @@ All Options of TextColumn
 | Option | Type   | Default       | Description            |
 | ------ | ------ | ------------- | ---------------------- |
 | format | string | "Y-m-d H:i:s" | DateTime format string |
+| filterDatepickerOptions | array | [ ] | Options for date picker |
 
 #### Example
 

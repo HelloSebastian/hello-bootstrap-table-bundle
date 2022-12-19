@@ -6,16 +6,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTimeColumn extends AbstractColumn
 {
-
     protected function configureOutputOptions(OptionsResolver $resolver): void
     {
         parent::configureOutputOptions($resolver);
 
         $resolver->setDefaults(array(
-            'format' => 'Y-m-d H:i:s'
+            'format' => 'Y-m-d H:i:s',
+            'filterDatepickerOptions' => array() // see https://bootstrap-datepicker.readthedocs.io/en/latest/index.html
         ));
 
         $resolver->setAllowedTypes('format', 'string');
+        $resolver->setAllowedTypes('filterDatepickerOptions', 'array');
     }
 
     /**
