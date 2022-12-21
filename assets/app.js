@@ -68,6 +68,8 @@ $(function () {
     const $tables = $(".hello-bootstrap-table");
 
     if ($tables.length) {
+        const Utils = $.fn.bootstrapTable.utils
+
         $tables.each(index => {
             const $table = $($tables[index]);
             const tableName = $table.data('id-table');
@@ -85,6 +87,16 @@ $(function () {
                         const filterOptions = table.columns[table.fieldsColumnsIndex[field]].filterOptions;
                         return window.defaultAdvSearchChoiceField(field, filterOptions, undefined);
                     },
+                    datepicker (table, field, value) {
+                        const disableKeydownEvent = table.columns[table.fieldsColumnsIndex[field]].disableKeydownEvent || false;
+
+                        return Utils.sprintf(
+                            '<input type="text" class="form-control date-filter-control bootstrap-table-filter-control-%s" %s style="width: 100%;" value="%s">',
+                            field,
+                            disableKeydownEvent ? 'onkeydown="return false"' : '',
+                            'undefined' === typeof value ? '' : value
+                        )
+                    }
                 }
             });
 
