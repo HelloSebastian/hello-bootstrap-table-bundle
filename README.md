@@ -380,7 +380,7 @@ All Options of TextColumn
 | Option | Type   | Default       | Description            |
 | ------ | ------ | ------------- | ---------------------- |
 | format | string | "Y-m-d H:i:s" | DateTime format string |
-| filterDatepickerOptions | array | [ ] | Options for date picker |
+| filterDatepickerOptions | array | [ ] | Options for date picker (see [docs](https://bootstrap-datepicker.readthedocs.io/en/latest/index.html)) |
 | disableKeydownEvent | bool | false | prevent keyboard strokes to input field (only useful when `filterControl` is set to datetime) |
 
 #### Example
