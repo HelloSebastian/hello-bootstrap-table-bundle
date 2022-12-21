@@ -381,6 +381,7 @@ All Options of TextColumn
 | ------ | ------ | ------------- | ---------------------- |
 | format | string | "Y-m-d H:i:s" | DateTime format string |
 | filterDatepickerOptions | array | [ ] | Options for date picker |
+| disableKeydownEvent | bool | false | prevent keyboard strokes to input field (only useful when `filterControl` is set to datetime) |
 
 #### Example
 
