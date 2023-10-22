@@ -94,6 +94,10 @@ abstract class AbstractColumn
         if (!is_null($this->internalOptions['filter'])) {
             $this->filter = new $this->internalOptions['filter'][0]($this, $this->internalOptions['filter'][1]);
             $this->outputOptions["filterOptions"] = $this->filter->getOptions();
+
+            if ($this->outputOptions["filterControl"] == "select" && is_null($this->outputOptions["filterData"])) {
+                $this->outputOptions['filterData'] = "var:" . $this->getField() . "Options";
+            }
         }
     }
 
@@ -256,6 +260,7 @@ abstract class AbstractColumn
             'visible' => true,
             'switchable' => true,
             'filterOptions' => null,
+            'filterData' => null,
             'formatter' => null,
             'footerFormatter' => null,
             'filterControl' => "input",
@@ -282,6 +287,7 @@ abstract class AbstractColumn
         $resolver->setAllowedTypes('visible', ['boolean']);
         $resolver->setAllowedTypes('switchable', ['boolean']);
         $resolver->setAllowedTypes('filterOptions', ['array', 'null']);
+        $resolver->setAllowedTypes('filterData', ['string', 'null']);
 
         $resolver->setAllowedTypes('formatter', ['string', 'null']);
         $resolver->setAllowedTypes('footerFormatter', ['string', 'null']);

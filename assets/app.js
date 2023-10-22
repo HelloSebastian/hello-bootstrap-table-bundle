@@ -19,7 +19,6 @@ require("tableexport.jquery.plugin/tableExport.min");
 require("bootstrap-table/dist/extensions/export/bootstrap-table-export.min");
 require('bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control');
 
-
 $(function () {
 
     /**
@@ -46,30 +45,9 @@ $(function () {
         return `<input type="text" value="${val}" class="form-control" name="${field}" placeholder="${filterOptions.placeholder}" id="${field}">`;
     };
 
-    window.defaultAdvSearchChoiceField = function (field, filterOptions, value) {
-        const choices = [];
-        for (let prop in filterOptions.choices) {
-            let selected = false;
-
-            if (value !== undefined && value == prop) {
-                selected = true;
-            } else if (filterOptions.selectedValue == prop) {
-                selected = true;
-            }
-
-            choices.push(`<option ${selected ? "selected" : ""} value="${prop}">${filterOptions.choices[prop]}</option>`);
-        }
-
-        return `<select class="form-control" name="${field}" id="${field}">
-            ${choices.join("")}
-        </select>`;
-    };
-
     const $tables = $(".hello-bootstrap-table");
 
     if ($tables.length) {
-        const Utils = $.fn.bootstrapTable.utils
-
         $tables.each(index => {
             const $table = $($tables[index]);
             const tableName = $table.data('id-table');
@@ -80,23 +58,6 @@ $(function () {
                     params.isCallback = true;
                     params.tableName = tableName;
                     return params;
-                },
-                filterTemplate: {
-                    ...$.fn.bootstrapTable.defaults.filterTemplate,
-                    select(table, field) {
-                        const filterOptions = table.columns[table.fieldsColumnsIndex[field]].filterOptions;
-                        return window.defaultAdvSearchChoiceField(field, filterOptions, undefined);
-                    },
-                    datepicker (table, field, value) {
-                        const disableKeydownEvent = table.columns[table.fieldsColumnsIndex[field]].disableKeydownEvent || false;
-
-                        return Utils.sprintf(
-                            '<input type="text" class="form-control date-filter-control bootstrap-table-filter-control-%s" %s style="width: 100%;" value="%s">',
-                            field,
-                            disableKeydownEvent ? 'onkeydown="return false"' : '',
-                            'undefined' === typeof value ? '' : value
-                        )
-                    }
                 }
             });
 

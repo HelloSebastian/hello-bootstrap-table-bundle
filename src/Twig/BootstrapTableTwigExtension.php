@@ -11,7 +11,7 @@ use Twig\TwigFunction;
 
 class BootstrapTableTwigExtension extends AbstractExtension
 {
-    const ASSET_VERSION = "6";
+    const ASSET_VERSION = "7";
 
     public function getName(): string
     {
