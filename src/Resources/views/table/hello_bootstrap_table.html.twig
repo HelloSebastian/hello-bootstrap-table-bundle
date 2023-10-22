@@ -2,6 +2,14 @@
     {% include "@HelloBootstrapTable/table/hello_bootstrap_table_toolbar.html.twig" %}
 {% endif %}
 
+<script>
+    {%- for column in table.columns -%}
+        {%- if column.filterControl is defined and column.filterControl == "select" -%}
+            var {{ column.field -}}Options = {{ column.filterOptions.choices|json_encode|raw }};
+        {%- endif -%}
+    {%- endfor -%}
+</script>
+
 <table
         class="hello-bootstrap-table"
         data-side-pagination="server"

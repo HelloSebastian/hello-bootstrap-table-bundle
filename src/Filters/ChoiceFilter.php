@@ -15,7 +15,6 @@ class ChoiceFilter extends AbstractFilter
 
         $resolver->setDefaults(array(
             "choices" => array(),
-            "advSearchFieldFormatter" => "defaultAdvSearchChoiceField",
             "selectedValue" => "null"
         ));
 

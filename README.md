@@ -276,6 +276,7 @@ The following options were taken from bootstrap-table. For more information abou
 | valign          | string / null  | null    | Indicate how to align the cell data. `'top'`, `'middle'`, `'bottom'` can be used. |
 | falign          | string / null  | null    | Indicate how to align the table footer. `'left'`, `'right'`, `'center'` can be used. |
 | filterControl   | string         | "input" | render text field in column header (input, select, datepicker)                           |
+| filterData      | string / null  | null    | Set custom select filter values. If `filterOption` is set to `select`, configured selection options are set automatically. |
 | titleTooltip    | string / null  | null    | add tooltip to header                                        |
 
 #### Options from HelloBootstrapTable
@@ -626,8 +627,6 @@ With the ChoiceFilter you can create a `select` input field.
 #### Options
 
 All Options from TextFilter.
-
-`advSearchFieldFormatter` is set to `defaultAdvSearchChoiceField`.
 
 **And**:
 
