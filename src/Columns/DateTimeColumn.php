@@ -11,14 +11,10 @@ class DateTimeColumn extends AbstractColumn
         parent::configureOutputOptions($resolver);
 
         $resolver->setDefaults(array(
-            'format' => 'Y-m-d H:i:s',
-            'filterDatepickerOptions' => array(), // see https://bootstrap-datepicker.readthedocs.io/en/latest/index.html
-            'disableKeydownEvent' => false
+            'format' => 'Y-m-d H:i:s'
         ));
 
         $resolver->setAllowedTypes('format', 'string');
-        $resolver->setAllowedTypes('filterDatepickerOptions', 'array');
-        $resolver->setAllowedTypes('disableKeydownEvent', 'boolean');
     }
 
     /**
